@@ -1,0 +1,176 @@
+<html>
+<head>
+<body>
+
+<div id="landRegistryFormdiv" style="visibility: hidden">
+
+<br>
+
+	<div class="gray-panel">
+					<form id="landregistryform" action="" onsubmit="return false;">
+ 						<div class="filter-details">
+							<div class="row-fluid">
+							<!--<div class="span6">
+							SEARCH
+							</div> -->
+							
+							<div class="span2">
+									<label class="langchange" key="Application_Number">Application No.</label> <input type="text" name="search_appno"
+										id="search_appno" value="" class="input-medium">
+									
+									<input type="hidden" name="islandRegistry"
+										id="islandRegistry" value="1" class="input-medium">
+									
+								</div>
+								<div class="span2">
+									<label  class="langchange" key="PV_Number">PV No.</label> <input type="text" name="search_pv"
+										id="search_pv" value="" class="input-medium">
+
+								</div>
+									<div class="span2">
+									<label class="langchange"  key="APFR_Number">APFR No.</label> <input type="text" name="search_apfr"
+										id="search_apfr" value="" class="input-medium">
+
+								</div>
+								<div class="span2">
+									<label class="langchange"  key="First_Name">Name</label> <input type="text" name="search_name"
+										id="search_name" value="" class="input-medium">
+
+								</div>
+								<div class="span2">
+									<label class="langchange"  key="Application_Type">Application Type</label> <select name="search_apptype" id="search_apptype"
+										class="input-medium">
+										<option value="0" class="langchange" key="Please_Select">Please Select</option>
+											<option value="7" class="langchange" key="Individual">Individual</option>
+											<option value="8" class="langchange" key="Collective">Collective</option>
+										<!-- 	<option value="9" class="langchange" key="Existing">Existing</option> -->
+									</select>
+
+								</div>
+							<div class="span2">
+
+									<button class="btn1 v-top-18 langchange" onclick="javascript:spatialRegistrySearch(0);" key="Search">Search</button>
+									<button class="btn v-top-24 langchange"
+										onclick="LandRegistry('landRegistry');" key="Clear">Clear</button>
+
+								</div>
+
+								</div>
+							</div>
+
+						</form>
+
+
+					</div>
+					
+		<br>			
+<div class="cmxform">
+				<div class="scrollbarxy">
+
+
+					<table class="tablesorter" id="landRegistryTable" cellpadding="0"
+						cellspacing="0">
+
+						<thead>
+
+							<tr>
+													
+								<th class="langchange" key="Application_Number">Application Number</th>
+											<th class="langchange" key="PV_Number">PV Number</th>
+											<th class="langchange" key="APFR_Number">APFR Number</th>
+											<th class="langchange" key="First_Name">Name</th>
+											<th class="langchange" key="Last_Name">Last Name</th>
+											<th class="langchange" key="Application_Type">Application Type</th>
+											<th class="langchange" key="Application_Stage">Application Stage</th>
+											<th class="langchange" key="Application_Status">Application Status</th>
+											
+						
+
+						</tr>
+						</thead>
+						<tbody id="landRegistryRowData">
+
+						</tbody>
+
+
+						<tfoot>
+
+							<tr class="tblFooter" id="landregistry_pagerDiv">
+								<td colspan="9">
+									<div id="spatialunitDiv">
+									<a href="javascript:firstRegistryRecords();"><img
+											class="img-prev" src="resources/images/studio/first.png"
+											title="First" /></a>
+										<a href="javascript:previousRegistryRecords();"><img
+											class="img-prev" src="resources/images/studio/previous.png"
+											title="Previous" /></a> <input type="text" readonly="readonly"
+											name="records_from_Registry" id="records_from_Registry" value=""
+											class="input-medium"> To <input type="text"
+											name="records_to_Reg" id="records_to_Reg" value=""
+											class="input-medium" readonly="readonly"> Of <input
+											type="text" name="records_all_Reg" id="records_all_Reg" value=""
+											class="input-medium" readonly="readonly"><a
+											href="javascript:nextRegistryRecords();"><img class="img-next"
+											src="resources/images/studio/next.png" title="Next" /></a>
+											<a href="javascript:LastRegistryRecords();"><img
+											class="img-next" src="resources/images/studio/last.png"
+											title="Last" /></a>
+									</div>
+								</td>
+							</tr>
+						</tfoot>
+
+					</table>
+
+				</div>
+			<script id="landRegistryAttrTemplate" type="text/x-jquery-tmpl">
+       
+	   
+	   <tr>
+	   
+            <td>
+                ${application_no}
+            </td> 
+	
+		<td>
+                ${pv_no}
+            </td> 
+		<td>
+                ${apfr_no}
+            </td> 
+		<td>
+
+				${firstname}
+
+		</td>                     
+			<td>
+                ${lastname}
+            </td> 
+<!--          
+            <td>
+                ${workflow_stage.parcelType.parceltype}
+            </td>
+-->
+			<td>
+                ${application_type.shareType}
+
+            </td> 
+			<td>
+                ${workflow_stage.workflow}
+
+            </td> 
+			<td>
+                ${application_stage.workflowStatus}
+
+            </td>    
+			   
+							
+     </tr>
+              
+        
+</script>
+</div>
+</div>
+</body>
+</head>
+</html>

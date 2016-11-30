@@ -1,0 +1,2506 @@
+<html>
+<head>
+</head>
+<body>
+
+	<script>
+		$(function() {
+			$("#tabs").tabs();
+		});
+
+		$(function() {
+			$("#tab-natural").tabs();
+		});
+
+		$(function() {
+			$("#tab-nonnatural").tabs();
+		});
+
+		$(function() {
+			$("#tab-nxtTokin").tabs();
+		});
+
+		$(function() {
+			$("#tab-tenure").tabs();
+		});
+
+		$(function() {
+			$("#tab-multimedia").tabs();
+		});
+		$(function() {
+			$("#tab-deceased").tabs();
+		});
+
+		$(function() {
+			$(".datepicker").datepicker({
+
+				dateFormat : "yy-mm-dd",
+				maxDate:0
+			});
+			/* 	 $(".datepicker").live('click', function() {
+					$(this).datepicker({
+						 dateFormat : 'MM/dd/yyyy'
+					}).focus();
+				});  */
+
+		});
+	</script>
+	<div class="container-fluid">
+
+		<div id="landRecordsFormdiv" style="visibility: hidden">
+
+			<div class="cmxform">
+
+
+				<div class="tab-pane " id="land-record">
+					<div class="project-details">
+						<div class="project-details-label">
+							<div class="row-fluid">
+								<div class="span2 project-details-block">
+									<span class="deatails-label langchange" key="Project_Name">Project
+										Name</span> <span class="deatails-label-value" id="projectName"></span>
+								</div>
+								<div class="span2 project-details-block">
+									<span class="deatails-label langchange" key="Country">Country</span>
+									<span class="deatails-label-value" id="country"></span>
+
+								</div>
+								<div class="span2 project-details-block">
+									<span class="deatails-label langchange" key="Region">Region</span>
+									<span class="deatails-label-value" id="region"></span>
+								</div>
+
+								<div class="span2 project-details-block">
+									<span class="deatails-label langchange" key="Province">Province</span>
+									<span class="deatails-label-value" id="province"></span>
+								</div>
+								<div class="span2 project-details-block">
+									<span class="deatails-label langchange" key="Commune">Commune</span>
+									<span class="deatails-label-value" id="commune"></span>
+								</div>
+								<!-- <div id="hamlet_sel" class="span2">
+								<span class="deatails-label">Hamlet</span> <span
+									class="deatails-label-value" id="hamlet"></span>
+							</div> -->
+
+							</div>
+						</div>
+					</div>
+
+
+					<div class="gray-panel">
+						<form id="landrecordsform" action="" onsubmit="return false;">
+							<div class="filter-details">
+								<div class="row-fluid">
+
+
+									<div class="span2">
+										<label class="langchange" key="Application_Number">Application
+											No.</label> <input type="text" name="search_appno" id="search_appno"
+											value="" class="input-medium">
+
+									</div>
+									<div class="span2">
+										<label class="langchange" key="PV_Number">PV No.</label> <input
+											type="text" name="search_pv" id="search_pv" value=""
+											class="input-medium">
+
+									</div>
+									<div class="span2">
+										<label class="langchange" key="APFR_Number">APFR No.</label> <input
+											type="text" name="search_apfr" id="search_apfr" value=""
+											class="input-medium">
+
+									</div>
+									<div class="span2">
+										<label class="langchange" key="First_Name">First Name</label> <input
+											type="text" name="search_name" id="search_name" value=""
+											class="input-medium">
+
+									</div>
+									<div class="span2">
+										<label class="langchange" key="Application_Type">Application
+											Type</label> <select name="search_apptype" id="search_apptype"
+											class="input-medium">
+											<option value="0" class="langchange" key="Please_Select">Please
+												Select</option>
+											<option value="7" class="langchange" key="Individual">Individual</option>
+											<option value="8" class="langchange" key="Collective">Collective</option>
+											<!-- <option value="9" class="langchange" key="Existing">Existing</option> -->
+										</select>
+
+									</div>
+									
+									<div class="span2">
+										<label class="langchange" key="Application_Status"> Status
+											Type</label> <select name="search_appStatus" id="search_appStatus"
+											class="input-medium">
+											<option value="0" class="langchange" key="Please_Select">Please
+												Select</option>
+											
+										</select>
+
+									</div>
+									<div class="span2">
+
+										<button class="btn1 v-top-18 langchange"
+											onclick="javascript:search();" key="Search">Search</button>
+										<button class="btn v-top-24 langchange"
+											onclick="LandRecords('landRecords');" key="Clear">Clear</button>
+
+									</div>
+									<!-- 
+
+					<div class="gray-panel">
+						<form id="landrecordsform" action="" onsubmit="return false;">
+							<div class="filter-details">
+								<div class="row-fluid">
+									<div class="span6">SEARCH</div>
+									<!-- 
+
+								<div class="span2">
+									<label>USIN ID</label> <input type="text" name="usinstr_id"
+										id="usinstr_id" value="" class="input-medium">
+
+								</div>
+								<div class="span2">
+									<label>UKA ID</label> <input type="text" name="uka_id"
+										id="uka_id" value="" class="input-medium">
+
+								</div>
+
+								<div class="span2">
+									<label>Status</label> <select name="status_id" id="status_id"
+										class="input-medium">
+									</select>
+								</div>
+								<div class="span2">
+									<label>From</label> <input type="text" name="from_id"
+										id="from_id" value="" class="input-medium datepicker"
+										readonly="readonly" style="background: none;">
+								</div>
+								<div class="span2">
+									<label>To</label> <input type="text" name="to_id" id="to_id"
+										value="" class="input-medium datepicker" readonly="readonly"
+										style="background: none;">
+								</div>
+								<div class="span2">
+
+									<button class="btn1 v-top-18" onclick="javascript:search();">Search</button>
+									<button class="btn v-top-24"
+										onclick="LandRecords('landRecords');">Clear</button>
+
+								</div> -->
+								</div>
+							</div>
+
+						</form>
+
+
+					</div>
+					<form id="updatebyWorkflow" class="cmxform" action=""
+						onsubmit="return false;">
+						<div id="vtab" class="vtab">
+
+							<ul id="workflowDiv">
+								<li class="login selected "><span class="langchange"
+									key="Workflow_Summary">Workflow Summary</span>&nbsp;</li>
+									<li ><input type="checkbox" id="select_all" checked="checked"
+									 /> <span class="langchange" key="Select_All">Select All</span></li>
+
+
+
+								<div id="workflow-accordion" style="text-align: left;">
+									<h3>
+										<a href="#"><span id="new" class="langchange" key="New">New</span></a>
+									</h3>
+
+									<div id="newBody" title=""
+										style="min-height: 175px; overflow: hidden">
+
+										<ul id="newtbl" class="tblStyle" cellpadding="0"
+											cellspacing="0">
+
+										</ul>
+
+
+
+
+
+									</div>
+
+									<h3>
+										<a href="#"><span id="existing" class="langchange"
+											key="Existing">Existing</span></a>
+									</h3>
+
+									<div id="existingBody" title=""
+										style="min-height: 175px; overflow: hidden">
+
+										<ul id="existingtbl" class="tblStyle" cellpadding="0"
+											cellspacing="0">
+
+										</ul>
+
+
+
+
+
+									</div>
+								</div>
+
+
+
+								<button class="btn1 langchange"
+									style="margin-top: 5px; margin-left: 5px;"
+									onclick="javascript:updatespatialwork();" key="Filter">Filter</button>
+								<button class="btn1 langchange" style="margin-top: 5px;"
+									onclick="javascript:generateReport();" key="Generate_Report">Generate
+									Report</button>
+							</ul>
+
+
+
+
+
+
+
+							<div>
+
+
+								<table class="tablesorter" id="landRecordsTable" cellpadding="0"
+									cellspacing="0">
+
+									<thead>
+
+										<tr>
+
+											<th class="langchange" key="Application_Number">Application
+												Number</th>
+											<th class="langchange" key="PV_Number">PV Number</th>
+											<th class="langchange" key="First_Name">Name</th>
+											<th class="langchange" key="Last_Name">Last Name</th>
+											<th class="langchange" key="Parcel_Type">Parcel Type</th>
+											<th class="langchange" key="Application_Type">Application
+												Type</th>
+											<th class="langchange" key="Application_Stage">Application
+												Stage</th>
+											<th class="langchange" key="Application_Status">Application
+												Status</th>
+											<th class="langchange" key="Comments">Comments</th>
+											<th class="no-sort langchange" style="position: relative;"
+												key="Action">Actions</th>
+
+										</tr>
+									</thead>
+									<tbody id="landRecordsRowData">
+
+									</tbody>
+
+
+									<tfoot>
+
+										<tr class="tblFooter" id="landrecords_pagerDiv">
+											<td colspan="10">
+												<div id="spatialunitDiv">
+												<a href="javascript:firstRecords();"><img
+														class="img-prev langchange"
+														src="resources/images/studio/first.png"
+														title="First" /></a>
+													<a href="javascript:previousRecords();"><img
+														class="img-prev langchange"
+														src="resources/images/studio/previous.png"
+														title="Previous" /></a> <input type="text"
+														readonly="readonly" name="records_from" id="records_from"
+														value="" class="input-medium"> To <input
+														type="text" name="records_to" id="records_to" value=""
+														class="input-medium" readonly="readonly"> Of <input
+														type="text" name="records_all" id="records_all" value=""
+														class="input-medium" readonly="readonly"><a
+														href="javascript:nextRecords();"><img class="img-next langchange"
+														src="resources/images/studio/next.png" title="Next" /></a>
+														<a href="javascript:LastRecords();"><img
+														class="img-next langchange"
+														src="resources/images/studio/last.png"
+														title="Last" /></a>
+														<!-- <a
+														href="javascript:lastRecords();"><img class="img-next langchange"
+														src="resources/images/studio/next.png" title="Last" /></a> -->
+												</div>
+											</td>
+										</tr>
+									</tfoot>
+
+								</table>
+
+							</div>
+						</div>
+					</form>
+					<!-- <button class="btn1"
+						style="float: right; margin-top: 10px; margin-left: 5px;"
+						id="generatereport" onclick="javascript:generateReport();">Generate
+						Report</button> -->
+				</div>
+
+
+				<div id="reportform-dialog-form" class="langchange"
+					title="Form_Selection" style="display: none;">
+
+
+
+					<form class="cmxform" id="reportformID" action=""
+						onsubmit="return false;">
+
+						<fieldset>
+
+							<button style="margin: 8px;" class="btn v-top-24 langchange"
+								id="reportButton" onclick="javascript:reportButtonClick();"
+								key="reportBtn">Report</button>
+							<button style="margin: 8px;" class="btn v-top-24 langchange"
+								id="registryButton" key="registryBtn"
+								onclick="javascript:registryButtonClick();">Registry</button>
+							<div id="radioReport">
+								<div id="reportByTenure" style="display: none;">
+									<p>
+										<input class="selectPrint langchange" name="report"
+											type="radio" value="1" id="rep-one" /><label for="rep-one"
+											key="rep_ten" class="langchange">Report By Tenure(Map
+											register)</label>
+									</p>
+									<p>
+										<input class="selectPrint langchange" name="report"
+											type="radio" value="2" id="rep-two" /><label for="rep-two"
+											key="rep_gen" class="langchange">Report By Gender(Map
+											register)</label>
+									</p>
+
+									<p>
+										<input class="selectPrint langchange" name="report"
+											type="radio" value="3" id="rep-two" /><label for="rep-two"
+											key="rep_tenReg" class="langchange">Report By
+											Tenure(Application register)</label>
+									</p>
+									<p>
+										<input class="selectPrint langchange" name="report"
+											type="radio" value="4" id="rep-two" /><label for="rep-two"
+											key="rep_genReg" class="langchange">Report By
+											Gender(Application register)</label>
+									</p>
+									<p>
+										<input class="selectPrint langchange" name="report"
+											type="radio" value="5" id="rep-two" /><label for="rep-two"
+											key="rep_tenAPFR" class="langchange">Report By
+											Tenure(APFR register)</label>
+									</p>
+									<p>
+										<input class="selectPrint langchange" name="report"
+											type="radio" value="6" id="rep-two" /><label for="rep-two"
+											key="rep_genAPFR" class="langchange">Report By
+											Gender(APFR register)</label>
+									</p>
+								</div>
+								<div id="registryReport" style="display: none;">
+									<p>
+										<input class="selectPrint langchange" name="report"
+											type="radio" value="7" id="rep-two" /><label for="rep-two"
+											key="reg_PA" class="langchange"> Registry for process
+											application</label>
+									</p>
+
+									<p>
+										<input class="selectPrint langchange" name="report"
+											type="radio" value="8" id="rep-two" /><label for="rep-two"
+											key="reg_PuA" class="langchange">Registry for publish
+											application</label>
+									</p>
+
+									<p>
+										<input class="selectPrint langchange" name="report"
+											type="radio" value="9" id="rep-two" /><label for="rep-two"
+											key="reg_AA" class="langchange">Registry for APFR
+											application</label>
+									</p>
+								</div>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+
+
+
+
+				<div id="upload-dialog-form" title="Web_Upload"
+					style="display: none;">
+					<!--p class="validateTips">All form fields are required.</p-->
+
+					<form class="cmxform landrecords22" id="uploaddocumentformID"
+						action="" onsubmit="return false;">
+
+
+						<fieldset>
+
+							<label for="email" class="langchange" key="Document_Name">Document
+								Name </label> <input type="text" name="document_name" id="document_name"
+								value="" class="text ui-widget-content ui-corner-all"> <br>
+							<label for="email" class="langchange" key="Comments">Comments</label>
+							<input type="text" name="document_comments"
+								id="document_comments" value=""
+								class="text ui-widget-content ui-corner-all"> <input
+								name="Usin_Upload" id="Usin_Upload" type="hidden" /> <br>
+
+
+
+							<!-- <form id="form2" method="post" onSubmit="return false;"> -->
+							<label class="searchLbl langchange"
+								style="margin-top: -3px; margin-right: 5px;" key="Select_File">Select
+								File:</label> <input name="ProjectName_upload" id="ProjectName_upload"
+								type="hidden" /> <input name="file2" id="fileUploadWeb"
+								type="file" /> <label style="color: #0088cc">Eg:-.jpeg
+								,.png,.pdf ,.xls,.doc</label> <br>
+						</fieldset>
+					</form>
+				</div>
+
+				<!-- 	<div id="attribute-dialog-form" title="Update_Hamlet_Name"
+					style="display: none;">
+
+
+
+					<form class="cmxform" id="addAttributeformID" action=""
+						onsubmit="return false;">
+
+						<fieldset>
+
+							<input type="hidden" name="primeryky" id="primeryky" value="">
+							<label for="email">UKA Number </label> <input type="text"
+							name="uka_no" id="uka_no" value=""
+							class="text ui-widget-content ui-corner-all">
+
+							<label style="display: block" for="email"
+								style="font-weight:bold">Hamlet Name</label> <select
+								name="hamlet_id" id="hamlet_id"></select>
+
+						</fieldset>
+					</form>
+				</div> -->
+
+				<!-- <div id="adjudication-dialog-form" title="Language Preference"
+					style="display: none;">
+
+
+
+					<form class="cmxform" id="adjudicationformID" action=""
+						onsubmit="return false;">
+
+						<fieldset>
+
+
+							<p>
+								<label for="email">Please select a language</label>
+							</p>
+							<div id="radioLang">
+								<input class="selectlang" name="lang" type="radio" value="En"
+									id="pre-english" /><label for="pre-english">English</label> <input
+									class="selectlang" name="lang" type="radio" value="Sw"
+									id="pre-swahili" /><label for="pre-swahili">Swahili</label>
+							</div>
+						</fieldset>
+					</form>
+				</div> -->
+
+				<div id="editattribute-dialog-form" title="Edit_Attributes"
+					style="display: none;">
+
+					<form class="cmxform" id="editAttributeformID" action=""
+						onsubmit="return false;">
+						<input type="hidden" name="primary" id="primary" value="">
+						<input type="hidden" name="usinStr_key" id="usinStr_key" value="">
+						<input type="hidden" name="general_length" id="general_length"
+							value=""> <input type="hidden" name="projectname_key1"
+							id="projectname_key1" value=""> <input type="hidden"
+							name="workflow_status" id="workflow_status" value=""> <input
+							type="hidden" name="project_key" id="project_key" value="">
+						<input type="hidden" name="type_name" id="type_name" value="">
+						<input type="hidden" name="perimeter" id="perimeter" value="">
+						<input type="hidden" name="house_shape" id="house_shape" value="">
+						<input type="hidden" name="area" id="area" value=""> <input
+							type="hidden" name="measurement_unit" id="measurement_unit"
+							value=""> <input type="hidden" name="uka_no_gen"
+							id="uka_no_gen" value=""> <input type="hidden"
+							name="imei_no" id="imei_no" value=""> <input
+							type="hidden" name="usertable_id" id="usertable_id" value="">
+						<input type="hidden" name="type" id="type" value=""> <input
+							type="hidden" name="house_type" id="house_type" value="">
+						<input type="hidden" name="landowner" id="landowner" value="">
+						<input type="hidden" name="identity" id="identity" value="">
+						<input type="hidden" name="person_type" id="person_type" value="">
+
+						<div id="tabs">
+							<ul>
+								<li><a href="#tabs-1"><span key="General_Info"
+										class="langchange">General Info</span></a></li>
+								<li><a href="#tabs-2a"><span class="langchange"
+										key="Natural_Person">Natural Person</span></a></li>
+								<!-- 			<li class="hidenonTable"><a href="#tabs-2b"> Non
+										Natural Person</a></li> -->
+								<li class="hidePOI"><a href="#tabs-2c"><span
+										class="langchange" key="Person_of_Interest">Person of
+											Interest</span></a></li>
+
+								<li><a href="#tabs-4"><span class="langchange"
+										key="Multimedia">Multimedia</span></a></li>
+								<li><a href="#tabs-5a"><span class="langchange"
+										key="Map_Cordinates">Map Coordinates</span></a></li>
+							</ul>
+							<div id="tabs-5a">
+								<div class="mapDivHeader">
+									<div class="mapAlign">
+										<h3 class="mapHeading">
+											<span class="langchange" key="Map_Image">Map Image</span>
+										</h3>
+										<div id="parcel_map"></div>
+									</div>
+									<div class="setVertexTable">
+										<div id="vertexList">
+											<div class="vertexAlign vertexTableAlign langchange"
+												key="Vertex_List">Vertex List:</div>
+											<table class="amendbeforeAfterTable">
+
+												<tr>
+													<th>PT</th>
+													<th>X</th>
+													<th>Y</th>
+												</tr>
+
+												<tbody id="vertexTableBody">
+
+												</tbody>
+											</table>
+										</div>
+										<button class="btn1 padding0 langchange"
+											onclick="javascript:exportData();" key="Export">Export</button>
+									</div>
+
+
+								</div>
+
+							</div>
+							<div id="tabs-1">
+								<div class="tab-pane landrecords22" id="land-record">
+
+
+
+									<div style="margin: 0 10px;">
+										<div class="project-details in">
+											<div class="project-details-label">
+												<div class="row-fluid">
+													<div class="span3 project-details-block">
+
+														<span class="deatails-label langchange"
+															style="color: #0088cc" key="Application_Number">Application
+															Number </span> <span class="deatails-label-value"
+															id="application_no"></span> <input type="hidden"
+															name="primary" id="primary" value="">
+
+													</div>
+													<div class="span3 project-details-block">
+
+														<span class="deatails-label langchange"
+															style="color: #0088cc" key="PV_Number">PV Number </span>
+														<span class="deatails-label-value" id="pv_no"></span>
+
+
+													</div>
+													<div class="span3 project-details-block">
+
+														<span class="deatails-label langchange"
+															style="color: #0088cc" key="APFR_Number">APFR
+															Number </span> <span class="deatails-label-value" id="apfr_no"></span>
+
+
+													</div>
+													<!-- 	<div class="span6 project-details-block">
+														<span class="deatails-label" style="color: #0088cc">Project
+															Name</span> <span class="deatails-label-value" id="projname"></span>
+
+													</div> -->
+
+												</div>
+											</div>
+										</div>
+
+										<table style="width: 100%" class="landrecords22 ">
+
+											<tr>
+
+												<!-- <td><label for="email">Application Number </label> <input
+													type="text" name="application_no" id="application_no"
+													value="" class="text ui-widget-content ui-corner-all"
+													readonly="readonly"></td> -->
+												<!-- 	<td><label for="email">Apfr Number </label> <input
+													type="text" name="apfr_no" id="apfr_no"
+													value="" class="text ui-widget-content ui-corner-all"
+													readonly="readonly"></td> -->
+												<td><label for="email" class="langchange"
+													key="Application_Issue_Date">Application Issue Date
+												</label> <input type="text" name="app_issueDate" id="app_issueDate"
+													value="" class="text ui-widget-content ui-corner-all"
+													readonly></td>
+												<td><label for="email" class="langchange"
+													key="Nature_of_Application">Nature of Application </label>
+													<select name="app_nature" id="app_nature"
+													class="gendisable"></select></td>
+												<td><label for="email" class="langchange"
+													key="Village_Number">Village Number </label> <input
+													type="text" name="village_no" id="village_no" value=""
+													class="text ui-widget-content ui-corner-all justread">
+												</td>
+											</tr>
+											<tr>
+
+												<td><label for="email" class="langchange"
+													key="Area_of_Plot">Area of Plot</label> <input type="text"
+													name="plot_area" id="plot_area" value=""
+													class="text ui-widget-content ui-corner-all justread">
+												</td>
+
+												<td><input type="hidden" name="existing_hidden"
+													id="existing_hidden" /> <label for="email"
+													class="langchange" key="Current_Use">Current Use</label>
+													<div class="attr_selected">
+														<select name="existing_use" id="existing_use"
+															class="gendisable " multiple="multiple">
+														</select>
+													</div></td>
+												<td><label for="other_use" class="langchange"
+													key="Other_Use">Other Use </label> <input type="text"
+													name="other_useType" id="other_useType" value=""
+													class="text ui-widget-content ui-corner-all justread checkOther"
+													style="display: none;"></td>
+											</tr>
+											<tr>
+												<td><label for="email" class="langchange"
+													key="ParcelNumber">ParcelNumber</label> <input type="text"
+													name="parcel_no" id="parcel_no" value=""
+													class="text ui-widget-content ui-corner-all"
+													readonly="readonly"></td>
+												<td><label for="email" class="langchange"
+													key="Registration_Number">Registration Number
+														(optional) </label> <input type="text" name="registration_no"
+													id="registration_no" value=""
+													class="text ui-widget-content ui-corner-all justread">
+												</td>
+												<td><label for="email" class="langchange"
+													key="Mutuation_Type">Mutuation Type</label> <select
+													name="mutation_type" id="mutation_type" class="gendisable">
+
+												</select></td>
+											</tr>
+
+												<!-- <tr>
+
+											
+											<td><label for="email" class="langchange"
+													key="Public_Notice_Start_Date">Public Notice Start
+														Date</label> <input type="text" name="notice_startDate"
+													id="notice_startDate" value=""
+													class="text ui-widget-content ui-corner-all gendisable"
+													readonly="readonly"></td>
+												<td><label for="email" class="langchange"
+													key="Public_Notice_End_Date">Public Notice End Date
+												</label> <input type="text" name="notice_endDate"
+													id="notice_endDate" value=""
+													class="text ui-widget-content ui-corner-all"
+													readonly="readonly"></td> 
+
+											</tr>-->
+
+											<tr>
+												<td><label for="email" class="langchange"
+													key="Recognition_Rights_Date">Recognition Rights
+														Date </label> <input type="text" name="recognition_date"
+													id="recognition_date" value=""
+													class="text ui-widget-content ui-corner-all datepicker gendisable datepicker"
+													readonly="readonly"></td>
+												<td><label for="email" class="langchange"
+													key="Neighbour_North">Neighbour North </label> <input
+													type="text" name="neighbor_north" id="neighbor_north"
+													value=""
+													class="text ui-widget-content ui-corner-all justread"></td>
+												<td><label for="email" class="langchange"
+													key="Neighbour_South">Neighbour South</label> <input
+													type="text" name="neighbor_south" id="neighbor_south"
+													value=""
+													class="text ui-widget-content ui-corner-all justread"></td>
+											</tr>
+
+											<tr>
+												<td><label for="email" class="langchange"
+													key="Neighbour_East">Neighbour East </label> <input
+													type="text" name="neighbor_east" id="neighbor_east"
+													value=""
+													class="text ui-widget-content ui-corner-all justread"></td>
+
+												<td><label for="email" class="langchange"
+													key="Neighbour_West">Neighbour West </label> <input
+													type="text" name="neighbor_west" id="neighbor_west"
+													value=""
+													class="text ui-widget-content ui-corner-all justread"></td>
+
+												<td><label for="email" class="langchange"
+													key="Family_Name">Family Name </label> <input type="text"
+													name="family_name" id="family_name" value=""
+													class="text ui-widget-content ui-corner-all justread">
+												</td>
+											</tr>
+											<tr>
+										
+														<td><label for="email" class="langchange"
+													key="Contradictory_Date">Contradictory Date</label> <input
+													type="text" name="contradictory_date"
+													id="contradictory_date" value=""
+													class="text ui-widget-content ui-corner-all gendisable datepicker"
+													readonly="readonly"></td>
+															<td><label for="email" class="langchange"
+													key="No_of_Family_Members">No. Family Members </label> <input
+													type="text" name="household" id="household" value=""
+													class="text ui-widget-content ui-corner-all justread"></td>
+											</tr>
+											<tr>
+												<td><div style="margin: 10px 0; overflow: hidden;">
+														<span class="deatails-label langchange"
+															style="color: #0088cc" key="Existing_Titles">Existing
+															Titles</span>
+													</div></td>
+											</tr>
+											<tr>
+												<td><label for="email" class="langchange"
+													key="Title_Number">Title Number </label> <input type="text"
+													name="title_number" id="title_number" value=""
+													class="text ui-widget-content ui-corner-all justread"></td>
+
+												<td><label for="email" class="langchange"
+													key="Date_of_Registration">Date of Registration </label> <input
+													type="text" name="title_date" id="title_date" value=""
+													class="text ui-widget-content ui-corner-all gendisable datepicker"
+													readonly="readonly"></td>
+												<td><label for="email" class="langchange" key="Title">Title</label>
+													<select name="title_name" id="title_name"
+													class="gendisable">
+												</select></td>
+											</tr>
+
+
+											<!-- <tr>
+												<td><div style="margin: 10px 0; overflow: hidden;">
+														<span class="deatails-label" style="color: #0088cc">Custom
+															Attributes</span>
+													</div></td>
+											</tr>
+											<tr>
+												<td>
+													<div id="customgeneral-div"></div>
+
+												</td>
+											</tr> -->
+
+										</table>
+
+									</div>
+
+								</div>
+							</div>
+							<div id="tabs-2a">
+								<div class="row-fluid">
+									<div class="hidenatTable">
+										<table id="naturalTable" class="table table-bordered">
+											<thead>
+												<tr>
+													<th>ID</th>
+													<th class="langchange" key="First_Name">First Name</th>
+													<th class="langchange" key="Last_Name">Last name</th>
+													<th class="langchange" key="Father_Name">Father Name</th>
+													<th class="langchange" key="Gender">Gender</th>
+													<th class="langchange" key="Refrence_of_ID">Refrence
+														of ID</th>
+													<th class="langchange" key="Nature_of_Power">Nature of
+														Power</th>
+													<th class="showNatural langchange" key="Edit">Edit</th>
+													<!-- <th class="showNatural delHide">Delete</th> -->
+													<th class="hideNatural langchange" key="View">View</th>
+													<!--<th class="showNatural">Upload Image</th>
+													 <th class="showNatural">Delete Image</th> -->
+												</tr>
+											</thead>
+											<tbody id="naturalpersonRowData">
+
+											</tbody>
+										</table>
+									</div>
+									<table id="associatedNaturalTable" class="table table-bordered">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th class="langchange" key="First_Name">First Name</th>
+												<th class="langchange" key="Last_Name">Last name</th>
+												<th class="langchange" key="Gender">Gender</th>
+												<th class="langchange" key="Person_Type">Person Type</th>
+												<th class="langchange" key="Age">Age</th>
+												<th class="showAssociate langchange" key="Edit">Edit</th>
+												<th class="hideAssociate langchange" key="View">View</th>
+												<!--<th class="showAssociate">Upload Image</th>
+												 <th class="showAssociate">Delete Image</th> -->
+
+											</tr>
+										</thead>
+										<tbody id="associatedNaturalRowData">
+
+										</tbody>
+									</table>
+									<div
+										style="margin-bottom: 10px; float: right; margin-top: -10px; padding-top: 20px;">
+										<!-- <button onclick="javascript:addPerson();">Add Person</button> -->
+										<!-- 	<span>
+											<button class="btn1 padding0 hideNew"
+												onclick="javascript:addNewNaturalPerson();">
+												<i class="fa fa-plus"></i>New Person
+											</button>
+											<button class="btn padding1 hideNew"
+												onclick="javascript:addNaturalPerson();">
+												<i class="fa fa-user"></i>Existing Person
+											</button>
+										</span> -->
+									</div>
+
+
+								</div>
+							</div>
+
+							<div id="tabs-2b">
+								<div class="row-fluid">
+
+									<table id="non_naturalTable" class="table table-bordered">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>Institution Name</th>
+												<th>Address</th>
+												<th>Phone Number</th>
+												<th class="showNon">Edit</th>
+												<th class="showNon">Delete</th>
+												<th class="hideNon">View</th>
+
+											</tr>
+										</thead>
+										<tbody id="non_naturalpersonRowData">
+
+										</tbody>
+									</table>
+
+									<div
+										style="margin-bottom: 10px; float: right; margin-top: -10px; padding-top: 20px;">
+
+										<!-- <button class="btn padding1 showNonAddPerson personadd langchange"
+											onclick="javascript:addNonNaturalPerson();" key="Existing_Person">
+											<i class="fa fa-user"></i>Existing Person
+										</button> -->
+									</div>
+
+								</div>
+							</div>
+
+
+							<div id="tabs-2c">
+								<div class="row-fluid ">
+									<div id="hideTable1">
+										<table id="nxtTokinTable" class="table table-bordered">
+											<thead>
+												<tr>
+													<th>ID</th>
+													<th class="langchange" key="First_Name">First Name</th>
+													<th class="langchange" key="Middle_Name">Middle Name</th>
+													<th class="langchange" key="Last_Name">Last Name</th>
+													<th class="langchange" key="Gender">Gender</th>
+													<th class="langchange" key="Address">Address</th>
+													<th class="langchange" key="Refrence_of_ID">Refrence
+														of ID card</th>
+													<th class="showkin langchange" key="Edit">Edit</th>
+													<th class="showkin langchange" key="Delete">Delete</th>
+													<th class="hidekin langchange" key="View">View</th>
+												</tr>
+											</thead>
+											<tbody id="nxtTokinRowData">
+
+											</tbody>
+										</table>
+									</div>
+									<div class="hideButton "
+										style="margin-bottom: 10px; float: right; margin-top: 10px;">
+
+										<span>
+											<button class="btn1 padding0 hideNew"
+												onclick="javascript:addPWI();">
+												<i class="fa fa-plus"></i><span key="Add" class="langchange">Add</span>
+											</button>
+
+										</span>
+									</div>
+
+								</div>
+							</div>
+
+							<!-- 			<div id="tabs-2d">
+							<div class="row-fluid ">
+								<div id="hideTable">
+									<table id="deceasedTable" class="table table-bordered">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>First Name</th>
+												<th>Middle Name</th>
+												<th>Last Name</th>
+												<th class="showdeceased">Edit</th>
+												<th class="showdeceased">Delete</th>
+												<th class="hidedeceased">View</th>
+											</tr>
+										</thead>
+										<tbody id="deceasedRowData">
+
+										</tbody>
+									</table>
+
+								</div>
+								<div>
+									<button onclick="javascript:editDeceasedPerson(0);"
+										class="btn1 padding0 hideNew" style="display: inline-block;">
+										<i class="fa fa-plus"></i>Add
+									</button>
+								</div>
+							</div>
+						</div>
+						<div id="tabs-3">
+							<div class="row-fluid">
+								<div class="hidetenureTable">
+									<table id="tenureTable" class="table table-bordered">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>Tenure Type</th>
+												<th>Type of Right of Occupancy</th>
+												<th>Resident</th>
+												<th>Occupancy Type</th>
+												<th>Duration</th>
+												<th class="showTenure">Edit</th>
+												<th class="showTenure">Delete</th>
+												<th class="hideTenure">View</th>
+											</tr>
+										</thead>
+										<tbody id="tenureRowData">
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div> -->
+							<div id="tabs-4">
+								<div class="row-fluid">
+
+									<div class="hidemulTable">
+										<table id="multimediaTable" class="table table-bordered">
+											<thead>
+												<tr>
+													<th>ID</th>
+													<th class="langchange" key="Document_Name">Document
+														Name</th>
+													<th class="langchange" key="Recordation">Recordation</th>
+													<th class="langchange" key="Inventory_Type">Inventory
+														Type</th>
+													<th class="langchange" key="Comments">Comments</th>
+													<th class="showMul langchange" key="Edit">Edit</th>
+													<th class="showMul langchange" key="Delete">Delete</th>
+													<th class="langchange " key="View_Document">View
+														Document</th>
+													<th class="hideMul langchange" key="View">View</th>
+
+												</tr>
+											</thead>
+											<tbody id="multimediaRowData">
+
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<div id="naturalperson-dialog-form" title="Natural Person"
+					style="display: none;">
+
+					<fieldset>
+
+						<div id="tab-natural">
+							<ul>
+								<li><a href="#tabs-1" class="master_attrib">Master Attribute</a></li>
+								<li><a href="#tabs-2" class="custom"> Custom</a></li>
+							</ul>
+
+							<form class="cmxform" id="editNaturalPersonformID" action=""
+								onsubmit="return false;">
+								<div id="tabs-1" style="margin: 10px;">
+									<div class="tab-pane landrecords22" id="land-record">
+										<input type="hidden" name="natural_usin" id="natural_usin"
+											value=""> <input type="hidden" name="natual_length"
+											id="natual_length" value=""><input type="hidden"
+											name="projectname_key" id="projectname_key" value="">
+										<input type="hidden" name="natural_key" id="natural_key"
+											value=""> <input type="hidden" name="occ_age"
+											id="occ_age" value=""> <label for="email"
+											class="langchange" key="First_Name">First Name </label> <input
+											type="text" name="fname" id="fname" value=""
+											class="text ui-widget-content ui-corner-all justread">
+										<label for="email" class="langchange" key="Middle_Name">Middle
+											Name </label> <input type="text" name="mname" id="mname" value=""
+											class="text ui-widget-content ui-corner-all justread">
+										<label for="email" class="langchange" key="Last_Name">Last
+											Name </label> <input type="text" name="lname" id="lname" value=""
+											class="text ui-widget-content ui-corner-all justread">
+										<label for="email" class="langchange" key="Date_of_Birth">Date
+											of Birth </label> <input type="text" name="dob" id="dob" value=""
+											class="text ui-widget-content ui-corner-all justread justdisable datepicker"
+											readonly> <label for="email" class="langchange"
+											key="Place_of_Birth">Place of Birth </label> <input
+											type="text" name="birth_place" id="birth_place" value=""
+											class="text ui-widget-content ui-corner-all justread">
+
+										<label for="email" class="langchange" key="Address">Address
+										</label> <input type="text" name="person_address" id="person_address"
+											value=""
+											class="text ui-widget-content ui-corner-all justread">
+										<label for="email" class="langchange" key="Profession">Profession
+										</label> <input type="text" name="profession" id="profession" value=""
+											class="text ui-widget-content ui-corner-all justread">
+										<!-- 	<label for="email">Mobile Number </label> <input type="text"
+										name="mobile_natural" id="mobile_natural" value=""
+										class="text ui-widget-content ui-corner-all justread"> 
+									<label for="email">Age </label> <input type="text" name="age"
+										id="age" value=""
+										class="text ui-widget-content ui-corner-all justread">-->
+										<label for="email" class="langchange" key="Gender">Gender</label>
+										<select name="gender" class="justdisable" id="gender">
+										</select>
+										<!-- <label id="subtypehide" for="email">Person_subType</label> <select
+										name="person_subType" class="justdisable" id="person_subType">
+									</select> -->
+										<label for="email" class="langchange" key="Marital_Status">Marital
+											Status</label> <select name="marital_status" id="marital_status"
+											class="justdisable"></select> <label for="email"
+											class="langchange" key="Refrence_of_ID">Refrence of
+											ID Card </label> <input type="text" name="refrence_IdCard"
+											id="refrence_IdCard" value=""
+											class="text ui-widget-content ui-corner-all justread">
+										<label for="email" class="langchange"
+											key="Date_of_Establishmen">Date of Establishment (ID
+											Card) </label> <input type="text" name="id_establishment_date"
+											id="id_establishment_date" value=""
+											class="text ui-widget-content ui-corner-all justdisable datepicker"
+											readonly> <label for="email" class="langchange"
+											key="Father_Name">Father Name </label> <input type="text"
+											name="father_name" id="father_name" value=""
+											class="text ui-widget-content ui-corner-all justread">
+										<label for="email" class="langchange" key="Mother_Name">Mother
+											Name </label> <input type="text" name="mother_name" id="mother_name"
+											value=""
+											class="text ui-widget-content ui-corner-all justread">
+										<label for="email" class="langchange" key="Nature_of_Power">Nature
+											of Power</label> <select name="person_nop" id="person_nop"
+											class="justdisable" onchange="getval(this);"></select> <label
+											for="mandateLabel" class="langchange"
+											key="Mandate_Issuance_Date">Mandate Issuance Date
+											(optional) </label> <input type="text" name="mandate_issuance_date"
+											id="mandate_issuance_date" value=""
+											class="text ui-widget-content ui-corner-all justdisable datepicker mandatechk"
+											readonly> <label for="mandateLabel"
+											class="langchange" key="Mandate_Location">Mandate
+											Location (optional) </label> <input type="text"
+											name="mandate_location" id="mandate_location" value=""
+											class="text ui-widget-content ui-corner-all justread mandatechk">
+										<!-- <label for="email">Citizenship </label> <select
+										name="citizenship" id="citizenship" class="justdisable"></select> -->
+
+									</div>
+								</div>
+								<div id="tabs-2" style="margin: 10px;">
+									<div class="tab-pane landrecords22">
+
+										<div id="customnatural-div"></div>
+										<div id="customnewnatural-div"></div>
+									</div>
+								</div>
+							</form>
+
+
+
+						</div>
+
+					</fieldset>
+
+				</div>
+
+				<div id="nxtTokin-dialog-form" title="Person of Interest"
+					style="display: none;">
+
+					<fieldset>
+
+						<div id="tab-nxtTokin">
+
+							<form class="cmxform" id="editnxtTokinformID" action=""
+								onsubmit="return false;">
+								<div class="tab-pane landrecords22" id="land-record">
+									<input type="hidden" name="usin_kin" id="usin_kin" value="">
+									<input type="hidden" name="id_kin" id="id_kin" value="">
+
+									<label for="email" class="langchange" key="First_Name">First
+										Name</label> <input type="text" name="fname_kin" id="fname_kin"
+										value="" class="text ui-widget-content ui-corner-all justread">
+									<label for="email" class="langchange" key="Middle_Name">Middle
+										Name</label> <input type="text" name="mname_kin" id="mname_kin"
+										value="" class="text ui-widget-content ui-corner-all justread">
+									<label for="email" class="langchange" key="Last_Name">Last
+										Name</label> <input type="text" name="lname_kin" id="lname_kin"
+										value="" class="text ui-widget-content ui-corner-all justread">
+									<label for="email" class="langchange" key="Gender">Gender</label>
+									<select name="gender_kin" class="justdisable" id="gender_kin">
+									</select> <label for="email" class="langchange" key="Address">Address</label>
+									<input type="text" name="address_kin" id="address_kin" value=""
+										class="text ui-widget-content ui-corner-all justread">
+									<label for="email" class="langchange" key="Refrence_of_ID">Refrence
+										of ID</label> <input type="text" name="ref_id_kin" id="ref_id_kin"
+										value="" class="text ui-widget-content ui-corner-all justread">
+
+
+								</div>
+							</form>
+							<div></div>
+						</div>
+
+					</fieldset>
+
+				</div>
+
+				<div id="non_naturalperson-dialog-form" title="Non Natural Person"
+					style="display: none;">
+
+					<form class="cmxform" id="editNonNaturalPersonformID" action=""
+						onsubmit="return false;">
+						<fieldset>
+
+							<div id="tab-nonnatural">
+								<ul>
+									<li><a href="#tabs-3" class="master_attrib">Master Attribute</a></li>
+									<li><a href="#tabs-4" class="custom"> Custom</a></li>
+								</ul>
+								<div id="tabs-3" style="margin: 10px;">
+									<div class="tab-pane landrecords22" id="land-record">
+										<input type="hidden" name="projectname_key2"
+											id="projectname_key2" value=""> <input type="hidden"
+											name="nonnatual_length" id="nonnatual_length" value="">
+										<input type="hidden" name="non_natural_key"
+											id="non_natural_key" value=""> <input type="hidden"
+											name="poc_id" id="poc_id" value=""> <input
+											type="hidden" name="mobileGroupId" id="mobileGroupId"
+											value=""> <label for="email">Institution Name
+										</label> <input type="text" name="institution" id="institution"
+											value=""
+											class="text ui-widget-content ui-corner-all read-non">
+										<label for="email">Mobile No. </label> <input type="text"
+											name="mobile_no" id="mobile_no" value=""
+											class="text ui-widget-content ui-corner-all read-non">
+										<label for="email">Address </label> <input type="text"
+											name="address" id="address" value=""
+											class="text ui-widget-content ui-corner-all read-non">
+										<label for="email">Group Type</label> <select
+											name="group_type" id="group_type" class="disablenon"></select>
+									</div>
+								</div>
+
+								<div id="tabs-4" style="margin: 10px;">
+									<div class="tab-pane landrecords22">
+
+										<div id="customnonnatural-div"></div>
+									</div>
+								</div>
+							</div>
+
+
+						</fieldset>
+
+
+					</form>
+				</div>
+
+
+				<div id="tenureinfo-dialog-form" title="Tenure Info"
+					style="display: none;">
+
+					<form class="cmxform" id="edittenureinfoformID" action=""
+						onsubmit="return false;">
+
+						<fieldset>
+
+							<div id="tab-tenure">
+								<ul>
+									<li><a href="#tabs-5" class="master_attrib">Master Attribute</a></li>
+									<li><a href="#tabs-6" class="custom"> Custom</a></li>
+								</ul>
+								<div id="tabs-5" style="margin: 10px;">
+									<div class="tab-pane landrecords22" id="land-record">
+										<input type="hidden" name="projectname_key3"
+											id="projectname_key3" value=""> <input type="hidden"
+											name="tenure_key" id="tenure_key" value=""> <label
+											for="email">Tenure Type</label> <select name="tenure_type"
+											id="tenure_type" class="read-tenure"></select> <input
+											type="hidden" class="datepicker" name="start_date"
+											id="start_date" value=""
+											class="text ui-widget-content ui-corner-all read-tenure">
+										<input type="hidden" class="datepicker" name="end_date"
+											id="end_date" value=""
+											class="text ui-widget-content ui-corner-all read-tenure">
+										<input type="hidden" name="usin" id="usin" value=""> <input
+											type="hidden" name="person_gid" id="person_gid" value="">
+										<input type="hidden" name="tenure_length" id="tenure_length"
+											value=""> <label for="email">Resident</label> <select
+											name="tenure_resident" id="tenure_resident"
+											class="read-tenure"
+											onchange="javascript:changeResident(this);"></select> <label
+											for="email">Type of Right of Occupancy</label> <select
+											name="tenureclass_id" id="tenureclass_id" class="read-tenure"></select>
+										<div class="hide_duration">
+											<label for="email">Tenure Duration</label> <input type="text"
+												name="tenureDuration" id="tenureDuration" value=""
+												class="text ui-widget-content ui-corner-all read-tenure">
+										</div>
+									</div>
+								</div>
+
+								<div id="tabs-6" style="margin: 10px;">
+									<div class="tab-pane landrecords22">
+										<div id="customtenure-div"></div>
+									</div>
+								</div>
+							</div>
+
+						</fieldset>
+
+					</form>
+				</div>
+
+				<div id="multimedia-dialog-form" title="Multimedia"
+					style="display: none;">
+
+					<form class="cmxform landrecords22" id="editmultimediaformID"
+						action="" onsubmit="return false;">
+
+						<fieldset>
+
+							<div id="tab-multimedia">
+								<ul>
+									<li><a href="#tabs-7" class="master_attrib">Master Attribute</a></li>
+									<li><a href="#tabs-8" class="custom"> Custom</a></li>
+								</ul>
+								<div id="tabs-7" style="margin: 10px;">
+									<div class="tab-pane landrecords22" id="land-record">
+
+										<input type="hidden" name="primary_key" id="primary_key"
+											value=""> <input type="hidden"
+											name="multimedia_length" id="multimedia_length" value="">
+										<input type="hidden" name="multimedia_id" id="multimedia_id"
+											value=""> <input type="hidden" name="person_gidk"
+											id="person_gidk" value=""> <input type="hidden"
+											name="usink" id="usink" value=""> <input
+											type="hidden" name="social_gid" id="social_gid" value="">
+										<label for="email" class="langchange" key="Entity_Name">Entity
+											Name </label> <input type="text" name="entity_name" id="entity_name"
+											value=""
+											class="text ui-widget-content ui-corner-all read-mul">
+										<label for="email" class="langchange"
+											key="Scanned_Source_Document">Scanned Source Document
+										</label> <input type="text" name="scanned_srs" id="scanned_srs"
+											value="" class="text ui-widget-content ui-corner-all "
+											readonly> <input type="hidden" name="quality_type"
+											id="quality_type" value=""
+											class="text ui-widget-content ui-corner-all read-mul">
+										<input type="hidden" name="source_path" id="source_path"
+											value=""> <label for="email" class="langchange"
+											key="Recordation">Recordation </label> <input type="text"
+											name="recordation" id="recordation" value=""
+											class="text ui-widget-content ui-corner-all datepicker gendisable"
+											readonly="readonly"> <label for="email"
+											class="langchange" key="Social_Tenure_Inverntory_Type">Social
+											Tenure Inverntory Type</label> <input type="text"
+											name="inventory_type" id="inventory_type" value=""
+											class="text ui-widget-content ui-corner-all read-mul">
+										<label for="email" class="langchange" key="Comments">Comments</label>
+										<input type="text" name="comments_multimedia"
+											id="comments_multimedia" value=""
+											class="text ui-widget-content ui-corner-all read-mul">
+										<input type="hidden" name="projectname_multimedia_key"
+											id="projectname_multimedia_key" value="">
+									</div>
+								</div>
+								<div id="tabs-8" style="margin: 10px;">
+									<div class="tab-pane landrecords22">
+										<div id="custommultimedia-div"></div>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+
+					</form>
+				</div>
+
+				<div id="deceased-dialog-form" title="Deceased Person"
+					style="display: none;">
+
+					<form class="cmxform landrecords22" id="editdeceasedformID"
+						action="" onsubmit="return false;">
+
+						<fieldset>
+
+							<div id="tab-deceased">
+
+								<input type="hidden" name="deceased_key" id="deceased_key"
+									value=""> <input type="hidden" name="usin_deceased"
+									id="usin_deceased" value=""> <input type="hidden"
+									name="deceased_length" id="deceased_length" value=""> <label
+									for="email" class="langchange" key="First_Name">First
+									Name </label><input type="text" name="d_firstname" id="d_firstname"
+									value="" class="text ui-widget-content ui-corner-all justread">
+								<label for="email" class="langchange" key="Middle_Name">Middle
+									Name </label> <input type="text" name="d_middlename" id="d_middlename"
+									value="" class="text ui-widget-content ui-corner-all justread"><label
+									for="email" class="langchange" key="Last_Name">Last
+									Name </label> <input type="text" name="d_lastname" id="d_lastname"
+									value="" class="text ui-widget-content ui-corner-all justread">
+
+
+							</div>
+						</fieldset>
+
+					</form>
+				</div>
+
+				<div id="deletednat-dialog-form" title="Add Natural Person"
+					style="display: none;">
+
+
+					<fieldset>
+						<table id="" class="table table-bordered">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th class="langchange" key="First_Name">First Name</th>
+									<th class="langchange" key="Last_Name">Last name</th>
+									<th class="langchange" key="Gender">Gender</th>
+									<th class="langchange" key="Father_Name">Father Name</th>
+									<th class="langchange" key="Add">Add</th>
+								</tr>
+							</thead>
+							<tbody id="deletedNaturalpersonRowData">
+
+							</tbody>
+						</table>
+					</fieldset>
+
+				</div>
+
+				<div id="deletedadmin-dialog-form" title="Admin Info"
+					style="display: none;">
+
+
+					<fieldset>
+						<table id="" class="table table-bordered">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th class="langchange" key="First_Name">First Name</th>
+									<th class="langchange" key="Last_Name">Last Name</th>
+									<th class="langchange" key="Citizenship">Citizenship</th>
+									<th class="langchange" key="Gender">Gender</th>
+									<th class="langchange" key="Phone_Number">Phone Number</th>
+									<th class="langchange" key="Add">Add</th>
+
+
+								</tr>
+							</thead>
+							<tbody id="deletedAdminRowData">
+
+							</tbody>
+						</table>
+					</fieldset>
+
+				</div>
+
+		
+				<div id="upload-natural-Image" title="Web Upload"
+					style="display: none;">
+					<!--p class="validateTips">All form fields are required.</p-->
+
+					<form class="cmxform landrecords22" id="uploadNaturalImage"
+						action="" onsubmit="return false;">
+
+
+						<fieldset>
+
+							<div id="naturalImage-div"></div>
+							<br> <strong><span id="check_img"></span></strong> <br>
+							<label for="email" class="langchange" key="Document_Name">Document
+								Name </label> <input type="text" name="document_natural"
+								id="document_natural" value=""
+								class="text ui-widget-content ui-corner-all" />
+							<!-- <form id="form2" method="post" onSubmit="return false;"> -->
+							<label class="searchLbl"
+								style="margin-top: -3px; margin-right: 5px;" class="langchange"
+								key="Select_File">Select File:</label> <input
+								name="natural_image" id="natural_image" type="file" /> <label
+								style="color: #0088cc">Eg:-.jpeg ,.png</label> <br>
+						</fieldset>
+					</form>
+				</div>
+
+				<div id="deletednon-dialog-form" title="Add Non Natural Person"
+					style="display: none;">
+
+
+					<fieldset>
+						<table id="" class="table table-bordered">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Institution Name</th>
+									<th>Address</th>
+									<th>Phone Number</th>
+									<th>Add</th>
+
+								</tr>
+							</thead>
+							<tbody id="deletedNonNaturalpersonRowData">
+
+							</tbody>
+						</table>
+					</fieldset>
+
+				</div>
+
+
+				<div id="add_admin-dialog-form" title="Add Admin"
+					style="display: none;">
+
+
+
+					<form class="cmxform" action="" onsubmit="return false;">
+
+						<fieldset>
+							<span>
+								<button class="btn" onclick="javascript:editAdminData(0);"
+									class="langchange" key="New_Person">New Person</button>
+								<button class="btn" onclick="javascript:addExistingAdmin();"
+									class="langchange" key="Existing_Person">Existing
+									Person</button>
+							</span>
+						</fieldset>
+					</form>
+				</div>
+				<div id="approveParcel-dialog-form" title="Status Update"
+					style="display: none;">
+					<!--p class="validateTips">All form fields are required.</p-->
+
+					<form class="cmxform landrecords22" id="approveStatusformID"
+						action="" onsubmit="return false;">
+
+
+						<fieldset>
+							<label> <span class="langchange" style="color:black" key="Comments">Comments</span> <span
+								id="commentOption"></span></label>
+							<textarea name="commentsStatus" id="commentsStatus"
+								style="width: 96%; height: 80px;"></textarea>
+							<div style="float: right">
+								<button id="approveButton" class="btn1 v-top-18">
+									<span id="action_name"></span>
+								</button>
+								<button class="btn v-top-18 langchange"
+									onclick="javascript:closeDialogbox();"
+									key="Cancel">Cancel</button>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+
+				<div id="generatemap-dialog-form" title="Print_Preference"
+					style="display: none;">
+
+
+
+					<form class="cmxform" id="printformID" action=""
+						onsubmit="return false;">
+
+						<fieldset>
+
+
+							<p>
+								<label for="email" class="langchange" key="Select_your_choice"><strong>Select
+										your choice :</strong></label>
+							</p>
+							<div >
+								<input  name="map" type="radio" value="1"
+									id="sel-1" /><label for="sel-1" class="langchange"
+									key="Boundary_map">Boundary map</label> <br> <input
+									 name="map" type="radio" value="2"
+									id="sel-two" /><label for="sel-2" class="langchange"
+									key="Area_Map">Area Map</label> <br> <input
+									 name="map" type="radio" value="3"
+									id="sel-three" /><label for="sel-3" class="langchange"
+									key="Land_Records_Form_ind">Land Records Form
+									(Individual) </label> <br> <input class="checkType"
+									name="map" type="radio" value="4" id="sel-four" /><label
+									for="sel-4" class="langchange" key="Land_Records_Form_col">Land
+									Records Form (Collective) </label>
+
+							</div>
+						</fieldset>
+					</form>
+				</div>
+
+				<div id="applicationform-dialog-form"  class="langchange" title="Form_Selection"
+					style="display: none;">
+
+
+
+					<form class="cmxform" id="applicationformID" action=""
+						onsubmit="return false;">
+
+						<fieldset>
+
+
+							<p>
+								<label for="email" class="langchange"  key="Select_your_choice">Select form type :</label>
+							</p>
+							<div >
+								<p>
+									<input class="selectPrint " name="print" type="radio" value="1"
+										id="sel-one" /><label id="radio1" class="langchange" key="appform_ind">Application Form
+										(Individual)(Form 1)</label>
+								</p>
+								<p>
+									<input class="selectPrint" name="print" type="radio"
+										value="2" id="sel-two" /><label id="radio2" class="langchange" key="appform_col">Application
+										Form (Collective)(Form 2)</label>
+								</p>
+								<p>
+									<input class="selectPrint" name="print" type="radio" value="3"
+										id="sel-three" /><label  id="radio3" class="langchange" key="public_notice">Public Notice
+										(Form 3)</label>
+								</p>
+								<p>
+									<input class="selectPrint" name="print" type="radio" value="4"
+										id="sel-four" /><label id="radio4" class="langchange" key="pv_form">PV
+										Contradictory Form (Form 7)</label>
+								</p>
+								<p>
+									<input class="selectPrint" name="print" type="radio" value="7"
+										id="sel-seven" /><label  id="radio7" class="langchange" key="pr_letter">Payment
+										Request Letter</label>
+								</p>
+								<p>
+								
+									<input class="selectPrint" name="print" type="radio"
+										value="5" id="sel-five" /><label id="radio5" class="langchange" key="apfr_ind">APFR
+										Form (Individual)(Form 5)</label>
+								</p>
+								<div class="showCheck">
+									<p>
+
+										<input class="selectPrint" name="print" type="radio"
+											value="6" id="sel-six" /><label id="radio6" class="langchange" key="apfr_col">APFR
+											Form (Collective) (Form 8)</label>
+
+									</p>
+								</div>
+								
+							</div>
+						</fieldset>
+					</form>
+				</div>
+
+
+				<div id="paymentInfo-dialog-form" title="Payment_Info"
+					style="display: none;">
+
+
+					<form class="cmxform landrecords22" id="paymentInfoID" action=""
+						onsubmit="return false;">
+
+
+						<fieldset>
+							<label class="langchange" key="Receipt_No">Receipt No.</label> <input
+								type='text' name="receiptId" id="receiptId" maxlength="100"
+								style="width: 96%" /> <label class="langchange" key="Amount">Amount</label> <input type='text'
+								onkeypress='return event.charCode >= 48 && event.charCode <= 57' name="paymentAmount" id="paymentAmount" maxlength="10"
+								style="width: 96%" /> <label class="langchange" key="Date">Date</label>
+							<input type='text' class='datepicker' name="paymentDate"
+								id="paymentDate" style="width: 96%" /> <label
+								class="langchange" key="Comments">Comments</label> <input
+								type='text' name="amount_comment" id="amount_comment"
+								maxlength="2000" style="width: 96%" />
+
+
+						</fieldset>
+					</form>
+				</div>
+
+
+
+				<script id="landRecordsAttrTemplate" type="text/x-jquery-tmpl">
+       
+	   
+	  <tr>
+          
+            <td>
+                ${application_no}
+            </td> 
+       
+              <td>
+                ${pv_no}
+            </td> 
+              <td>
+
+                           ${firstname}
+
+              </td>                     
+                     <td>
+                ${lastname}
+            </td> 
+			<td>
+			{{if parceltype}} 
+				{{if (lang=="en")}}
+
+               ${parceltype.parceltype}
+			{{/if}}
+			{{if (lang=="fr")}}
+  				${parceltype.parceltype_fr}
+			{{/if}}	
+			{{/if}}
+			</td>          
+          
+              <td>
+			{{if (lang=="en")}}
+
+               ${application_type.shareType}
+			{{/if}}
+			{{if (lang=="fr")}}
+  				${application_type.shareType_sw}
+			{{/if}}
+                
+
+            </td> 
+                     <td>
+		{{if (lang=="en")}}
+
+            ${workflow_stage.workflow}
+		{{/if}}
+		{{if (lang=="fr")}}
+  			${workflow_stage.workflow_fr}
+		{{/if}}
+
+               
+
+            </td> 
+                     <td>
+		{{if (lang=="en")}}
+
+            ${application_stage.workflowStatus}
+		{{/if}}
+		{{if (lang=="fr")}}
+ 			${application_stage.workflow_status_fr}
+		{{/if}}
+
+            </td>    
+		<td>
+{{if (lang=="en")}}
+ <a href="#" onclick="commentsDialog(${usin});">Comments</a>
+{{/if}}
+{{if (lang=="fr")}}
+ <a href="#" onclick="commentsDialog(${usin});">Commentaires</a>
+{{/if}}
+
+</td>
+		
+<td>
+   <div class="single-drop-down">
+	    <div class="topnav"> <a href="#" onclick="Actionfill(${usin},${workflow_stage.workflowId},${application_type.gid},${section});" class="signin"><span key="Action" class="langchange">Action</span></a>
+	
+	<div class="containerDiv" id=${usin}>
+	
+	</div>
+		
+		</div>
+	 </div>
+</td> 
+ 
+</tr>
+  </script>
+				<script id="naturalpersonTemplate" type="text/x-jquery-tmpl">
+       
+	   
+	   <tr>
+	   
+  			<td>
+                ${person_gid.person_gid}
+            </td> 
+	         
+			<td>
+                ${person_gid.firstName}
+            </td>   
+			<td>
+                ${person_gid.lastName}
+            </td>  
+			<td>
+                ${person_gid.fathername}
+            </td>    			
+
+            <td>
+	{{if (lang=="en")}}
+			{{if person_gid.gender}}  
+			${person_gid.gender.gender}{{/if}}
+			{{/if}}
+	{{if (lang=="fr")}}
+			{{if person_gid.gender}}  
+			${person_gid.gender.gender_sw}{{/if}}
+			{{/if}}
+            
+            </td>
+			<td>
+			${person_gid.idcard}
+			</td>
+			<td>
+{{if (lang=="en")}}
+			{{if (person_gid.nop_id)}} 
+ 			${person_gid.nop_id.natureOfPower} 
+ 			{{/if}}
+{{/if}}
+{{if (lang=="fr")}}
+			{{if (person_gid.nop_id)}} 
+ 			${person_gid.nop_id.natureOfPowerFr} 
+ 			{{/if}}
+{{/if}}
+               
+            </td>    
+			
+	  
+			<td align="center">
+				<a href="javascript:editNaturalData('${person_gid.person_gid}');"><img src="resources/images/studio/edit.png" title="Edit" /></a>
+            </td>
+          <!-- <td align="center">
+				<a href="javascript:deleteNatural('${person_gid.person_gid}','${person_gid.firstName}' );"><img 
+src="resources/images/studio/delete.png"
+ 					title="Delete" /></a>
+           </td> -->
+		<td align="center">
+				<a href="javascript:editNaturalData('${person_gid.person_gid}');"><img src="resources/images/studio/doc_view.png" title="View" /></a>
+            </td>	
+
+	  <!--
+		<td align="center">
+				<a href="javascript:naturalPersonImage('${person_gid.person_gid}',0);"><img src="resources/images/studio/uploadImage.png" 
+title="Upload Image" /></a>
+            </td>	  
+			-->				
+     </tr>
+              
+        
+
+
+</script>
+
+				<script id="naturalpersonTemplate_2" type="text/x-jquery-tmpl">
+       
+	   
+		   <tr>
+	   
+ 			 <td>
+                ${person_gid}
+            </td> 
+	         
+			<td>
+                ${firstName}
+            </td>   
+			<td>
+                ${lastName}
+            </td>        
+
+            <td>
+				{{if (lang=="en")}}
+			{{if person_gid.gender}}  
+			${person_gid.gender.gender}{{/if}}
+			{{/if}}
+	{{if (lang=="fr")}}
+			{{if person_gid.gender}}  
+			${person_gid.gender.gender_sw}{{/if}}
+			{{/if}}
+            
+            
+            </td>
+
+			<td>
+		{{if (personSubType)}}  ${personSubType.personType} {{/if}}
+               
+            </td>    
+	
+			<td>
+			${age}
+			</td> 
+			  
+			<td align="center">
+				<a href="javascript:editNaturalData('${person_gid}');"><img src="resources/images/studio/edit.png" title="Edit" /></a>
+            </td>
+        
+		<td align="center">
+				<a href="javascript:editNaturalData('${person_gid}');"><img src="resources/images/studio/doc_view.png" title="View" /></a>
+            </td>	
+
+	    </td>
+<!--
+		<td align="center">
+				<a href="javascript:naturalPersonImage('${person_gid}',0);"><img src="resources/images/studio/uploadImage.png" title="Upload Image" 
+/></a>
+            </td>	  
+	-->				
+     </tr>
+              
+        
+</script>
+
+
+
+				<script id="non_naturalpersonTemplate" type="text/x-jquery-tmpl">
+       
+	   
+	   <tr>
+	   
+            <td>
+                ${person_gid.person_gid}
+            </td> 
+	         
+			<td>
+                ${person_gid.institutionName}
+            </td>           
+            <td>
+                ${person_gid.address}
+            </td>
+			<td>
+                ${person_gid.phoneNumber}
+            </td>  
+  
+			  
+			<td align="center">
+				<a href="javascript:editNonNatural('${person_gid.person_gid}');"><img src="resources/images/studio/edit.png" title="Edit" /></a>
+            </td>
+           <td align="center">
+				<a href="javascript:deleteNonNatural('${person_gid.person_gid}','${person_gid.institutionName}' );"><img src=
+				"resources/images/studio/delete.png" title="Delete" /></a>
+           </td>
+			<td align="center">
+				<a href="javascript:editNonNatural('${person_gid.person_gid}');"><img src="resources/images/studio/doc_view.png" title="View" /></a>
+            </td>
+			 
+								
+     </tr>
+              
+        
+</script>
+
+				<script id="tenureinfoTemplate" type="text/x-jquery-tmpl">
+       
+	   
+	   <tr>
+	   
+            <td>
+                ${gid}
+            </td>     
+ 
+          <td>{{if share_type}}${share_type.shareType}{{/if}}</td> 
+
+          <td>
+
+ 			{{if tenureclass_id}}${tenureclass_id.tenureClass}{{/if}}
+			</td>
+
+			<!--<td>
+           {{if occupancy_type_id}} ${occupancy_type_id.description}{{/if}}
+             </td>
+			   
+			<td>
+                ${tenure_duration}
+            </td>   
+-->
+			<td>
+			{{if resident}} Yes{{/if}}
+			{{if !resident}} No{{/if}}
+				
+			</td>
+			<td align="center">
+				<a href="javascript:editTenure('${gid}');"><img src="resources/images/studio/edit.png" title="Edit" /></a>
+            </td>
+           <td align="center">
+				<a href="javascript:deleteTenure('${gid}');"><img src="resources/images/studio/delete.png" title="Delete"/></a>
+           </td>	
+
+			<td align="center">
+				<a href="javascript:editTenure('${gid}');"><img src="resources/images/studio/doc_view.png" title="View" /></a>
+            </td> 
+								
+     </tr>
+              
+        
+</script>
+
+
+				<script id="multimediaTemplate" type="text/x-jquery-tmpl">
+       
+	   
+	   <tr>
+	   
+            <td>
+                ${gid}
+            </td> 
+	         
+			<td>
+                ${scanedSourceDoc}
+            </td>
+			<td>
+                ${recordation}
+            </td>    
+			  
+<td>
+                ${socialTenureInvantoryType}
+            </td>   
+<td>
+                ${comments}
+            </td>   
+
+			<td align="center">
+				<a href="javascript:editMultimedia('${gid}');"><img src="resources/images/studio/edit.png" title="Edit" /></a>
+            </td>
+           <td align="center">
+				<a href="javascript:deleteMultimedia('${gid}','${scanedSourceDoc}' );"><img src="resources/images/studio/delete.png" title="Delete"
+/></a>
+           </td>	 
+				<td align="center">
+				<a href="javascript:viewMultimedia('${gid}');"><img src="resources/images/studio/document-image-view.png" title="View Document" />
+</a>
+            </td>	
+		<td align="center">
+				<a href="javascript:editMultimedia('${gid}');"><img src="resources/images/studio/doc_view.png" title="View" /></a>
+            </td>			
+     </tr>
+              
+        
+</script>
+
+
+				<script id="naturalpersonTemplate_add" type="text/x-jquery-tmpl">
+       
+	   
+	   <tr>
+	   
+            <td>
+                ${person_gid.person_gid}
+            </td> 
+	         
+			<td>
+                ${person_gid.firstName}
+            </td>   
+<td>
+                ${person_gid.lastName}
+            </td>        
+
+            <td>
+						{{if (lang=="en")}}
+			{{if person_gid.gender}}  
+			${person_gid.gender.gender}{{/if}}
+			{{/if}}
+	{{if (lang=="fr")}}
+			{{if person_gid.gender}}  
+			${person_gid.gender.gender_sw}{{/if}}
+			{{/if}}
+            
+            </td>
+
+			<td>
+ ${person_gid.fathername}
+</td>
+			
+				<td align="center" >
+				<a href="javascript:addDeletedNatural('${person_gid.person_gid}');"><img src="resources/images/studio/add.png" title="Add Person" />
+</a>
+            </td>
+	
+     </tr>
+              
+        
+</script>
+
+
+
+
+				<script id="nonnaturalpersonTemplate_add" type="text/x-jquery-tmpl">
+       
+	   
+	   <tr>
+	   
+            <td>
+                ${person_gid.person_gid}
+            </td> 
+	         
+			<td>
+                ${person_gid.institutionName}
+            </td>           
+            <td>
+                ${person_gid.address}
+            </td>
+			<td>
+                ${person_gid.phoneNumber}
+            </td>  
+				<td align="center" >
+				<a href="javascript:addDeletedNonNatural('${person_gid.person_gid}');"><img src="resources/images/studio/add.png" title="Add Person"
+ /></a>
+            </td>
+		
+     </tr>
+              
+        
+</script>
+
+
+				<script id="nxtTokinTemplate" type="text/x-jquery-tmpl">
+       
+	   
+	   <tr>
+	   
+            <td>
+                ${id}
+            </td> 
+	         
+			<td>
+                ${personName}
+            </td>  
+<td>
+  ${middle_name}
+
+</td>	
+<td>
+  ${last_name}
+
+</td>	
+	
+<td>
+			{{if (lang=="en")}}
+			{{if gender}}  
+			${gender.gender}{{/if}}
+			{{/if}}
+	{{if (lang=="fr")}}
+			{{if gender}}  
+			${gender.gender_sw}{{/if}}
+			{{/if}}
+
+</td>	
+	
+<td>
+  ${address}
+
+</td>	
+<td>
+  ${idcard_refrence}
+
+</td>
+           
+				<td align="center">
+				<a href="javascript:editnxtTokin('${id}');"><img src="resources/images/studio/edit.png" title="Edit" /></a>
+            </td>
+           <td align="center">
+				<a href="javascript:deletenxtTokin('${id}','${personName}');"><img src="resources/images/studio/delete.png"
+ 					title="Delete" /></a>
+           </td>
+		<td align="center">
+				<a href="javascript:editnxtTokin('${id}');"><img src="resources/images/studio/doc_view.png" title="View" /></a>
+            </td>	
+     </tr>
+              
+        
+</script>
+
+				<script id="deceasedTemplate" type="text/x-jquery-tmpl">
+       
+	   
+	   <tr>
+	   
+            <td>
+                ${id}
+            </td> 
+	         
+			<td>
+                ${firstname}
+            </td>    
+	<td>
+                ${middlename}
+            </td> 
+	<td>
+                ${lastname}
+            </td>        
+           
+				<td align="center">
+				<a href="javascript:editDeceasedPerson('${id}');"><img src="resources/images/studio/edit.png" title="Edit" /></a>
+            </td>
+           <td align="center">
+				<a href="javascript:deleteDeceased('${id}','${firstname}');"><img src="resources/images/studio/delete.png"
+ 					title="Delete" /></a>
+           </td>
+		<td align="center">
+				<a href="javascript:editDeceasedPerson('${id}');"><img src="resources/images/studio/doc_view.png" title="View" /></a>
+            </td>	
+     </tr>
+              
+        
+</script>
+
+
+				<script id="deletedAdminTemplate" type="text/x-jquery-tmpl">
+       
+	   
+	   <tr>
+	   
+            <td>
+                ${adminid}
+            </td> 
+	         
+			<td>
+                ${firstname}
+            </td>           
+            <td>
+			${lastname}
+            
+            </td>
+				
+		
+			<td>
+                ${citizenship}
+            </td>    
+			  	<td>
+				{{if gender}}  ${gender.gender}{{/if}}
+ 			
+			</td>
+			<td>
+			${phonenumber}
+ 			
+			</td>
+		
+		<td align="center">
+				<a href="javascript:addExisitingAdmin('${adminid}');"><img src="resources/images/studio/add.png" title="Add Administrator" /></a>
+            </td>	
+		
+     </tr>
+              
+        
+</script>
+				<script id="vertexTable" type="text/x-jquery-tmpl">
+ <tr> 
+<td>
+	${index}
+  </td>                                                                       
+  <td>
+	${x}
+  </td>
+  
+  <td>
+  ${y}
+  </td>
+ </tr>
+</script>
+				<script type="text/javascript">
+					var specialKeys = new Array();
+					specialKeys.push(8); //Backspace
+					function IsNumeric(e) {
+						var keyCode = e.which ? e.which : e.keyCode
+						var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys
+								.indexOf(keyCode) != -1);
+						document.getElementById("error").style.display = ret ? "none"
+								: "inline";
+						return ret;
+					}
+				</script>
+
+
+				<!-- <div id="add_person-dialog-form" title="Add Person"
+				style="display: none;">
+
+
+
+				<form class="cmxform" action="" onsubmit="return false;">
+
+					<fieldset>
+						
+					</fieldset>
+				</form>
+			</div> -->
+
+
+				<!-- 	<div id="newnaturalperson-dialog-form" title="Natural Person"
+				style="display: none;">
+ -->
+
+			</div>
+		</div>
+		<div id="dialog-confirm" title="Validate and Update Attributes">
+			<p id="validationCheck" style="display: none">
+				<span class="ui-icon ui-icon-alert"
+					style="float: left; margin: 0 7px 20px 0;"></span>Are you sure you
+				want to update the attributes?
+			</p>
+		</div>
+	</div>
+
+
+	<script id="workFlowTemplate" type="text/x-jquery-tmpl">
+{{if (parcelType.parceltypeId)==1}}
+{{if (lang=="en")}}
+<li ><input type="checkbox" id="${workflowId}" name="workflow" value="${workflowId}" class="roleCheckbox"/>${workflow}</li>
+{{/if}}
+{{if (lang=="fr")}}
+<li ><input type="checkbox" id="${workflowId}" name="workflow" value="${workflowId}" class="roleCheckbox"/>${workflow_fr}</li>
+{{/if}}
+
+{{/if}}	
+
+</script>
+	<script id="workFlowTemplate2" type="text/x-jquery-tmpl">
+{{if (parcelType.parceltypeId)==2}}
+{{if (lang=="en")}}
+<li ><input type="checkbox" id="${workflowId}" name="workflow" value="${workflowId}" class="roleCheckbox"/>${workflow}</li>
+{{/if}}
+{{if (lang=="fr")}}
+<li ><input type="checkbox" id="${workflowId}" name="workflow" value="${workflowId}" class="roleCheckbox"/>${workflow_fr}</li>
+{{/if}}
+
+
+{{/if}}	
+</script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#selectAll').on('click', function() {
+				if ($(this).is(':checked')) {
+					$('.roleCheckbox').each(function() {
+						this.checked = true;
+					});
+				} else {
+					$('.roleCheckbox').each(function() {
+						this.checked = false;
+					});
+				}
+			})
+		});
+	</script>
+	<div id="commentsDialog" title="Comments_History" class="langchange">
+		<fieldset>
+			<table class="amendbeforeAfterTable" style="display: none;"
+				id="commentsTable">
+				<thead>
+					<tr>
+						<th class="langchange" key="Username">Username</th>
+						<th class="langchange" key="Modification_Date">Modification
+							Date</th>
+						<th class="langchange" key="Stage">Stage</th>
+						<th class="langchange" key="Action">Action</th>
+						<th class="langchange" key="Comments">Comments</th>
+					</tr>
+				</thead>
+				<tbody id="commentsHistoryTableBody">
+				</tbody>
+			</table>
+		</fieldset>
+	</div>
+	<script id="commentstemplate" type="text/x-jquery-tmpl">
+ <tr> 
+<td>
+	${userid.username}
+  </td>                                                                       
+  <td>
+${status_change_time}
+	
+  </td>
+
+<td>
+		{{if (lang=="en")}}
+			{{if workflow_id}}  
+			${workflow_id.workflow}{{/if}}
+			{{/if}}
+	{{if (lang=="fr")}}
+			{{if workflow_id}}  
+			${workflow_id.workflow_fr}{{/if}}
+			{{/if}}
+
+</td>
+  
+  <td>
+		{{if (lang=="en")}}
+			{{if workflow_status_id}}  
+			${workflow_status_id.workflowStatus}{{/if}}
+			{{/if}}
+	{{if (lang=="fr")}}
+			{{if workflow_status_id}}  
+			${workflow_status_id.workflow_status_fr}{{/if}}
+			{{/if}}
+
+  </td>
+
+<td>
+${comments}
+</td>
+ </tr>
+</script>
+	<script type="text/javascript">
+		function getval(sel) {
+			if (sel.value == 1) {
+				jQuery(".mandatechk").hide();
+				jQuery('label[for="mandateLabel"]').hide();
+			} else {
+				jQuery(".mandatechk").show();
+				jQuery('label[for="mandateLabel"]').show();
+			}
+		}
+	</script>
+
+	<!-- 	<script type="text/javascript">
+		$(document)
+				.ready(
+						function() {
+							$("#select_all").change(
+									function() {
+										$("#workflowDiv .checkbox").prop(
+												'checked',
+												$(this).prop("checked"));
+									});
+
+							$('#workflowDiv .checkbox')
+									.change(
+											function() {
+
+												if (false == $(this).prop(
+														"checked")) { //if this item is unchecked
+													$("#select_all").prop(
+															'checked', false); //change "select all" checked status to false
+												}
+
+												if ($('#workflowDiv .checkbox:checked').length == $('#workflowDiv .checkbox').length) {
+													$("#select_all").prop(
+															'checked', true);
+												}
+											});
+						});
+	</script> -->
+
+
+
+	<div id="generate-parcelno-form" class="langchange"
+		title="Generate_and_Verify_Parcel_Number" style="display: none;">
+
+		<form class="cmxform" id="parcelnoformID" action=""
+			onsubmit="return false;">
+
+			<fieldset>
+				<table style="width: 100%" class="p-number">
+
+					<tr>
+						<td><p class="langchange" key="Section">
+								<strong>Section </strong>
+							</p> <span style="display: inline-block" id="section_no"></span></td>
+						<td><p class="langchange" key="Lot">
+								<strong>Lot </strong>
+							</p> <span style="display: inline-block" id="lot_no" key="Number"></span></td>
+						<td><p class="langchange" key="Number">
+								<strong>Number </strong>
+							</p> <span style="display: inline-block" id="number_seq"></span></td>
+					</tr>
+				</table>
+			</fieldset>
+
+		</form>
+	</div>
+	<div id="villageSel-dialog-form" title="Select_Village"
+		style="display: none;">
+		<!--p class="validateTips">All form fields are required.</p-->
+
+		<form class="cmxform landrecords22" id="selectVillageformID" action=""
+			onsubmit="return false;">
+
+
+			<fieldset>
+
+				<label class="langchange" key="Select_Village">Select
+					Village :</label> <select name="village_sel" id="village_sel"
+					class="input-medium">
+				</select>
+			</fieldset>
+		</form>
+	</div>
+
+	<div id="approveInfo-dialog-form" title="Info" style="display: none;">
+		<!--p class="validateTips">All form fields are required.</p-->
+
+
+
+		<div id="approveInfoDiv"></div>
+
+
+	</div>
+
+	<div id="signatory-dialog-form" title="Mayor Signatory Date"
+		style="display: none;">
+
+		<form class="cmxform landrecords22" id="signatoryformID" action=""
+			onsubmit="return false;">
+
+			<fieldset>
+				<label for="email" class="langchange" key="Mayor_Signatory_Date">Mayor
+					Signatory Date </label> <input type="text" name="signatoryDate"
+					id="signatoryDate" value=""
+					class="datepicker text ui-widget-content ui-corner-all">
+			</fieldset>
+
+		</form>
+	</div>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			$('#radioReport').change(function() {
+				getVillage();
+			});
+
+			$('#select_all').on('click', function() {
+				if ($(this).is(':checked')) {
+					$('.roleCheckbox').each(function() {
+						this.checked = true;
+					});
+				} else {
+					$('.roleCheckbox').each(function() {
+						this.checked = false;
+					});
+				}
+			})
+
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<div id="userFormDiv" style="visibility: hidden">
+	<!-- <style type="text/css">
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
+</style> -->
+
+
+	<form class="cmxform" id="userForm" action="" onsubmit="return false;">
+
+		<div class="topmenu top-alt">
+			<a id="user_btnNew" class="btn02"
+				onclick="javascript:CreateEditUser();"><span class="NewBTN langchange" key='New'>New</span></a>
+
+		</div>
+		<div class="topmenu ">
+
+			<a id="user_btnSave" class="btn02" onclick="javascript:saveUser();"><span
+				class="saveBTN langchange"  key='Save'>Save</span></a> <a id="user_btnBack" class="btn02"
+				onclick="javascript:displayUser();"><span class="BackBTN langchange" key='Back'>Back</span></a>
+		</div>
+
+		<table id="userTable" class="tablesorter" cellpadding="0"
+			cellspacing="0">
+			<thead>
+
+				<tr>
+					<td colspan="9" class="project_cellpadtwo">
+
+
+						<table width="100%" cellpadding="0" cellspacing="0"
+							class="project_table_adjust">
+							<tr>
+								<td class="project_cell_adjust styleForm"><label
+									class="searchLbl langchange" key="Search">Search:</label>&nbsp; <input
+									id="user_txtSearch" value="" maxlength="30" size="30"
+									type="text" />
+									<button value="Submit" onclick="displayRefreshedUser();" class='langchange' key='Clear'>Clear</button>
+								</td>
+							</tr>
+						</table>
+
+					</td>
+				</tr>
+
+				<tr>
+					<th class='langchange' key='Name'>Name</th>
+					<th class='langchange' key='DefaultProject'>Default Project</th>
+					<th class='langchange' key='Email'>Email</th>
+					<th class='langchange' key='Role'>Role</th>
+
+					<th class='langchange' key='Reporting_To'>Reporting To</th>
+
+					<th class="no-sort">&nbsp;</th>
+					<th class=" no-sort">&nbsp;</th>
+
+				</tr>
+			</thead>
+			<tbody id="UsersRowData">
+
+			</tbody>
+
+			<tfoot>
+
+				<tr class="tblFooter" id="user_pagerDiv">
+					<td colspan="9">
+						<table cellpadding="1" cellspacing="1" class="cell_margin">
+							<tr>
+								<td width="100%" class="cell_color">
+									<table cellpadding="1" cellspacing="1" class="table_adjust">
+										<tr>
+											<td class="cell_adjust"><img
+												src="resources/scripts/tablesorter/addons/pager/icons/first.png"
+												title="First" class="first" /></td>
+											<td class="cell_adjust"><img
+												src="resources/scripts/tablesorter/addons/pager/icons/prev.png"
+												title="Previous" class="prev" /></td>
+											<td class="cell_adjustone"><input type="text"
+												class="pagedisplay" readonly="readonly" /></td>
+											<td class="cell_adjust"><img
+												src="resources/scripts/tablesorter/addons/pager/icons/next.png"
+												title="Next" class="next" /></td>
+											<td class="cell_adjust"><img
+												src="resources/scripts/tablesorter/addons/pager/icons/last.png"
+												title="Last" class="last" /></td>
+											<td class="cell_adjustone"><select class="pagesize">
+													<option selected="selected" value="10">10</option>
+													<option value="20">20</option>
+											</select></td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</tfoot>
+
+
+		</table>
+
+
+		<div id="user_accordion">
+			<h3>
+				<a href="#" class="langchange" key="General">General</a>
+			</h3>
+			<div style="height: 500px;">
+				<table id="userDetails">
+					<tbody id="userDetailBody">
+
+					</tbody>
+				</table>
+			</div>
+
+			<!-- <h3><a href="#">System Role</a></h3>
+	<div style="height:250px">	
+	<table>
+	<tbody id="userRoleList">
+	
+	</tbody>
+	</table>
+	</div>
+</div> -->
+			<!--  
+<script  id="UserTemplateRole" type="text/x-jquery-tmpl">
+
+
+		<tr>		
+			<td colspan="2">
+				<input type="checkbox" id="${name}" name="user_roles" value="${description}" class='roleCheckbox' /> ${description}
+				
+			</td>	
+		</tr>	
+
+ 
+</script>
+
+-->
+			<script id="UserTemplate" type="text/x-jquery-tmpl">
+        <tr>
+            <td>
+                ${username}
+            </td>                       
+			<td>
+                ${defaultproject}
+            </td>           
+            <td>
+                ${email}
+            </td>
+			          
+            <td>
+			{{if (lang=="en")}}
+
+            ${roles[0].description}
+		{{/if}}
+		{{if (lang=="fr")}}
+  			${roles[0].description_fr}
+		{{/if}}
+
+            </td>
+				
+			<td>
+                ${reportingTo}
+            </td>	
+			
+			<td align="center">
+{{if (lang=="en")}}
+
+          <a href="javascript:CreateEditUser('${id}');"><img src="resources/images/studio/edit.png" title="Edit" /></a>
+		{{/if}}
+		{{if (lang=="fr")}}
+  			<a href="javascript:CreateEditUser('${id}');"><img src="resources/images/studio/edit.png" title="Modifier" /></a>
+		{{/if}}
+
+
+				
+            </td>
+           <td align="center">
+{{if (lang=="en")}}
+
+         <a href="javascript:deleteUser('${id}','${name}' );"><img src="resources/images/studio/delete.png" title="Delete" /></a>
+		{{/if}}
+		{{if (lang=="fr")}}
+  			<a href="javascript:deleteUser('${id}','${name}' );"><img src="resources/images/studio/delete.png" title="Supprimer" /></a>
+		{{/if}}
+				
+           </td>	
+			                     
+        </tr>
+</script>
+
+			<script id="UserTemplateForm" type="text/x-jquery-tmpl">        
+<table class="styleForm inputint">
+ <tr>
+ <td class="labelHeader langchange" key="Username">Username</td>
+<input type="hidden" name="hid_userid" id="hid_userid" value="${id}" /> 
+<td><input type="textbox" name="name" id="name" value="${username}" /></td>
+
+ <td class="labelHeader langchange" key="Name">Name</td>
+ <td><input type="text" name="name_user" id="name_user" value="${name}"/></td>
+  </tr>
+
+ <tr>
+
+ <td class="labelHeader langchange" key="Password">Password</td>
+ <td><input type="password" name="password" id="password" value="${password}"/></td>
+
+ <td class="labelHeader langchange" key="Confirm_Password">Confirm Password</td>
+ <td><input type="password" name="confirmPassword" id="confirmPassword" value="${password}"/></td>
+
+</tr>
+
+<tr>
+<td class="labelHeader langchange" key="Email">Email</td>
+ <td><input type="textbox" name="email"  id="email" value="${email}"/></td>
+
+  
+ <td class="labelHeader langchange" key="DefaultProject">DefaultProject</td>
+ <td>
+ <select name="defaultproject" id="user_defaultproject" >
+           <option  value="" class="langchange" key="Please_Select">Please Select</option>      
+ </select>
+ </td>
+ 
+ 
+</tr>
+
+<tr>
+ <td class="labelHeader langchange" key="PasswordExpires">PasswordExpires</td>
+{{if (id)}}
+ <td><input type="text"  class="datepicker" name="passwordexpires" id="passwordexpires" value="${passwordexpires}" readonly="readonly"/></td>
+ <![CDATA[${$item.addDatePicker()}]]> 
+{{/if}}
+{{if (!id)}}
+ <td><input type="text"  class="datepicker" name="passwordexpires" id="passwordexpires" value="" readonly="readonly"/></td>
+ <![CDATA[${$item.addDatePicker()}]]> 
+{{/if}}
+<td class="labelHeader langchange" key="Reporting_To">Reporting To</td>
+ <td>
+  <select name="manager_name" id="manager_name">
+		<option  value="" class="langchange" key="Please_Select">Please Select</option> 		
+  </select>
+</td>
+</tr>
+
+<tr>
+ <td class="labelHeader langchange" key="Role">Role</td>
+ <td>
+  <select name="functionalRole" id="functionalRole">
+		<option  value="" class="langchange" key="Please_Select">Please Select</option> 		
+  </select>
+</td>
+<td class="labelHeader langchange" key="Active">Active</td>
+ <td>
+  <select name="active" id="user_active">
+						
+		<option value="false" class="langchange" key="No">No</option>	
+		<option value="true" class="langchange" key="Yes">Yes</option>			
+  </select>
+ 
+</td>
+
+</tr>
+
+
+<tr class="accessKey" style="visibility: hidden;">
+  <td colspan ="4" class="accessstop">Access Key</td>
+</tr>
+ <tr class="accessKey" style="visibility: hidden;">
+ 	<td colspan="3">
+		<input type="textbox" name="authkey" id="authkey" value="${authkey}" class="accesswidth" readonly="readonly"/>  
+		
+	</td> 
+	<td><a href="#" onClick="javascript:alert('Not Implemented');" class="langchange" key="Yes"> Email</a></td>
+ 
+ </tr>
+</table>
+
+
+ 
+ </script>
+	</form>
+	</div>

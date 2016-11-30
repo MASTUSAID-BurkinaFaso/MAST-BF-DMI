@@ -1,0 +1,129 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>MAST</title>
+</head>
+<body>
+	<div class="PrintWrapperLandScape">
+					<h2 style="margin-top: 20px; margin-bottom: 20px;">
+				<strong> Land Records Attribute Table (Collective) </strong>
+			</h2>
+	<h3 style="margin-top: 20px; margin-bottom: 20px;">
+				<strong> Area map </strong>
+			</h3>
+		<div style="min-height: 285px;">
+							<div id="areamap_url2" class="CCROMap-tablemap">
+								<img src="resources/images/compass.png" class="map-compass" />
+								
+							</div>
+						</div>
+		<div class="personalDetails-wrap">
+				
+	<h3 style="margin-top: 20px; margin-bottom: 20px;">
+				<strong> Land Records table </strong>
+			</h3>
+			<div class="border-wrap " style="padding: 10px;">
+				<table class="amendbeforeAfterTable">
+					<tr>
+						<td class="langchange" key="Region">Region</td>
+						<td><span id="region_2"></span></td>
+					</tr>
+					<tr>
+						<td class="langchange" key="Province">Province</td>
+						<td><span id="province_2"></span></td>
+					</tr>
+					<tr>
+						<td class="langchange" key="Village">Village</td>
+						<td><span class="village_2"></span></td>
+					</tr>
+					<tr>
+						<td class="langchange" key="First_Name">First Name</td>
+						<td><span id="person_firstname2"></span></td>
+					</tr>
+					<tr>
+						<td class="langchange" key="Last_Name">Last Name</td>
+						<td><span id="person_lastname2"></span></td>
+					</tr>
+					<tr>
+						<td class="langchange" key="Date_of_Birth">Date of Birth</td>
+						<td><span id="birthdate_2"></span></td>
+					</tr>
+					<tr>
+						<td class="langchange" key="Place_of_Birth">Place of Birth</td>
+						<td><span id="birthplace_2"></span></td>
+					</tr>
+					<tr>
+						<td class="langchange" key="Refrence_of_ID">Refrence of ID Card</td>
+						<td><span id="refrenceId_2"></span></td>
+					</tr>
+					<tr>
+						<td class="langchange" key="Date_of_Establishment">ID Card Establishment Date</td>
+						<td><span id="idcard_date2"></span></td>
+					</tr>
+
+					<tr>
+						<td class="langchange" key="Family_Name">Family Name</td>
+						<td><span id="familyname_2"></span></td>
+					</tr>
+					<tr>
+						<td class="langchange" key="Mandate_Issuance_Date">Date of Mandate</td>
+						<td><span class="mandate_date2"></span></td>
+					</tr>
+					<tr>
+						<td class="langchange" key="Mandate_Location">Commune of Mandate</td>
+						<td><span class="mandate_commune"></span></td>
+					</tr>
+					<tr>
+						<td >CFV</td>
+						<td><span id="user_CFV2"></span></td>
+					</tr>
+
+
+				</table>
+			</div>
+
+			<table class="amendbeforeAfterTable" style="margin-top: 20px;">
+				<tr>
+					<th>N°</th>
+					<th>Nom et Prénom(s)</th>
+					<th>Références de la pièce d’identité</th>
+					<th>Adresse</th>
+					<th>Signature ou empreinte digitale</th>
+				</tr>
+				<tbody id="poiTableRowData">
+				</tbody>
+
+			</table>
+
+		</div>
+
+	</div>
+	
+	<div>
+				<button class="print_form" class="btn v-top-20" style="float: right"
+					onclick="printForm();">Print</button>
+
+			</div>
+
+	<script id="poi_template" type="text/x-jquery-tmpl">
+ <tr>                                                                        
+  <td>
+	${sno}
+  </td>
+  
+  <td>
+  ${name}
+  </td>
+<td>
+${refrenceId}
+</td>
+<td>
+${address}
+</td>
+<td>
+</td>
+ </tr>
+</script>
+
+</body>
+</html>
