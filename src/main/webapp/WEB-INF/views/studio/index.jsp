@@ -392,6 +392,8 @@ div#users-contain table td, div#users-contain table th {
 				src="resources/images/studio/vtab/project.png" /><span> <spring:message code="Survey_Projects" htmlEscape="false"/>  </span></li>
 			<li id="masterattribute" class="login"><img
 				src="resources/images/studio/vtab/users.png" /><span> <spring:message code="Master_Attribute" htmlEscape="false"/>  </span></li>
+			<li id="bookmark"  class="prefrences"><img src="resources/images/studio/vtab/bookmark.png" /><span>Villages of Commune</span></li>
+				
 			<!--li id="role"  class="module"><img src="resources/images/studio/vtab/role.png" /><span>Roles</span></li>
             <li id="bookmark"  class="prefrences"><img src="resources/images/studio/vtab/bookmark.png" /><span>Bookmarks</span></li>
             <li id="maptip"  class="maptip"><img src="resources/images/studio/vtab/maptip.png" /><span>Maptips</span></li>
@@ -409,6 +411,7 @@ div#users-contain table td, div#users-contain table th {
 		<div id="layergroups"></div>
 		<div id="projects"></div>
 		<div id="masterattribute-div"></div>
+		 <div id="bookmarks"></div>
 		<!-- div id="roles"></div>
         <div id="bookmarks"></div>
         <div id="maptips"></div>

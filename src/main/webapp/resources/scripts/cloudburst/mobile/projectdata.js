@@ -115,9 +115,12 @@ function uploadFile()
 			processData:false,
 			success: function(data, textStatus, jqXHR)
 			{	
-				if(data=="mbtiles"){
-					jAlert('Please Enter mbtile file','Upload');
+				if(data=="Invalid"){
+					jAlert('Please Enter Valid file','Upload');
 					
+				}
+				else if(data=="Image_Exists"){
+					jAlert('Form Image already exists please delete first','Upload');
 				}
 				else
 					{

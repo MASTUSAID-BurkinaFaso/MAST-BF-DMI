@@ -174,7 +174,7 @@ function mapImage(ID)
 			
 			var layerurl_ccro = wmsurl +"bbox="+bbox+"&FORMAT=image/png&REQUEST=GetMap&layers=" + lyrs + ",mast:vertexlabel&width=250&height=250&srs=EPSG:4326"+"&cql_filter=usin="+ID+";INCLUDE";			
 			var layerurl_adj = wmsurl +"bbox="+bbox+"&FORMAT=image/png&REQUEST=GetMap&layers=" + lyrs + ",mast:vertexlabel&width=180&height=180&srs=EPSG:4326"+"&cql_filter=usin="+ID+";INCLUDE";
-			var generate_mapUrl = wmsurl +"bbox="+bbox+"&styles=generate_map&FORMAT=image/png&REQUEST=GetMap&layers=" + lyrs + "&width=350&height=350&srs=EPSG:4326"+"&cql_filter=usin="+ID+";INCLUDE";
+			var generate_mapUrl = wmsurl +"bbox="+bbox+"&styles=generate_map,vertexlabel&FORMAT=image/png&REQUEST=GetMap&layers=" + lyrs + ",BF_Pilot:vertexlabel&width=350&height=350&srs=EPSG:4326"+"&cql_filter=usin="+ID+";INCLUDE";
 
 
 			

@@ -37,6 +37,12 @@ import com.rmsi.mast.studio.service.AttributeMasterService;
 import com.rmsi.mast.studio.service.ProjectAttributeService;
 import com.rmsi.mast.studio.service.RoleService;
 import com.rmsi.mast.studio.service.UserService;
+
+/**
+ * 
+ * @author Vaibhav.Agarwal
+ *
+ */
 @Controller
 public class ProjectAttributeController 
 {

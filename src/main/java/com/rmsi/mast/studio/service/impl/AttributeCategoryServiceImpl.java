@@ -13,7 +13,11 @@ import com.rmsi.mast.studio.domain.AttributeCategory;
 import com.rmsi.mast.studio.domain.DatatypeId;
 import com.rmsi.mast.studio.service.AttributeCategoryService;
 import com.rmsi.mast.studio.service.DataTypeIdService;
-
+/**
+ * 
+ * @author Abhishek.Dasgupta
+ *
+ */
 @Service
 public class AttributeCategoryServiceImpl implements AttributeCategoryService {
 

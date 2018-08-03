@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.rmsi.mast.studio.dao.CommuneDAO;
 import com.rmsi.mast.studio.domain.Commune;
+import com.rmsi.mast.studio.domain.User;
 
 
 @Repository
@@ -42,6 +43,39 @@ public class CommuneHibernateDAO extends GenericHibernateDAO<Commune, Integer>
 			return null;
 		}
 	
+	}
+
+	@Override
+	public List<Commune> getAllCommune(){
+		@SuppressWarnings("unchecked")
+		List<Commune> lstCommune =
+				getEntityManager().createQuery("Select c from Commune c order by c.communeId asc").getResultList();
+		if(lstCommune.size() > 0)
+			return lstCommune;
+		else
+			return null;
+	}
+
+	@Override
+	public Commune findCommuneById(Integer id) {
+		try {
+
+			Query query = getEntityManager().createQuery("Select p from Commune p where p.communeId = :id");
+			@SuppressWarnings("unchecked")
+			List<Commune> communelst = query.setParameter("id", id).getResultList();		
+
+			if(communelst.size() > 0){
+				return communelst.get(0);
+			}		
+			else
+			{
+				return null;
+			}
+		} catch (Exception e) {
+
+			logger.error(e);
+			return null;
+		}
 	}
 	
 }

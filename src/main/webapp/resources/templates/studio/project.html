@@ -538,6 +538,18 @@
     </td>
     
 </tr>
+<tr>
+
+<tr>
+      <td >
+        <label class="lblint langchange" key="Apfr_count"></label>
+    </td>
+     <td >
+        <input type="textbox" name="apfrcount" id = "apfrcount" value="${apfrcount}"" onkeypress="return isNumberKey(event)" >
+    </td>
+
+
+</tr>
 
 </script>
 
@@ -762,6 +774,24 @@
        
     } 
    
+</script>
+
+<script type="text/javascript">
+function isNumberKey(evt) {
+    var charCode = (evt.which) ? evt.which : event.keyCode;
+    if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    } else {
+	
+	
+	        if($("#apfrcount").val().length <= 5)
+			   return true;
+			  else 
+			  return false;
+	        
+			 
+    }      
+}
 </script>
 
 <!-- 	<script type="text/javascript">

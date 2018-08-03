@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rmsi.mast.studio.domain.Bookmark;
+import com.rmsi.mast.studio.domain.Province;
 import com.rmsi.mast.studio.service.BookmarkService;
 
 
@@ -70,5 +71,14 @@ public class BookmarkController {
     public void editBookmark(Bookmark bookmark){
 		bookmarkService.updateABookmark(bookmark);	
 	}
+	
+	@RequestMapping(value="/studio/projectCommune/{provinceId}", method=RequestMethod.GET)
+	@ResponseBody
+	public List<Province> getDistrictByStateId(@PathVariable Integer provinceId )
+	{
+		//return districtService.getDistrictByStateId(stateId);
+		return null;
+	}
+	
 	
 }

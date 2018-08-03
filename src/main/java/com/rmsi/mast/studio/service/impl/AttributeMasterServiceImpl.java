@@ -15,7 +15,11 @@ import com.rmsi.mast.studio.domain.AttributeMaster;
 import com.rmsi.mast.studio.domain.DatatypeId;
 import com.rmsi.mast.studio.service.AttributeMasterService;
 import com.rmsi.mast.viewer.web.mvc.LandRecordsController;
-
+/**
+ * 
+ * @author Abhishek.Dasgupta
+ *
+ */
 @Service
 public class AttributeMasterServiceImpl implements AttributeMasterService 
 {

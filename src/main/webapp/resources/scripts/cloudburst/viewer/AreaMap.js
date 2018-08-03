@@ -8,12 +8,26 @@ var bbox="";
 
 function generateAreaMap(usin)
 {
-
+	
+	jQuery.ajax({ 
+		url: "landrecords/neighbour/"+usin,
+		async:false,							
+		success: function (result) {
+			tmpList =result;
+			
+		}
+	});
+	
+	
+	var formImage=getFormImage();
 	
 	var cql ="usin='"+usin+"'";
 	var tmp;
 	var wmsurl="http://"+location.host+"/geoserver/wfs?";
 	var geomInfo=wmsurl+"request=GetFeature&typeName=BF_Pilot:spatial_unit&CQL_FILTER="+cql+"&version=1.0.0";
+	
+	
+	
 	
 	var request = new OpenLayers.Request.GET({
 	    url: geomInfo,
@@ -77,7 +91,11 @@ function generateAreaMap(usin)
 					jQuery("#printDiv").append(data1);
 					jQuery('#area_map_url').append('<img  src='+generateAreaMapUrl+'>');	
 
-
+					$('.commune_logo').append("<img width='125' height='100' src='../../"+formImage+"'>");
+					$('#region_area').text(tmpList.region);
+					$('#commune_area').text(tmpList.commune);
+					$('#province_area').text(tmpList.province);
+					
 					var printWindow=window.open('','popUpWindow', 'height=900,width=950,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no,status=no, location=no');
 					printWindow.document.close();
 					var html = $("#printDiv").html();

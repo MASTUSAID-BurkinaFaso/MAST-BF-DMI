@@ -23,7 +23,7 @@
 	
 	try{
 		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User)org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		principal = user.getUsername();
+		
 		//java.util.Collection<org.springframework.security.core.GrantedAuthority> authorities = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 		
 		java.util.Collection<org.springframework.security.core.GrantedAuthority> authorities  = user.getAuthorities();

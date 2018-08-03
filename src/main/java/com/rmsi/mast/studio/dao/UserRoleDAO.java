@@ -22,5 +22,5 @@ public interface UserRoleDAO extends GenericDAO<UserRole, Long> {
 	void addUserRoles(Set<Role> roles,User user);
 
 	List<UserRole> selectedUserByUserRole(List<String> lstRole);
-	
+	public UserRole getUserRoleByUserID(int userid);
 }

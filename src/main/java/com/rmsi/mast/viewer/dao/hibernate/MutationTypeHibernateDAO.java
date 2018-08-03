@@ -10,7 +10,11 @@ import com.rmsi.mast.studio.domain.MutationType;
 import com.rmsi.mast.viewer.dao.MutationTypeDao;
 
 
-
+/**
+ * 
+ * @author Abhishek.Dasgupta
+ *
+ */
 @Repository
 public class MutationTypeHibernateDAO extends GenericHibernateDAO<MutationType, Integer>
 implements MutationTypeDao {

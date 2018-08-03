@@ -7,8 +7,10 @@ import com.rmsi.mast.studio.domain.Village;
 
 public interface VillageDAO extends GenericDAO<Village, Integer> {
 
-	List<Village> findBycommuneId(Integer communeId);
-
-	List<Village> findactiveVillage();
-	
+	public List<Village> findBycommuneId(Integer communeId);
+	public List<Village> findactiveVillage();
+	public Integer searchSize(String villageName);
+	public List<Village> searchVillage(String villageName,Integer startpos);
+	public Village findVillageById(Integer id);
+	public boolean deleteVillageByID(Integer id);
 }

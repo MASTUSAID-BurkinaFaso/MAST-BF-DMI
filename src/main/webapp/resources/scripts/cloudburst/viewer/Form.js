@@ -6,11 +6,12 @@ var URL2=null;
 var establishmentDate=null;
 var areaMapUrl=null;
 var usinId=null;
-
+var usin_key=null;
 function generateform1(usin,id){
 
 	var generateForm = new generateForms();
-	form1attributeObject = generateForm.Form1(usin)
+	form1attributeObject = generateForm.Form1(usin);
+	var formImage=getFormImage();
 
 	if(id==1){
 		URL= 'resources/templates/forms/form1.html';
@@ -18,7 +19,7 @@ function generateform1(usin,id){
 	else if(id==2){
 		URL='resources/templates/forms/landrecord_individual.html';
 		areaMapUrl=setAreaMap(usin);
-		
+
 	}
 
 	jQuery.ajax(
@@ -32,13 +33,14 @@ function generateform1(usin,id){
 					jQuery("#printDiv div").empty();
 
 					jQuery("#printDiv").append(data1);
-					
-					
+
+
 					var lanChnag=new changeLang();
 					lanChnag.first();
-					
+
 					var generateForm = new generateForms();
 					form1attributeObject = generateForm.Form1(usin);
+					$('.commune_logo').append("<img width='125' height='100' src='../../"+formImage+"'>");
 					$('#region_1').text(form1attributeObject.region);
 					$('#province_1').text(form1attributeObject.province);
 					$('.commune_1').text(form1attributeObject.commune);
@@ -65,25 +67,28 @@ function generateform1(usin,id){
 					$('.neighbour_east1').text(form1attributeObject.neighbour_east);
 					$('.neighbour_south1').text(form1attributeObject.neighbour_south);
 					$('.neighbour_west1').text(form1attributeObject.neighbour_west);
-					$('.noa_1').text(form1attributeObject.natureofapplication);
+					//$('.noa_1').text(form1attributeObject.natureofapplication);  kamal 
+					if(id==2){
+						$('.noa_1').text(form1attributeObject.natureofapplication);
+					}
 					$('#establishDate_1').text(form1attributeObject.idcardestablishment_date);
 					$('#id_origin1').text(form1attributeObject.idcard_origin);
 					$('#mandate_issuanceDate1').text(form1attributeObject.mandate_establishmentDate);
 					$('#mandate_location1').text(form1attributeObject.mandate_location);
 					$('#application_type1').text(form1attributeObject.typeoftenancy);
-					
+
 					if(form1attributeObject.tenancyId==7)
 						$('#mandataire_1').text("requérant individuel");
 					else if(form1attributeObject.tenancyId==8)
 						$('#mandataire_1').text("mandataire");
-					
-					
+
+
 
 					$('#user_CFV').text(form1attributeObject.cfvname);
-					
+
 					jQuery('#areamap_url').append('<img  src='+areaMapUrl+'>');
-					
-					
+
+
 					var printWindow=window.open('','form1'+usin, 'height=900,width=950,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no,status=no, location=no');
 					var html =null;
 					html = $("#printDiv").html();
@@ -110,6 +115,7 @@ function generateform2(usin,id){
 		URL2= 'resources/templates/forms/landrecord_collective.html';
 		areaMapUrl=setAreaMap(usin);
 	}
+	var formImage=getFormImage();
 	jQuery.ajax(
 			{
 				type: 'GET',
@@ -124,7 +130,7 @@ function generateform2(usin,id){
 
 					var fromTmp=new generateForms();
 					var form2attributeObject=fromTmp.Form2(usin);
-
+					$('.commune_logo').append("<img width='125' height='100' src='../../"+formImage+"'>");
 					$('#region_2').text(form2attributeObject.region);
 					$('#province_2').text(form2attributeObject.province);
 					$('.commune_2').text(form2attributeObject.commune);
@@ -183,7 +189,7 @@ function generateform2(usin,id){
 function generateform3(usin){
 	/*	var use = new existinguse();
 	var existinguseList=use.getExistingUseList();*/
-
+	var formImage=getFormImage();
 	jQuery.ajax(
 			{
 				type: 'GET',
@@ -196,24 +202,25 @@ function generateform3(usin){
 
 					var fromTmp=new generateForms();
 					var form3obj=fromTmp.Form3(usin);
-					
+
 					var str1 ="pour son propre compte";
 					var str2= "pour le compte de la famille";
 					var str3 ="pour le compte de la famille";
-					
+
 					var firstname_cfv = "";
 					var lastname_cfv="";
-					
+
 					if(cfv!=null){
 						var cfv = form3obj.cfv_president.split(" ");
-						 firstname_cfv = cfv[0];
-						 lastname_cfv = cfv[1];
+						firstname_cfv = cfv[0];
+						lastname_cfv = cfv[1];
 					}
-					
+
 					var endDate=getCurrentDate();
 					var extendedDate=getExtendedDate();
-						
-					
+		
+					$('.commune_logo').append("<img width='125' height='100' src='../../"+formImage+"'>");
+
 					$('#region3').text(form3obj.region);
 					$('#province3').text(form3obj.province);
 					$('.commune3').text(form3obj.commune);
@@ -245,8 +252,14 @@ function generateform3(usin){
 					$('#cfv_lastname3').text(lastname_cfv);
 					$('#cfv_firstname3').text(firstname_cfv);
 					$('#extended_date').text(extendedDate);
-					$('#other_use3').text(form3obj.other_use);
-					 $('#flag').text(form3obj.flag);
+					if(form3obj.other_use=="null"){
+						$('#other_use3').text("");
+					}
+					else{
+						$('#other_use3').text(form3obj.other_use);
+					}
+				
+					$('#flag').text(form3obj.flag);
 
 
 					if(form3obj.existing_use!=null){
@@ -264,7 +277,7 @@ function generateform3(usin){
 							'<script src="../resources/scripts/jquery-1.7.1/jquery-1.7.1.min.js"></script>'+
 							'<script src="../resources/scripts/jquery-alert/jquery.alerts.js"></script>'+
 							' <link rel="stylesheet" href="../resources/scripts/jquery-alert/jquery.alerts.css" type="text/css" />'+
-				
+
 							'</head><body> '+html+'<input type="hidden" id="usin_primerykey" value='+usin+'></body></html>');
 
 					printWindow.document.close();
@@ -280,6 +293,7 @@ function generateform8(usin){
 
 	/*	var use = new existinguse();
 	var existinguseList=use.getExistingUseList();*/
+	var formImage=getFormImage();
 
 	jQuery.ajax(
 			{
@@ -293,14 +307,16 @@ function generateform8(usin){
 
 					var fromTmp=new generateForms();
 					var form8obj=fromTmp.Form8(usin);
-
+					$('.commune_logo').append("<img width='125' height='100' src='../../"+formImage+"'>");
 					$('#region8').text(form8obj.region);
 					$('#province8').text(form8obj.province);
 					$('.commune8').text(form8obj.commune);
 					$('.village8').text(form8obj.village);
 					$('.village_no8').text(form8obj.village_no);
 					$('#apfrno8').text(form8obj.apfrno);
+					$('#apfrno_8').text(form8obj.apfrno);
 					$('.apfrdate8').text(form8obj.apfr_date);
+					$('.apfrdate_8').text(form8obj.apfr_date);  // kamal
 					$('.applicationdate8').text(form8obj.application_date);
 					$('.familyname8').text(form8obj.familyname);
 					$('#familyaddress8').text(form8obj.address);
@@ -310,73 +326,82 @@ function generateform8(usin){
 					$('#birthplace8').text(form8obj.birthplace);
 					$('#gender8').text(form8obj.sex);
 					$('#refrenceId8').text(form8obj.refrence_id_card);
-					$('#Idestablishmentdate8').text(form8obj.id_card_date_place);//to be updated
-					$('#IdestablishmentPlace8').text(" ");//to be updated
-					$('#person_profession8').text(form8obj.profession);
-					$('#person_address8').text(form8obj.address);
-					$('#village8').text(form8obj.village);
-					$('#area8').text(((form8obj.area)*area_constant).toFixed(2));
-					$('#neighnour_north8').text(form8obj.neighbour_north);
-					$('#neighbour_east8').text(form8obj.neighbour_east);
-					$('#neighbour_south8').text(form8obj.neighbour_south);
-					$('#neighbour_west8').text(form8obj.neighbour_west);
-					//$('#existing_use8').text(" "); //to be updated
-					$('#mayor_name8').text(form8obj.mayor_name);
-					$('#pvnumber8').text(form8obj.pv_no);
-					$('#rightsDate8').text(form8obj.date_recognition_right);
-					/*	$('#area_ares8').text(form8obj.area_ares);
+					/*$('#Idestablishmentdate8').text(form8obj.id_card_date_place);//to be updated
+					 */					
+					 $('#Idestablishmentdate8').text(form8obj.idcardEstbDate);
+
+					 $('#IdestablishmentPlace8').text(" ");//to be updated
+					 $('#person_profession8').text(form8obj.profession);
+					 $('#person_address8').text(form8obj.address);
+					 $('#village8').text(form8obj.village);
+					 $('#area8').text(((form8obj.area)*area_constant).toFixed(2));
+					 $('#neighnour_north8').text(form8obj.neighbour_north);
+					 $('#neighbour_east8').text(form8obj.neighbour_east);
+					 $('#neighbour_south8').text(form8obj.neighbour_south);
+					 $('#neighbour_west8').text(form8obj.neighbour_west);
+					 //$('#existing_use8').text(" "); //to be updated
+					 $('#mayor_name8').text(form8obj.mayor_name);
+					 $('#pvnumber8').text(form8obj.pv_no);
+					 $('#rightsDate8').text(form8obj.date_recognition_right);
+					 /*	$('#area_ares8').text(form8obj.area_ares);
 					$('#area_centiares8').text(form8obj.area_centiares);*/
-					$('#apfr_commune').text(form8obj.commune);
-					$('#mandateDate').text(form8obj.mandateDate);
-					$('#applicationno8').text(form8obj.application_no);
-					
-					
-					
-/*
+					 $('#apfr_commune').text(form8obj.commune);
+					 $('#mandateDate').text(form8obj.mandateDate);
+					 $('#applicationno8').text(form8obj.application_no);
+
+
+
+					 /*
 					var mayorname = form8obj.mayor_name.split(" ");
 					var firstname_mayor = mayorname[0];
 					var lastname_mayor = mayorname[1];*/
 
-					$('#mayor_firstname').text(form8obj.mayor_name);
-					/*$('#mayor_lastname').text(lastname_mayor);*/
-					$('#other_use8').text(form8obj.other_use);
-					if(form8obj.existing_use!=null){
-						for (var i=0;i<form8obj.existing_use.length;i++){
-							jQuery("#existing_use8").append("o "+ form8obj.existing_use[i][2] +"<br>");
-						}
-					}
+					 $('#mayor_firstname').text(form8obj.mayor_name);
+					 /*$('#mayor_lastname').text(lastname_mayor);*/
+					 if(form8obj.other_use=="0" || form8obj.other_use=="null" || form8obj.other_use==0){
+						 $('#other_use8').text("");
+					 }
+					 else{
+						 $('#other_use8').text(form8obj.other_use);
+					 }
 
-					jQuery("#APFRTableRowData").empty();
+					 if(form8obj.existing_use!=null){
+						 for (var i=0;i<form8obj.existing_use.length;i++){
+							 jQuery("#existing_use8").append("o "+ form8obj.existing_use[i][2] +"<br>");
+						 }
+					 }
 
-					APFRpoiList=[];
-					//if((form2attributeObject.poiLst.length!=0) || (form2attributeObject.poiLst.length!=undefined) || (form2attributeObject.poiLst!=null))
-					if(form8obj.poiLst!=null)
-					{
-						for (var i = 1; i <= form8obj.poiLst.length; i++) {
-							var tempArray=[];
-							tempArray["sno"]=i;
-							tempArray["name"]=form8obj.poiLst[i-1].personName + " " + form8obj.poiLst[i-1].last_name;
-							tempArray["gender"]=form8obj.poiLst[i-1].gender.gender_sw;
-							tempArray["birthdate"] = form8obj.poiLst[i-1].dob;
-							APFRpoiList.push(tempArray);
-						}
+					 jQuery("#APFRTableRowData").empty();
+
+					 APFRpoiList=[];
+					 //if((form2attributeObject.poiLst.length!=0) || (form2attributeObject.poiLst.length!=undefined) || (form2attributeObject.poiLst!=null))
+					 if(form8obj.poiLst!=null)
+					 {
+						 for (var i = 1; i <= form8obj.poiLst.length; i++) {
+							 var tempArray=[];
+							 tempArray["sno"]=i;
+							 tempArray["name"]=form8obj.poiLst[i-1].personName + " " + form8obj.poiLst[i-1].last_name;
+							 tempArray["idcardref"]=form8obj.poiLst[i-1].idcard_refrence;
+							 tempArray["address"] = form8obj.poiLst[i-1].address;
+							 APFRpoiList.push(tempArray);
+						 }
 
 
-						jQuery("#APFR_template").tmpl(APFRpoiList).appendTo("#APFRTableRowData");
+						 jQuery("#APFR_template").tmpl(APFRpoiList).appendTo("#APFRTableRowData");
 
-					}
+					 }
 
-					var printWindow=window.open('form8','popUpWindow', 'height=900,width=950,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no,status=no, location=no');
+					 var printWindow=window.open('form8','popUpWindow', 'height=900,width=950,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no,status=no, location=no');
 
-					var html =null;
-					html = $("#printDiv").html();
-					printWindow.document.write ('<html><head><title>MAST</title>'+' <link rel="stylesheet" href="../resources/styles/viewer/form.css" type="text/css" />'+' <link rel="stylesheet" href="../resources/styles/viewer/style-new.css" type="text/css" />'+
-							'<script src="../resources/scripts/cloudburst/viewer/Form.js"></script>'+
-							'<script src="../resources/scripts/jquery-1.7.1/jquery-1.7.1.min.js"></script>'+
-							'</head><body> '+html+'<input type="hidden" id="usin_primerykey" value='+usin+'></body></html>');
+					 var html =null;
+					 html = $("#printDiv").html();
+					 printWindow.document.write ('<html><head><title>MAST</title>'+' <link rel="stylesheet" href="../resources/styles/viewer/form.css" type="text/css" />'+' <link rel="stylesheet" href="../resources/styles/viewer/style-new.css" type="text/css" />'+
+							 '<script src="../resources/scripts/cloudburst/viewer/Form.js"></script>'+
+							 '<script src="../resources/scripts/jquery-1.7.1/jquery-1.7.1.min.js"></script>'+
+							 '</head><body> '+html+'<input type="hidden" id="usin_primerykey" value='+usin+'></body></html>');
 
-					printWindow.document.close();
-					printWindow.focus();
+					 printWindow.document.close();
+					 printWindow.focus();
 
 
 				}
@@ -385,7 +410,8 @@ function generateform8(usin){
 
 
 function generateform7(usin){
-
+	var formImage=getFormImage();
+	
 	jQuery.ajax(
 			{
 				type: 'GET',
@@ -400,15 +426,15 @@ function generateform7(usin){
 
 					var fromTmp=new generateForms();
 					var form7attributeObject=fromTmp.Form7(usin);
+		
+					$('.commune_logo').append("<img width='125' height='100' src='../../"+formImage+"'>");
 
 					$('#region_7').text(form7attributeObject.region);
 					$('#province_7').text(form7attributeObject.province);
 					$('.commune7').text(form7attributeObject.commune);
 					$('.village_7').text(form7attributeObject.village);
 					$('#villageno_7').text(form7attributeObject.village_no);
-
 					$('.familyname7').text(form7attributeObject.family_name);
-
 					$('.application_date7').text(form7attributeObject.application_date);
 					$('.application_no7').text(form7attributeObject.application_no);
 					$('#application_year7').text(form7attributeObject.application_year); 
@@ -426,6 +452,11 @@ function generateform7(usin){
 					$('#public_issue_date7').text(form7attributeObject.public_issuansedate);
 					$('#date_recognition7').text(form7attributeObject.date_recognition_rights);
 					$('#location').text(form7attributeObject.location);
+					$('#application_type7').text(form7attributeObject.application_type);
+
+					$('#pv_no7').text(form7attributeObject.pv_no); 
+					
+					
 					/*	$('#area_ares7').text(form7attributeObject.area_ares);
 					$('#area_centiares7').text(form7attributeObject.area_centiares);*/
 
@@ -440,7 +471,7 @@ function generateform7(usin){
 							tempArray["name"]=form7attributeObject.poiLst[i-1].personName + " " + form7attributeObject.poiLst[i-1].last_name;
 
 							poiList.push(tempArray);
-							
+
 						}
 						//push neighbour north
 						var tempArray=[];
@@ -452,7 +483,7 @@ function generateform7(usin){
 						tempArray["sno"]=form7attributeObject.poiLst.length+2;
 						tempArray["name"]=form7attributeObject.neighbour_south;
 						poiList.push(tempArray);
-						
+
 						//push neighbour east
 						var tempArray=[];
 						tempArray["sno"]=form7attributeObject.poiLst.length+3;
@@ -463,16 +494,16 @@ function generateform7(usin){
 						tempArray["sno"]=form7attributeObject.poiLst.length+4;
 						tempArray["name"]=form7attributeObject.neighbour_west;
 						poiList.push(tempArray);
-						
+
 						for (var i = 1; i <=4; i++) {
 							var tempArray1=[];
 							tempArray1["sno"]=form7attributeObject.poiLst.length+4+i;
 							tempArray1["name"]="";
 
 							poiList.push(tempArray1);
-							
+
 						}
-			
+
 					}
 					else{
 						//push neighbour north
@@ -485,7 +516,7 @@ function generateform7(usin){
 						tempArray["sno"]=form7attributeObject.poiLst.length+2;
 						tempArray["name"]=form7attributeObject.neighbour_south;
 						poiList.push(tempArray);
-						
+
 						//push neighbour east
 						var tempArray=[];
 						tempArray["sno"]=form7attributeObject.poiLst.length+3;
@@ -496,14 +527,14 @@ function generateform7(usin){
 						tempArray["sno"]=form7attributeObject.poiLst.length+4;
 						tempArray["name"]=form7attributeObject.neighbour_west;
 						poiList.push(tempArray);
-						
+
 						for (var i = 1; i <=4; i++) {
 							var tempArray1=[];
 							tempArray1["sno"]=form7attributeObject.poiLst.length+4+i;
 							tempArray1["name"]="";
 
 							poiList.push(tempArray1);
-					}
+						}
 					}
 					jQuery("#poi_template7").tmpl(poiList).appendTo("#poiTableRowData7");
 
@@ -515,6 +546,7 @@ function generateform7(usin){
 					html = $("#printDiv").html();
 					printWindow.document.write ('<html><head><title>MAST</title>'+' <link rel="stylesheet" href="../resources/styles/viewer/form.css" type="text/css" />'+' <link rel="stylesheet" href="../resources/styles/viewer/style-new.css" type="text/css" />'+
 							'<script src="../resources/scripts/cloudburst/viewer/Form.js"></script>'+
+
 							'<script src="../resources/scripts/jquery-1.7.1/jquery-1.7.1.min.js"></script>'+
 							'</head><body> '+html+'<input type="hidden" id="usin_primerykey" value='+usin+'></body></html>');
 
@@ -529,7 +561,9 @@ function generateform7(usin){
 
 
 function generateform5(usin){
-
+	
+	var formImage=getFormImage();
+	
 	jQuery.ajax(
 			{
 				type: 'GET',
@@ -544,6 +578,8 @@ function generateform5(usin){
 
 					var fromTmp=new generateForms();
 					var form5attributeObject=fromTmp.Form5(usin);
+					
+					$('.commune_logo').append("<img width='125' height='100' src='../../"+formImage+"'>");
 
 					$('#region_5').text(form5attributeObject.region);
 					$('#province_5').text(form5attributeObject.province);
@@ -552,7 +588,8 @@ function generateform5(usin){
 					$('.villageno_5').text(form5attributeObject.village_no);
 					$('.application_date5').text(form5attributeObject.application_date);
 					//$('.application_no5').text(form5attributeObject.application_no);
-					$('.apfrno5').text(form5attributeObject.apfrno);
+					$('.apfrno5').text(form5attributeObject.application_no);
+					$('.apfrno_5').text(form5attributeObject.apfrno);  //kamal
 					
 					$('#lastname_5').text(form5attributeObject.last_name);
 					$('#firstname_5').text(form5attributeObject.first_name);
@@ -574,9 +611,25 @@ function generateform5(usin){
 					$('.mayor5').text(form5attributeObject.mayor_name);
 					$('#pv_no5').text(form5attributeObject.pv_no);
 					$('#recognition_date5').text(form5attributeObject.date_recognition_right);
-					$('#apfrdate5').text(form5attributeObject.apfr_date);
+					// new changes
+					if(form5attributeObject.apfr_date==null){
+						var generateForm = new generateForms();
+						$('#apfrdate5').text(generateForm.getCurrentDate());
+						$('#apfrdate_5').text(generateForm.getCurrentDate());  // kamal
+					}
+					else{
+						$('#apfrdate5').text(form5attributeObject.apfr_date);
+						$('#apfrdate_5').text(form5attributeObject.apfr_date); // kamal
+					}
+					//$('#apfrdate5').text(form5attributeObject.apfr_date);
 					//$('#existing_use5').text(form5attributeObject.existing_use);
-					$('#other_use5').text(form5attributeObject.other_use);
+					if(form5attributeObject.other_use=="null"){
+						$('#other_use5').text("");
+					}
+					else{
+						$('#other_use5').text(form5attributeObject.other_use);
+					}
+
 
 					if(form5attributeObject.existing_use!=null){
 						for (var i=0;i<form5attributeObject.existing_use.length;i++){
@@ -590,6 +643,7 @@ function generateform5(usin){
 					html = $("#printDiv").html();
 					printWindow.document.write ('<html><head><title>MAST</title>'+' <link rel="stylesheet" href="../resources/styles/viewer/form.css" type="text/css" />'+' <link rel="stylesheet" href="../resources/styles/viewer/style-new.css" type="text/css" />'+
 							'<script src="../resources/scripts/cloudburst/viewer/Form.js"></script>'+
+							'<script src="../resources/scripts/cloudburst/viewer/LandRecordTemp.js"></script>'+
 							'<script src="../resources/scripts/jquery-1.7.1/jquery-1.7.1.min.js"></script>'+
 							'</head><body> '+html+'<input type="hidden" id="usin_primerykey" value='+usin+'></body></html>');
 
@@ -601,7 +655,9 @@ function generateform5(usin){
 			});
 }
 function generatePaymentLetter(usin){
-
+	
+	var formImage=getFormImage();
+	
 	/*jQuery.ajax({ 
 		url: "landrecords/checkdate/"+usin,
 		async:false,							
@@ -625,6 +681,8 @@ function generatePaymentLetter(usin){
 
 					var generateForm = new generateForms();
 					attrObject = generateForm.paymentDetails(usin);
+					$('.commune_logo').append("<img width='125' height='100' src='../../"+formImage+"'>");
+					
 					$('#_region').text(attrObject.region);
 					$('#_province').text(attrObject.province);
 					$('.commune').text(attrObject.commune);
@@ -635,7 +693,12 @@ function generatePaymentLetter(usin){
 					$('#last_name').text(attrObject.lastname);
 					$('#letter_date').text(attrObject.printDate);
 					$('#area_print').text(((attrObject.area)*area_constant).toFixed(2));
-					
+
+
+					// Added for pv number and date
+
+					$('.pv_no').text(attrObject.pv_no);
+					$('.pv_date').text(attrObject.pv_date);
 
 					/*if(establishmentDate!=""){
 						$('#letter_date').text(establishmentDate);
@@ -668,8 +731,8 @@ function generatePaymentLetter(usin){
 							'<script src="../resources/scripts/cloudburst/viewer/Form.js"></script>'+
 							'<script src="../resources/scripts/jquery-1.7.1/jquery-1.7.1.min.js"></script>'+
 							'<script src="../resources/scripts/jquery-alert/jquery.alerts.css"></script>'+
-							
-							
+
+
 							'</head><body> '+html+'<input type="hidden" id="usin_primerykey" value='+usin+'></body></html>');
 
 					printWindow.document.close();
@@ -686,31 +749,51 @@ function printForm(){
 	location.reload();
 	window.print();
 }
+function printAPFR_Ind_Form(){
+
+	usin_key= $("#usin_primerykey").val();
+	var generateForm = new generateForms();
+	checkApfrDate =generateForm.checkApfrDate(usin_key);
+	if(checkApfrDate){
+		document.getElementsByClassName('print_form')[0].style.visibility = "hidden";
+		location.reload();
+		window.print();
+	}
+	else{
+		//set apfr date
+		generateForm.setApfrDate(usin_key);
+		document.getElementsByClassName('print_form')[0].style.visibility = "hidden";
+		location.reload();
+		window.print();
+	}
+
+}
+
 function printNotice(){
-	
+
 	var noticeDate=null;
 	var displayDate=null;
 	var generateForm = new generateForms();
 	usinId = $('#usin_primerykey').val();
 	noticeDate = generateForm.checkDate(usinId);
 	displayDate =noticeDate;
-	
+
 	var flag= $('#flag').text();
 
-/*	jAlert('Public Notice start date is :'+displayDate, 'Alert', function () { 
-		
+	/*	jAlert('Public Notice start date is :'+displayDate, 'Alert', function () { 
+
 		printForm();
 	});*/
-	
+
 
 	//printForm();
-	
-jConfirm('Avis de publicité courant de : <strong>' + displayDate +  '.</strong> Voulez-vous vraiment imprimer ?','Confirmer' , function (response) {
+
+	jConfirm('Avis de publicité courant de : <strong>' + displayDate +  '.</strong> Voulez-vous vraiment imprimer ?','Confirmer' , function (response) {
 
 		if (response ) {
 			if(flag=="true"){
 				//displayDate=getToday();
-				jQuery.ajax({          
+			/*	jQuery.ajax({          
 					type: 'GET',
 					url: "landrecords/updatenoticedate/"+usinId,
 					success: function (result) 
@@ -721,45 +804,47 @@ jConfirm('Avis de publicité courant de : <strong>' + displayDate +  '.</strong>
 
 						jAlert("Error in printing");
 					}
-				});
+				});*/
 				
+				printForm();
+
 			}
-			
+
 		}
-		
+
 	});
 
 }
 
 
 function setAreaMap(usin){
-	
-	
+
+
 	var cql ="usin='"+usin+"'";
 	var tmp;
 	var wmsurl="http://"+location.host+"/geoserver/wfs?";
 	var geomInfo=wmsurl+"request=GetFeature&typeName=BF_Pilot:spatial_unit&CQL_FILTER="+cql+"&version=1.0.0";
-	
+
 	var request = new OpenLayers.Request.GET({
-	    url: geomInfo,
-	    async:false,
-	    //data: postData,
-	    headers: {
-	        "Content-Type": "text/xml;charset=utf-8"
-	    },
-	    callback: function (response) {
-	        //read the response from GeoServer
-	        var gmlReader = new OpenLayers.Format.GML({ extractAttributes: true });
-	        var features = gmlReader.read(response.responseText);
-	        boundsList= features[0].geometry.getBounds();
-	        // do what you want with the features returned...
-	    },
-	    failure: function (response) {
-	        alert("Something went wrong in the request");
-	    }
+		url: geomInfo,
+		async:false,
+		//data: postData,
+		headers: {
+			"Content-Type": "text/xml;charset=utf-8"
+		},
+		callback: function (response) {
+			//read the response from GeoServer
+			var gmlReader = new OpenLayers.Format.GML({ extractAttributes: true });
+			var features = gmlReader.read(response.responseText);
+			boundsList= features[0].geometry.getBounds();
+			// do what you want with the features returned...
+		},
+		failure: function (response) {
+			alert("Something went wrong in the request");
+		}
 	});
-	
-	
+
+
 	var newBounds=createSquareBounds(boundsList);
 	newBounds.left=newBounds.left-0.02;
 	newBounds.bottom=newBounds.bottom-0.02;
@@ -769,52 +854,66 @@ function setAreaMap(usin){
 	+ ',' + newBounds.right + ','
 	+ newBounds.top;
 
-		
+
 	var generateAreaMapUrl = "http://"+location.host+"/geoserver/wms?" +"bbox="+bbox+"&FORMAT=image/png&styles=a,b,c,d,generate_map&REQUEST=GetMap&layers=BF_Pilot:HAB_Villages,BF_Pilot:HAB_Roads,BF_Pilot:HYD_Rivers,BF_Pilot:spatial_unit,BF_Pilot:spatial_unit&width=690&height=690&srs=EPSG:4326"+"&cql_filter=INCLUDE;INCLUDE;INCLUDE;INCLUDE;usin="+usin+"";
 	return generateAreaMapUrl;
 }
 
 function getCurrentDate(){
-	 var myDate = new Date(new Date().getTime()+(45*24*60*60*1000));
+	var myDate = new Date(new Date().getTime()+(45*24*60*60*1000));
 	var dd = myDate.getDate();
 	var mm = myDate.getMonth()+1; //January is 0!
 	var yyyy = myDate.getFullYear();
 	if(dd<10){
-	    dd='0'+dd
+		dd='0'+dd
 	} 
 	if(mm<10){
-	    mm='0'+mm
+		mm='0'+mm
 	} 
 	var myDate = dd+'/'+mm+'/'+yyyy;
 	return myDate;
 }
 
 function getExtendedDate(){
-    var myDate = new Date(new Date().getTime()+(47*24*60*60*1000));
-    var dd = myDate.getDate();
+	var myDate = new Date(new Date().getTime()+(47*24*60*60*1000));
+	var dd = myDate.getDate();
 	var mm = myDate.getMonth()+1; //January is 0!
 	var yyyy = myDate.getFullYear();
 	if(dd<10){
-	    dd='0'+dd
+		dd='0'+dd
 	} 
 	if(mm<10){
-	    mm='0'+mm
+		mm='0'+mm
 	} 
 	var myDate = dd+'/'+mm+'/'+yyyy;
 	return myDate;
 }
 function getToday(){
-	   var myDate = new Date();
-	    var dd = myDate.getDate();
-		var mm = myDate.getMonth()+1; //January is 0!
-		var yyyy = myDate.getFullYear();
-		if(dd<10){
-		    dd='0'+dd
-		} 
-		if(mm<10){
-		    mm='0'+mm
-		} 
-		var myDate = dd+'/'+mm+'/'+yyyy;
-		return myDate;
+	var myDate = new Date();
+	var dd = myDate.getDate();
+	var mm = myDate.getMonth()+1; //January is 0!
+	var yyyy = myDate.getFullYear();
+	if(dd<10){
+		dd='0'+dd
+	} 
+	if(mm<10){
+		mm='0'+mm
+	} 
+	var myDate = dd+'/'+mm+'/'+yyyy;
+	return myDate;
+
+}
+
+function getFormImage(){
+	var resultImage="";
+	$.ajax({ 
+		type: "GET",
+		url: SPATIALVUE_CONTEXT + '/viewer/projectdata/getformimage/'+activeProject,
+		async:false,
+		success: function (resultformImage) {
+			resultImage=resultformImage;
+		}
+	});
 	
+	return resultImage;
 }

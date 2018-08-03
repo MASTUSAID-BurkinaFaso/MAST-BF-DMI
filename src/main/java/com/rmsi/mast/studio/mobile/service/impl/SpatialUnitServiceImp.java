@@ -41,6 +41,7 @@ import com.rmsi.mast.studio.mobile.dao.OccupancyTypeDao;
 import com.rmsi.mast.studio.mobile.dao.ShareTypeDao;
 import com.rmsi.mast.studio.mobile.dao.SlopeValuesDao;
 import com.rmsi.mast.studio.mobile.dao.SoilQualityValuesDao;
+import com.rmsi.mast.studio.mobile.dao.SpatialUnitDao;
 import com.rmsi.mast.studio.mobile.dao.TenureClassDao;
 import com.rmsi.mast.studio.mobile.dao.hibernate.SpatialUnitHibernateDao;
 import com.rmsi.mast.studio.mobile.service.SpatialUnitService;
@@ -114,6 +115,10 @@ public class SpatialUnitServiceImp implements SpatialUnitService {
 	
 	@Autowired
 	AttributeOptionsDao attributeOptionsDao; 
+	
+
+
+	
 	
 	@Override
 	public List<SpatialUnit> getSpatialUnitDataByProjectId(String projectId) {
@@ -291,6 +296,17 @@ public class SpatialUnitServiceImp implements SpatialUnitService {
 			
 		}
 		return returnvalue;
+	}
+
+	@Override
+	public boolean checkParcelNumberInSection(int parcel_no,int section) {
+		return spatialUnitDao.checkParcelNumberInSection(parcel_no, section);
+	}
+
+	@Override
+	public SpatialUnit addSpatialUnit(SpatialUnit spatialUnit) {
+		// TODO Auto-generated method stub
+		return spatialUnitDao.makePersistent(spatialUnit);
 	}
 
 	

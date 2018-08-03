@@ -869,7 +869,8 @@ var saveProject= function () {
 			//"copyright": "required",
 			//"watermask": "required",
 			"overlaymap":"required",
-			"countryId":"required"
+			"countryId":"required",
+		    "apfrcount":"required"	
 
 
 
@@ -895,8 +896,8 @@ var saveProject= function () {
 
 			"activelayer":FIELD_REQ,
 			"overlaymap":  FIELD_REQ,
-			"countryId":FIELD_REQ
-
+			"countryId":FIELD_REQ,
+			 "apfrcount":FIELD_REQ
 		}
 
 	});

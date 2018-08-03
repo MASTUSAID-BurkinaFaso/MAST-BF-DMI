@@ -6,12 +6,16 @@ import java.util.Date;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.rmsi.mast.studio.util.JsonDateSerializer2;
 
+
+
+/**
+ * 
+ * @author Vaibhav.Agarwal
+ *
+ */
+
 public class Form1Dto  implements Serializable{
-	
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	private String region;

@@ -32,6 +32,7 @@ import com.rmsi.mast.studio.domain.Commune;
 import com.rmsi.mast.studio.domain.Country;
 import com.rmsi.mast.studio.domain.LayerLayergroup;
 import com.rmsi.mast.studio.domain.Layergroup;
+import com.rmsi.mast.studio.domain.ParcelCount;
 import com.rmsi.mast.studio.domain.Project;
 import com.rmsi.mast.studio.domain.ProjectArea;
 import com.rmsi.mast.studio.domain.ProjectBaselayer;
@@ -45,12 +46,15 @@ import com.rmsi.mast.studio.domain.UserProject;
 import com.rmsi.mast.studio.domain.UserRole;
 import com.rmsi.mast.studio.service.BookmarkService;
 import com.rmsi.mast.studio.service.OutputformatService;
+import com.rmsi.mast.studio.service.ParcelCountService;
 import com.rmsi.mast.studio.service.ProjectService;
 import com.rmsi.mast.studio.service.ProjectionService;
 import com.rmsi.mast.studio.service.RoleService;
 import com.rmsi.mast.studio.service.UnitService;
 import com.rmsi.mast.studio.service.UserService;
+import com.rmsi.mast.studio.util.ConstantUtil;
 import com.rmsi.mast.studio.util.SaveProject;
+import com.rmsi.mast.viewer.dao.ParcelCountDao;
 import com.rmsi.mast.viewer.service.LandRecordsService;
 
 /**
@@ -99,6 +103,8 @@ public class ProjectController {
 	@Autowired
 	private CommuneDAO communeDAO;
 	
+	@Autowired
+	private ParcelCountService parcelCountService;
 	
 	@RequestMapping(value = "/studio/userproject/", method = RequestMethod.GET)
 	@ResponseBody
@@ -128,7 +134,23 @@ public class ProjectController {
 	@RequestMapping(value = "/studio/project/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public Project getProjectById(@PathVariable String id) {
-		return projectService.findProjectByName(id);
+		
+		Project objProject=	projectService.findProjectByName(id);
+
+		if(!objProject.getName().equals(""))
+					{
+						ParcelCount objParcelCount=parcelCountService.findParcelCountByTypeAndProjectName(ConstantUtil.APFR, objProject.getName());
+						if(objParcelCount==null)
+						{
+							objProject.setApfrcount(0l);
+						}else
+					    {
+							objProject.setApfrcount(objParcelCount.getCount());	
+						}
+						
+						
+					}
+		return objProject;
 	}
 
 	
@@ -152,7 +174,7 @@ public class ProjectController {
 	{
 	
 		String projectName;
-		Project project ;
+		Project project = null ;
 		try {
 			projectName = ServletRequestUtils.getRequiredStringParameter(request, "name");
 			
@@ -192,7 +214,12 @@ public class ProjectController {
 				}
 				
 			}
-			project = getProjectById(projectName);
+			try {
+				project = getProjectById(projectName);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			
 			if(project==null){
 				
@@ -496,7 +523,39 @@ public class ProjectController {
 			project.setProjectBaselayers(projectBaselayerList);
 			project.setProjectAreas(projectAreaList);
 					
+			
+			
+			
 			projectService.addProject(project);
+			
+			// kamal 
+			
+			String apfr =ServletRequestUtils.getRequiredStringParameter(request, "apfrcount");
+			int  apfrcount =Integer.parseInt(apfr);
+			
+			if(!project.getName().equals(""))
+			{
+				ParcelCount objParcelCount=parcelCountService.findParcelCountByTypeAndProjectName(ConstantUtil.APFR, project.getName());
+				if(objParcelCount==null)
+				{
+					objParcelCount= new ParcelCount();
+					objParcelCount.setCount(apfrcount);
+					objParcelCount.setType(ConstantUtil.APFR);
+					objParcelCount.setPname(project.getName());
+					parcelCountService.addParcelCount(objParcelCount);
+					
+					
+				}else
+				{
+					objParcelCount.setCount(apfrcount);
+					parcelCountService.addParcelCount(objParcelCount);
+
+				}
+					
+				
+			}
+				
+			
 			
 			projectService.deleteAdjByProject(projectName);
 			

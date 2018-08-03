@@ -13,7 +13,11 @@ import com.rmsi.mast.studio.domain.fetch.SpatialunitPersonwithinterest;
 import com.rmsi.mast.viewer.dao.SpatialUnitPersonWithInterestDao;
 
 
-
+/**
+ * 
+ * @author Abhishek.Dasgupta
+ *
+ */
 @Repository
 public class SpatialUnitPersonWithInterestHibernateDAO extends GenericHibernateDAO<SpatialunitPersonwithinterest, Long>
 implements SpatialUnitPersonWithInterestDao {

@@ -57,4 +57,6 @@ public interface SpatialUnitDao extends GenericDAO<SpatialUnit, Long> {
 	List<SpatialUnit> findSpatialUnitByStatusId(String projectId, int statusId);
 
 	List<SpatialUnit> findBbox(long id, String project);
+	
+	public  boolean checkParcelNumberInSection(int parcel_no,int section); 
 }

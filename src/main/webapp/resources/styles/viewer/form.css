@@ -186,6 +186,11 @@ h3 {
 	color: #2460b9;
 	font-weight: normal;
 }
+.print_footer2 {
+	padding: 10px ; background:#f8bf8f;  border: 2px solid #654e3a; color: #000; overflow:hidden; text-align: center; clear:both; margin: 30px 0 10px;
+}
+.print_footer2 h2 { color: #000}
+
 /* tables */
 table.tablesorter {
 	background-color: #CDCDCD;
@@ -364,6 +369,7 @@ end tablesorter
 .type1 {
 	margin: 0;
 	padding: 0 10px;
+	text-align: center;
 }
 
 .type2 {
@@ -384,6 +390,7 @@ end tablesorter
 	margin: 0;
 	padding: 0 30px;
 }
+.text-left{ text-align: left!important;}
 
 .border-blocks {
 	float: left;
@@ -672,3 +679,4 @@ table.tablesorter tr.tblFooter td table td {
 	page-break-before: always;
 	margin-top: 10px;
 }
+

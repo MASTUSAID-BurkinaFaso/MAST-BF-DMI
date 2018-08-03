@@ -9,6 +9,12 @@ import com.rmsi.mast.studio.domain.ShareType;
 import com.rmsi.mast.studio.domain.Status;
 import com.rmsi.mast.studio.domain.Workflow;
 
+/**
+ * 
+ * @author Vaibhav.Agarwal
+ *
+ */
+
 public class LandRecordDto  implements Serializable{
 	
 	private String  application_no;
@@ -34,6 +40,8 @@ public class LandRecordDto  implements Serializable{
 	
 	private Integer section;
 
+	private String project;
+	
 	public String getApplication_no() {
 		return application_no;
 	}
@@ -121,5 +129,15 @@ public class LandRecordDto  implements Serializable{
 	public void setSection(Integer section) {
 		this.section = section;
 	}
+
+	public String getProject() {
+		return project;
+	}
+
+	public void setProject(String project) {
+		this.project = project;
+	}
+	
+	
 	
 }

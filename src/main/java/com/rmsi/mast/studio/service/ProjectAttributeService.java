@@ -9,7 +9,11 @@ import com.rmsi.mast.studio.domain.AttributeMaster;
 import com.rmsi.mast.studio.domain.Project;
 import com.rmsi.mast.studio.domain.Surveyprojectattribute;
 import com.rmsi.mast.studio.domain.UserProject;
-
+/**
+ * 
+ * @author Abhishek.Dasgupta
+ *
+ */
 public interface ProjectAttributeService {
 
 	List<Project> findallProjects();

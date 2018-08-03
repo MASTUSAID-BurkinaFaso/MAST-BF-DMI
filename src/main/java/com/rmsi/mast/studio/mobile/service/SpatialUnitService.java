@@ -5,6 +5,8 @@ package com.rmsi.mast.studio.mobile.service;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.rmsi.mast.studio.domain.Citizenship;
 import com.rmsi.mast.studio.domain.Gender;
 import com.rmsi.mast.studio.domain.GroupType;
@@ -151,5 +153,11 @@ public interface SpatialUnitService {
 
 	String getListExistingUse(String value);
 
+	public boolean checkParcelNumberInSection(int parcel_no,int section);
+    
+	@Transactional
+	SpatialUnit addSpatialUnit(SpatialUnit spatialUnit);
+	 
 
+	
 }

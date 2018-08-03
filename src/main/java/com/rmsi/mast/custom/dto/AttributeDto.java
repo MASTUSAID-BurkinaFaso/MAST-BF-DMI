@@ -2,6 +2,12 @@ package com.rmsi.mast.custom.dto;
 
 import java.io.Serializable;
 
+/**
+ * 
+ * @author Vaibhav.Agarwal
+ *
+ */
+
 public class AttributeDto  implements Serializable{
 	
 	

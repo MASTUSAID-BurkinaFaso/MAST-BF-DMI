@@ -13,8 +13,10 @@ import javax.persistence.*;
 public class Village implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	
+	@Id	
+	@SequenceGenerator(name="VILLAGE_ID_GENERATOR", sequenceName="village_id_seq")
+	@GeneratedValue(strategy=GenerationType.AUTO, generator="VILLAGE_ID_GENERATOR")	
 	@Column(name="village_id")
 	private Integer villageId;
 
@@ -34,6 +36,8 @@ public class Village implements Serializable {
 	
 	@Column(name="cfv_agent")
 	private String cfv_agent;
+	
+	private String village_code;
 
 	public Village() {
 	}
@@ -84,6 +88,14 @@ public class Village implements Serializable {
 
 	public void setCfv_agent(String cfv_agent) {
 		this.cfv_agent = cfv_agent;
+	}
+
+	public String getVillage_code() {
+		return village_code;
+	}
+
+	public void setVillage_code(String village_code) {
+		this.village_code = village_code;
 	}
 
 }

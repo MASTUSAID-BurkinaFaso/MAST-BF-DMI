@@ -9,12 +9,14 @@ import com.rmsi.mast.studio.domain.fetch.SpatialunitPersonwithinterest;
 import com.rmsi.mast.studio.util.JsonDateSerializer;
 import com.rmsi.mast.studio.util.JsonDateSerializer2;
 
+
+/**
+ * 
+ * @author Vaibhav.Agarwal
+ *
+ */
 public class Form2Dto  implements Serializable{
-	
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	

@@ -12,6 +12,7 @@ function generateBoundaryMap(usin)
 			
 		}
 	});
+	var formImage=getFormImage();
 
 	//mapImage(usin);
 	jQuery.ajax(
@@ -75,7 +76,12 @@ function generateBoundaryMap(usin)
 					$('#boudary_applicationdate').text(tmpList.applicationdate);
 					$('#sfr_name').text(tmpList.sfr_name);
 					
+					$('#region_boundary').text(tmpList.region);
+					$('#commune_boundary').text(tmpList.commune);
+					$('#province_boundary').text(tmpList.province);
 					
+					
+					$('.commune_logo').append("<img width='125' height='100' src='../../"+formImage+"'>");
 
 
 					var printWindow=window.open('','popUpWindow', 'height=900,width=950,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no,status=no, location=no');

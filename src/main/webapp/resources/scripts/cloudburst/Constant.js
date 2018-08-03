@@ -13,4 +13,4 @@ PUBLICUSER_ROLE='ROLE_PUBLICUSER';
 DATE_DISPLAYFORMAT="dd-mm-yy";
 DATE_STOREFORMAT="mm-dd-yy";
 
-area_constant=(Math.pow(111319.9,2));
+area_constant=(Math.pow(111319.9,2))/10000;

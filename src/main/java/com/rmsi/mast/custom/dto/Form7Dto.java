@@ -9,12 +9,15 @@ import com.rmsi.mast.studio.domain.fetch.SpatialunitPersonwithinterest;
 import com.rmsi.mast.studio.util.JsonDateSerializer;
 import com.rmsi.mast.studio.util.JsonDateSerializer2;
 
+
+/**
+ * 
+ * @author Vaibhav.Agarwal
+ *
+ */
+
 public class Form7Dto  implements Serializable{
 	
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	
@@ -65,7 +68,11 @@ public class Form7Dto  implements Serializable{
 	
 	private double area_centiares;
 	
+	private String application_type;
+	
 	private  List<SpatialunitPersonwithinterest> poiLst;
+	
+	private String pv_no;
 	
 	
 
@@ -279,6 +286,22 @@ public class Form7Dto  implements Serializable{
 
 	public void setApplication_dd(int application_dd) {
 		this.application_dd = application_dd;
+	}
+
+	public String getApplication_type() {
+		return application_type;
+	}
+
+	public void setApplication_type(String application_type) {
+		this.application_type = application_type;
+	}
+
+	public String getPv_no() {
+		return pv_no;
+	}
+
+	public void setPv_no(String pv_no) {
+		this.pv_no = pv_no;
 	}
 
 

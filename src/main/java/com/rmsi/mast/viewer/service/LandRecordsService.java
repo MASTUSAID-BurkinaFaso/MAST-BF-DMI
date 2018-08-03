@@ -49,7 +49,11 @@ import com.rmsi.mast.studio.domain.fetch.SpatialUnitTemp;
 import com.rmsi.mast.studio.domain.fetch.SpatialunitDeceasedPerson;
 import com.rmsi.mast.studio.domain.fetch.SpatialunitPersonwithinterest;
 import com.rmsi.mast.studio.domain.fetch.Usertable;
-
+/**
+ * 
+ * @author Abhishek.Dasgupta
+ *
+ */
 public interface LandRecordsService {
 
 	/** 
@@ -707,7 +711,7 @@ public interface LandRecordsService {
 
 	
 	@Transactional
-	Integer actionApprove(Long id, long userid, Integer workflowId,String comment);
+	Integer actionApprove(Long id, long userid, Integer workflowId,String comment,String project);
 
 	List<ActionTools> findallAction(Integer id,String workId);
 
@@ -716,12 +720,12 @@ public interface LandRecordsService {
 	Integer rejectApprove(Long id, long userid, Integer workflowId,String comment);
 
 
-	List<?> getSearchResult(String appno, String pvno, String apfr,
+	List<?> getSearchResult(String usin,String appno, String pvno, String apfr,
 			String name, int apptype, int[] workids,String projectname,Integer startpos,int status);
 
 	Workflow getWorkflowbyId(Integer integer);
 
-	int getSearchResult(String appno, String pvno, String apfr, String name,
+	int getSearchResult(String usin,String appno, String pvno, String apfr, String name,
 			int apptype, int[] workids, String projectname,int status);
 
 	Status getStatusById(Integer integer);
@@ -783,6 +787,10 @@ boolean savePayemrnt(PaymentInfo paymentInfo);
 long findSFRname(Long id, int workflowId, int workflowStatus);
 
 Date findNoticeStartDatebyUsin(Long usin);
+
+Date findApfrDatebyUsin(Long usin);
+@Transactional
+SpatialUnitTable setApfrDate(SpatialUnitTable spaObj);
 
 
 

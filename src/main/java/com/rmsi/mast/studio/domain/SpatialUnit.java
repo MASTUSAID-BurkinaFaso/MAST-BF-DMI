@@ -221,6 +221,10 @@ public class SpatialUnit implements Serializable {
 	 * socialTenureRelationships;
 	 */
 
+	@Column(name = "parcel_no_in_section")
+	private  int parcel_no_in_section;
+	
+	
 	public int getHamletId() {
 		return hamletId;
 	}
@@ -708,6 +712,16 @@ public class SpatialUnit implements Serializable {
 	public void setSection(int section) {
 		this.section = section;
 	}
+
+	public int getParcel_no_in_section() {
+		return parcel_no_in_section;
+	}
+
+	public void setParcel_no_in_section(int parcel_no_in_section) {
+		this.parcel_no_in_section = parcel_no_in_section;
+	}
 	
 
+	
+	
 }

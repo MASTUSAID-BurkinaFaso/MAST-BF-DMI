@@ -471,7 +471,7 @@ changeLang.prototype.first = function () {
 
 	aLangKeys['fr']['Inventory_Type']="Type d'inventire";
 
-	aLangKeys['fr']['Comments']='Commentaires';
+	aLangKeys['fr']['Comments']="Commentaires";
 	aLangKeys['fr']['View_Document']='Voir le document';
 	aLangKeys['fr']['Map_Cordinates']='Coordonnées du plan';
 	aLangKeys['fr']['Map_Image']='Image du plan';
@@ -574,6 +574,39 @@ changeLang.prototype.first = function () {
 	aLangKeys['fr']['Mayor_Signatory_Date']='Maire date de signature';
 	aLangKeys['en']['Project_Name']='Project Name';
 	aLangKeys['fr']['Project_Name']='Nom du Projet';
+	
+	aLangKeys['en']['Village_Name_En']='Village Name in English';
+	aLangKeys['fr']['Village_Name_En']='Nom du village en anglais';
+	
+	aLangKeys['en']['Village_Name_Fr']='Village Name in French';
+	aLangKeys['fr']['Village_Name_Fr']='Nom du village en français';
+	
+	aLangKeys['en']['Commune']='Commune';
+	aLangKeys['fr']['Commune']='Commune';
+	
+	aLangKeys['en']['Cfv_agent']='Project Agent';
+	aLangKeys['fr']['Cfv_agent']='Agent de projet';
+	
+	aLangKeys['en']['Village_code']='Village Code';
+	aLangKeys['fr']['Village_code']='Code du village';
+	
+	
+	aLangKeys['en']['Apfr_count']='APFR Count';
+	aLangKeys['fr']['Apfr_count']='Compte APFR';
+	
+	aLangKeys['en']['Commune_Province_ID']='Province';
+	aLangKeys['fr']['Commune_Province_ID']='Province';
+	
+	
+	aLangKeys['en']['Edit_and_Verify_Parcel_Number']='Edit Parcel Number';
+	aLangKeys['fr']['Edit_and_Verify_Parcel_Number']='Edition et Validation de la parcelle';
+	
+	
+	aLangKeys['en']['Comments_dpi']="Confirming the favorable opinion";
+	aLangKeys['fr']['Comments_dpi']="Confirmer l'avis favorable";
+	
+	
+	
 	
 	$('.langchange').each(function(i){
 	

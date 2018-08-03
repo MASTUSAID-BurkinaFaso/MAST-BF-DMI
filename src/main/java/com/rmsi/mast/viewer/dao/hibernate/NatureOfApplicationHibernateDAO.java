@@ -8,7 +8,11 @@ import com.rmsi.mast.studio.dao.hibernate.GenericHibernateDAO;
 import com.rmsi.mast.studio.domain.NatureOfApplication;
 import com.rmsi.mast.viewer.dao.NatureOfApplicationDao;
 
-
+/**
+ * 
+ * @author Abhishek.Dasgupta
+ *
+ */
 @Repository
 public class NatureOfApplicationHibernateDAO extends GenericHibernateDAO<NatureOfApplication, Integer>
 implements NatureOfApplicationDao {

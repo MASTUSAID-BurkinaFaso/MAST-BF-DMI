@@ -1,31 +1,59 @@
 
 
 var selectedItem=null;
+var records_from=0;
+var searchRecords=null;
+var totalRecords=null;
+
 function Bookmark(_selectedItem)
 {
 	
 	selectedItem=_selectedItem;
 	
 	if( jQuery("#bookmarkFormDiv").length<=0){
-		displayRefreshedBookmark();
+		displayRefreshedVillage();
 	}
 	else{
 		
-		displayBookmark();
+		displayVillage();
 	}
 }
 
 
-function displayRefreshedBookmark(){
+function displayRefreshedVillage(){
+	
+	var startpos=10;
+	records_from=0;
 	jQuery.ajax({
-		url: "bookmark/" + "?" + token,
+		type:"POST",   
+		async:false,
+		url: "village/search/count/",
+		data: jQuery("#villageForm").serialize(),
+		success: function (result) 
+		{
+
+			totalRecords=result;
+        	searchRecords=result;
+		}
+	
+	});
+	
+	$("#village_txtSearch").val("");
+	
+	jQuery.ajax({
+		type:"POST",        
+		url: "village/search/"+records_from ,
+		data: jQuery("#villageForm").serialize(),
          success: function (data) {
         	jQuery("#tableGrid").empty(); 
         	jQuery("#bookmarks").empty(); 
 			jQuery.get("resources/templates/studio/" + selectedItem + ".html", function (template) {
-		    			    	
-		    	jQuery("#bookmarks").append(template);
+		    			
+				jQuery("#bookmarks").append(template);
 		    	jQuery('#bookmarkFormDiv').css("visibility", "visible");
+		    	
+		    	var lanChnag=new changeLang();
+				lanChnag.first();
 		    	
 		    	jQuery("#bookmarkDetails").hide();	        	
 	        	jQuery("#BookmarksRowData").empty();
@@ -39,14 +67,13 @@ function displayRefreshedBookmark(){
 		    	jQuery("#bookmark_btnBack").hide();
 		    	jQuery("#bookmark_btnNew").show();		    			    
 		    	
-                $("#bookmarkTable").tablesorter({ 
-                	headers: {7: {sorter: false  },  8: {  sorter: false } },	
-                	debug: false, sortList: [[0, 0]], widgets: ['zebra'] })
-                       .tablesorterPager({ container: $("#bookmark_pagerDiv"), positionFixed: false })
-                       .tablesorterFilter({ filterContainer: $("#bookmark_txtSearch"),                           
-                           filterColumns: [0],
-                           filterCaseSensitive: false
-                       });
+		    	jQuery("#records_from").val(records_from+1);
+				jQuery("#records_to").val(records_from+10);
+				jQuery('#records_all').val(totalRecords);
+				
+				
+            	$("#bookmarkTable").trigger("update");
+		    	$("#bookmarkTable").tablesorter( {sortList: [[0,1], [1,0]]} ); 
 		    	
 			});
     
@@ -55,7 +82,8 @@ function displayRefreshedBookmark(){
 	
 }
 
-function displayBookmark(){
+function displayVillage(){
+	$("#village_txtSearch").val("");
 	
 	jQuery("#bookmark_accordion").hide();
 	
@@ -68,9 +96,9 @@ function displayBookmark(){
 	
 }
 
-var bookmark_projectList=null;
-
-var createEditBookmark = function (_name) {
+var communeList=null;
+var provinceList=null;
+var createEditVillage = function (_name) {
   
 	    jQuery("#bookmark_btnNew").hide();    
 	    jQuery("#bookmark_btnSave").hide();
@@ -80,19 +108,32 @@ var createEditBookmark = function (_name) {
 	    jQuery("#bookmarkDetails").show();    
 	    jQuery("#bookmarkDetailsBody").empty();
 	
+	    /*
+	    jQuery.ajax({
+	        url: "Commune/all/",
+	        success: function (data) {
+	        	communeList = data;
+	        },
+	        async: false
+	    });*/
+	    
 	    
 	    jQuery.ajax({
-	        url: "project/" + "?" + token,
+	        url: "AllProvince/",
 	        success: function (data) {
-	        	bookmark_projectList = data;
+	        	provinceList = data;
 	        },
 	        async: false
 	    });
 	    
+	    
+		 var lanChnag=new changeLang();
+			lanChnag.first();
+			
     if (_name) {
 
             jQuery.ajax({
-            url: selectedItem+"/" + _name + "?" + token,
+            url: "village/" + _name + "?" + token,
             async:false,
             success: function (data) {
 
@@ -104,13 +145,21 @@ var createEditBookmark = function (_name) {
 
                          ).appendTo("#bookmarkDetailsBody");
                 
+           	 var lanChnag=new changeLang();
+     		lanChnag.first();
+     		
                 jQuery('#name').attr('readonly', true);
-                jQuery.each(bookmark_projectList, function (i, project) {    	
-                	jQuery("#bookmark_project").append(jQuery("<option></option>").attr("value", project.name).text(project.name));        
+                /*jQuery.each(communeList, function (i, commune) {    	
+                	jQuery("#commmune_id").append(jQuery("<option></option>").attr("value", commune.communeId).text(commune.communeName));        
+                });*/
+                
+                jQuery.each(provinceList, function (i, province) {    	
+                	jQuery("#province_id").append(jQuery("<option></option>").attr("value", province.provinceId).text(province.provinceName));        
                 });
+                jQuery("#province_id").val(data.commune.province.provinceId); 
                 
-                jQuery('#bookmark_project').val(data.projectBean.name);
-                
+                getCommuneOnProvinceChange(data.commune.province.provinceId);
+                jQuery("#commmune_id").val(data.commune.communeId);
                 
             },
             cache: false
@@ -124,13 +173,18 @@ var createEditBookmark = function (_name) {
                 }
             ).appendTo("#bookmarkDetailsBody");
         
-        jQuery('#name').removeAttr('readonly');
         
-        jQuery.each(bookmark_projectList, function (i, project) {    	
-        	jQuery("#bookmark_project").append(jQuery("<option></option>").attr("value", project.name).text(project.name));        
+   	    var lanChnag=new changeLang();
+		lanChnag.first();
+        
+       /* jQuery.each(communeList, function (i, commune) {    	
+        	jQuery("#commmune_id").append(jQuery("<option></option>").attr("value", commune.communeId).text(commune.communeName));        
         });
-        
-       
+        */
+
+        jQuery.each(provinceList, function (i, province) {    	
+        	jQuery("#province_id").append(jQuery("<option></option>").attr("value", province.provinceId).text(province.provinceName));        
+        });
         
     }
     
@@ -143,18 +197,21 @@ var createEditBookmark = function (_name) {
     
 } 
 
-var saveBookmarkData= function () {
+var saveVillageData= function () {
 	
 	jQuery.ajax({
         type: "POST",              
-        url: "bookmark/create" + "?" + token,
-        data: jQuery("#bookmarkForm").serialize(),
-        success: function () {        
-            
-        	jAlert('Data Successfully Saved', 'Bookmark');
-           //back to the list page 
-           // var bookmark=new Bookmark('bookmark');
-        	displayRefreshedBookmark();
+        url: "village/create"+ "?" + token,
+        data: jQuery("#villageForm").serialize(),
+        success: function (result) {        
+        	if(result=='true')
+    		{
+        	jAlert('Data Successfully Saved', 'Village');
+        	displayRefreshedVillage();
+    		}else
+    			{
+    			jAlert('Error ', 'Village');
+    			}
             
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -168,76 +225,120 @@ var saveBookmarkData= function () {
 
 
 
-function saveBookmark(){
+function saveVillage(){
 	
-	jQuery("#bookmarkForm").validate({
+	jQuery("#villageForm").validate({
 
 		rules: {
-			name:"required",
-			description: "required",			
-			minx: {
-			required: true,
-			number: true
-			},
-			miny: {
-			required: true,
-			number: true
-			},
-			maxx: {
-			required: true,
-			number: true
-			},
-			maxy: {
-			required: true,
-			number: true
-			},
-			"projectBean.name": "required"
+			nameEn:"required",
+			nameFR: "required",
+			cfV_agent: "required",
+			VillageCode: "required",
+			"province_id":"required",
+			"commmune_id": "required"
 			
 		},
 		messages: {
-			name: "Please enter Name",
-			description: "Please enter  Description",						
-			minx: {
-			required: "Please enter Minx",
-			number: "Please enter a valid number.  "
-			},
-			
-			miny: {
-				required: "Please enter MinY",
-				number: "Please enter a valid number.  "
-			},
-			maxx: {
-				required: "Please enter Maxx",
-				number: "Please enter a valid number.  "
-			},
-			maxy: {
-				required: "Please enter Maxy",
-				number: "Please enter a valid number.  "
-			},
-			"projectBean.name": "Please enter  Project"
+			nameEn: FIELD_REQ,
+			nameFR: FIELD_REQ,					
+			cfV_agent:  FIELD_REQ,	
+			VillageCode:  FIELD_REQ,	
+			"province_id":FIELD_REQ,
+			"commmune_id": FIELD_REQ
 		}		
 			
 	});
 	
-	if(jQuery("#bookmarkForm").valid())	{						
-		saveBookmarkData();
+	if(jQuery("#villageForm").valid())	{						
+		saveVillageData();
+		
 	
 	}
 	
 	
 }
-var deleteBookmark= function (_bookmarkName) {
+function search(records_from)
+{
 	
-	jConfirm('Are You Sure You Want To Delete : <strong>' + _bookmarkName + '</strong>', 'Delete Confirmation', function (response) {
+	jQuery.ajax({
+		type:"POST",   
+		async:false,
+		url: "village/search/count/",
+		data: jQuery("#villageForm").serialize(),
+		success: function (result) 
+		{
+
+			searchRecords=result;
+		}
+	
+	});
+
+   var villageName=$('#village_txtSearch').val();
+
+  if(villageName=='')
+	{
+
+		jAlert('Please Enter Parameters to Search','Search');
+		
+
+	}else
+	{
+		
+		jQuery.ajax({
+			type:"POST",   
+			async:false,
+			url: "village/search/"+records_from ,
+			data: jQuery("#villageForm").serialize(),
+			success: function (data) 
+			{
+				  if(data!= null && data!="" && data!=undefined)
+	        		{
+						
+						if(records_from+10<=searchRecords)
+						{
+						$('#records_to').val(records_from+10);
+						$('#records_all').val(searchRecords);
+				    	$("#bookmarkTable").trigger("update");
+				    	$("#bookmarkTable").tablesorter( {sortList: [[0,1], [1,0]]} );	
+						}
+						
+					jQuery("#bookmarkDetails").hide();	        	
+		        	jQuery("#BookmarksRowData").empty();
+		        	jQuery("#bookmarkTable").show();	        		        			    
+					jQuery("#bookmark_accordion").hide();
+			    	jQuery("#BookmarkTemplate").tmpl(data).appendTo("#BookmarksRowData");
+			    	jQuery("#bookmark_btnSave").hide();
+			    	jQuery("#bookmark_btnBack").hide();
+			    	jQuery("#bookmark_btnNew").show();		    			    
+			    	jQuery('#records_from').val(records_from+1);
+					$('#records_to').val(searchRecords);
+					
+						
+						
+				     
+	        		}else{
+	    				jAlert("No Records Exists");
+	    			}
+			}
+
+
+		});
+	
+	
+	}
+
+}
+var deleteVillage= function (_villageId) {
+	
+	jConfirm('Are You Sure You Want To Delete Village : <strong>' + '</strong>', 'Delete Confirmation', function (response) {
 
         if (response) {
         	jQuery.ajax({          
-                url: "bookmark/delete/"+_bookmarkName  + "?" + token,
+                url: "village/delete/"+_villageId  + "?" + token,
                 success: function () { 
                 	
-                	jAlert('Data Successfully Deleted', 'Bookmark');
-                   //back to the list page 
-                	displayRefreshedBookmark();
+                	jAlert('Data Successfully Deleted', 'Village');
+                	displayRefreshedVillage();
                     
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -249,8 +350,117 @@ var deleteBookmark= function (_bookmarkName) {
 
     });
 	
-	
-	
+}
+function previousRecords()
 
+{
+	
+	records_from= $('#records_from').val();
+	records_from=parseInt(records_from);
+	records_from=records_from-11;
+	
+	if(records_from>=0)
+	{
+		if(searchRecords!=null)
+		{
+			spatialSearch(records_from);
+		}
+		else{
+			spatialSearch(records_from);	
+		}
+
+	}
+	else{
+
+		alert("Request Can Not Be Done");
+
+	}
+
+}
+
+function nextRecords()
+{
+	records_from= $('#records_from').val();
+	records_from=parseInt(records_from);
+	records_from=records_from+9;
+
+	if(records_from<=totalRecords-1)
+	{
+		if(searchRecords!=null)
+		{
+			if(records_from<=searchRecords-1)
+				spatialSearch(records_from);
+			else
+				alert("Request Can Not Be Done");
+		}
+		else{
+			spatialSearch(records_from);	
+		}
+	}
+
+	else
+	{
+		alert("Request Can Not Be Done");
+	}
+
+}
+
+function spatialSearch(records_from)
+{
+	jQuery.ajax({
+		type:"POST",   
+		async:false,
+		url: "village/search/"+records_from ,
+		data: jQuery("#villageForm").serialize(),
+		success: function (data) 
+		{
+		    	jQuery("#bookmarkDetails").hide();	        	
+	        	jQuery("#BookmarksRowData").empty();
+	        	jQuery("#bookmarkTable").show();	        		        			    
+				jQuery("#bookmark_accordion").hide();
+		    	jQuery("#BookmarkTemplate").tmpl(data).appendTo("#BookmarksRowData");
+		    	jQuery("#bookmark_btnSave").hide();
+		    	jQuery("#bookmark_btnBack").hide();
+		    	jQuery("#bookmark_btnNew").show();		    			    
+		    	$('#records_from').val(records_from+1);
+				$('#records_to').val(searchRecords);
+				if(records_from+10<=searchRecords)
+			    $('#records_to').val(records_from+10);
+				$('#records_all').val(searchRecords);
+		    	$("#bookmarkTable").trigger("update");
+		    	$("#bookmarkTable").tablesorter( {sortList: [[0,1], [1,0]]} ); 
+		    	
+		}
+
+
+	});
+
+	
+}
+
+function getCommuneOnProvinceChange(provinceId)
+{
+
+	if(provinceId!='0')
+	{
+		jQuery("#commmune_id").empty();
+		jQuery("#commmune_id").append(jQuery("<option></option>").attr("value", "").text(PLEASE_SELECT));
+
+		jQuery.ajax({
+			url: "projectcommune/"+provinceId,
+			async: false,
+			success: function (Communedata) {
+				var proj_commune = Communedata;      
+				jQuery.each(proj_commune, function (i, value) {   
+					jQuery("#commmune_id").append(jQuery("<option></option>").attr("value", value.communeId).text(value.communeName));
+
+				});
+
+
+			},
+
+		}); 
+ 
+	}
 	
 }

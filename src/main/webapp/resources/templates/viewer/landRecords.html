@@ -94,6 +94,13 @@
 								<div class="row-fluid">
 
 
+									<div class="span1">
+										<label class="langchange" key="usin">Usin
+										</label> <input type="text" name="search_usin" id="search_usin"
+											value="" class="input-medium">
+
+									</div>
+									
 									<div class="span2">
 										<label class="langchange" key="Application_Number">Application
 											No.</label> <input type="text" name="search_appno" id="search_appno"
@@ -112,7 +119,7 @@
 											class="input-medium">
 
 									</div>
-									<div class="span2">
+									<div class="span1">
 										<label class="langchange" key="First_Name">First Name</label> <input
 											type="text" name="search_name" id="search_name" value=""
 											class="input-medium">
@@ -274,7 +281,10 @@
 									<thead>
 
 										<tr>
-
+											
+											<th class="langchange" key="Usin">Usin
+												</th>
+												
 											<th class="langchange" key="Application_Number">Application
 												Number</th>
 											<th class="langchange" key="PV_Number">PV Number</th>
@@ -301,7 +311,7 @@
 									<tfoot>
 
 										<tr class="tblFooter" id="landrecords_pagerDiv">
-											<td colspan="10">
+											<td colspan="11">
 												<div id="spatialunitDiv">
 												<a href="javascript:firstRecords();"><img
 														class="img-prev langchange"
@@ -1665,6 +1675,10 @@
        
 	   
 	  <tr>
+
+<td>
+                ${usin}
+            </td>
           
             <td>
                 ${application_no}
@@ -1738,7 +1752,7 @@
 		
 <td>
    <div class="single-drop-down">
-	    <div class="topnav"> <a href="#" onclick="Actionfill(${usin},${workflow_stage.workflowId},${application_type.gid},${section});" class="signin"><span key="Action" class="langchange">Action</span></a>
+	    <div class="topnav"> <a href="#" onclick="Actionfill(${usin},${workflow_stage.workflowId},${application_type.gid},${section},'${project}');" class="signin"><span key="Action" class="langchange">Action</span></a>
 	
 	<div class="containerDiv" id=${usin}>
 	
@@ -2437,6 +2451,39 @@ ${comments}
 
 		</form>
 	</div>
+ <!-- kamal -->
+		<div id="edit-parcelno-form" class="langchange" 
+		title="Edit_and_Verify_Parcel_Number" style="display: none;">
+
+		<form class="cmxform" id="parcelnoEditeformID" action=""
+			onsubmit="return false;">
+
+			<fieldset>
+				<table style="width: 100%" class="p-number">
+                     <input  style="display:none" id="usin_editId" name="usin_editId"/>
+					<tr>
+						<td><p class="langchange" key="Section">
+								<strong>Section </strong>
+							</p> <span style="display: inline-block" id="section_no_edit"></span></td>
+						<td><p class="langchange" key="Lot">
+								<strong>Lot </strong>
+							</p> <span style="display: inline-block" id="lot_no_edit" key="Number"></span></td>
+						<td><p class="langchange" key="Number">
+								<strong>Number </strong>
+							</p> <input  style="display: inline-block" id="number_seq_edit" name="number_seq_edit" maxlength="6" /></td>
+							
+					</tr>
+					
+				</table>
+				 <br>
+							<label> <span class="langchange" style="color:black" key="Comments_dpi"></span> <span
+								id="commentOption"></span></label>
+                             <textarea name="commentsStatus_parcelEdit" id="commentsStatus_parcelEdit" style="width: 96%; height: 80px;"></textarea>
+					
+			</fieldset>
+
+		</form>
+	</div> 
 	<div id="villageSel-dialog-form" title="Select_Village"
 		style="display: none;">
 		<!--p class="validateTips">All form fields are required.</p-->

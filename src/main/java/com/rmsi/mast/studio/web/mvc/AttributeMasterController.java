@@ -23,6 +23,12 @@ import com.rmsi.mast.studio.service.AttributeMasterService;
 import com.rmsi.mast.studio.service.DataTypeIdService;
 import com.rmsi.mast.viewer.web.mvc.LandRecordsController;
 
+/**
+ * 
+ * @author Vaibhav.Agarwal
+ *
+ */
+
 @Controller
 public class AttributeMasterController 
 

@@ -17,6 +17,11 @@ import com.rmsi.mast.studio.domain.fetch.SpatialUnitTable;
 import com.rmsi.mast.viewer.dao.LandRecordsDao;
 
 
+/**
+ * 
+ * @author Vaibhav.Agarwal
+ *
+ */
 
 @Repository
 public class LandRecordsHibernateDAO extends GenericHibernateDAO<SpatialUnitTable, Long>
@@ -481,10 +486,11 @@ implements LandRecordsDao {
 	}
 
 	@Override
-	public List<?> getSearchResult(String appno, String pvno, String apfr,
+	public List<?> getSearchResult(String usin,String appno, String pvno, String apfr,
 			String name, int apptype, int[] workids,String projname,Integer startpos,int status) {
 
 		List<?> spatialUnit;
+		ArrayList<Long> newUsin=new ArrayList<Long>();
 
 		try {
 			String query="select su.application_no,a.share,a.first_name,a.last_name,su.pv_no,su.usin,su.workflow_id,su.current_workflow_status_id,cast(su.section AS Integer),su.apfr_no " 
@@ -495,6 +501,13 @@ implements LandRecordsDao {
 					+" inner join spatial_unit su"
 					+" ON su.usin=a.usin where su.active=true and su.project_name=:project_name";
 
+			
+			
+			if(usin!=""){
+
+				query=query+" and su.usin in :usin";	
+			}
+			
 			if(pvno!=""){
 
 				query=query+" and lower(su.pv_no) like :pv_no";	
@@ -524,6 +537,15 @@ implements LandRecordsDao {
 			Query executeQuery = getEntityManager().createNativeQuery(query).setFirstResult(startpos).setMaxResults(5);
 			executeQuery.setParameter("project_name", projname);
 
+			if(usin!=""){
+
+				for (String retval: usin.split(",")){
+					newUsin.add(Long.parseLong(retval));
+				}
+
+				executeQuery.setParameter("usin",newUsin);	
+			}
+			
 			if(appno!=""){
 
 				executeQuery.setParameter("application_no", "%"+appno.toLowerCase()+"%");
@@ -568,10 +590,11 @@ implements LandRecordsDao {
 	}
 
 	@Override
-	public int getSearchCount(String appno, String pvno, String apfr,
+	public int getSearchCount(String usin,String appno, String pvno, String apfr,
 			String name, int apptype, int[] workids, String projectname,int status) {
 
 		List<?> spatialUnit;
+		ArrayList<Long> newUsin=new ArrayList<Long>();
 		int count=0;
 		try {
 			String query="Select count(*) " 
@@ -581,7 +604,15 @@ implements LandRecordsDao {
 					+" ON np.gid=st.person_gid)a"
 					+" inner join spatial_unit su"
 					+" ON su.usin=a.usin where su.active=true and su.project_name=:project_name";
+			
+			
+			
+			
+			if(usin!=""){
 
+				query=query+" and su.usin in :usin";	
+			}
+			
 			if(pvno!=""){
 
 				query=query+" and lower(su.pv_no) like :pv_no";	
@@ -609,7 +640,17 @@ implements LandRecordsDao {
 
 			Query executeQuery = getEntityManager().createNativeQuery(query);
 			executeQuery.setParameter("project_name", projectname);
+			
+			
+			if(usin!=""){
 
+				for (String retval: usin.split(",")){
+					newUsin.add(Long.parseLong(retval));
+				}
+
+				executeQuery.setParameter("usin",newUsin);	
+			}
+			
 			if(appno!=""){
 
 				executeQuery.setParameter("application_no", "%"+appno.toLowerCase()+"%");

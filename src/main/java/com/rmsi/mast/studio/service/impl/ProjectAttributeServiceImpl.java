@@ -20,7 +20,11 @@ import com.rmsi.mast.studio.mobile.dao.SurveyProjectAttributeDao;
 import com.rmsi.mast.studio.mobile.dao.hibernate.AttributeValuesHiberanteDao;
 import com.rmsi.mast.studio.service.ProjectAttributeService;
 import com.rmsi.mast.viewer.web.mvc.LandRecordsController;
-
+/**
+ * 
+ * @author Abhishek.Dasgupta
+ *
+ */
 
 @Service
 public class ProjectAttributeServiceImpl implements ProjectAttributeService 

@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.BatchSize;
 
@@ -63,6 +64,9 @@ public class Project implements Serializable, Cloneable {
 	private Set<ProjectBaselayer> projectBaselayers;
 	private Boolean admincreated;
 	private String owner;
+	
+	@Transient
+	private Long apfrcount;
 
 	public Project() 
 	{
@@ -408,5 +412,18 @@ public class Project implements Serializable, Cloneable {
 		this.projectAreas = projectAreas;
 	}
 
+	
+	@Transient
+	public Long getApfrcount() {
+		return apfrcount;
+	}
+
+	@Transient
+	public void setApfrcount(Long apfrcount) {
+		this.apfrcount = apfrcount;
+	}
+
+	
+	
 
 }

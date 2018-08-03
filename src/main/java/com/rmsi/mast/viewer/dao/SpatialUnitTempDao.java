@@ -7,7 +7,11 @@ import java.util.List;
 
 import com.rmsi.mast.studio.dao.GenericDAO;
 import com.rmsi.mast.studio.domain.fetch.SpatialUnitTemp;
-
+/**
+ * 
+ * @author Abhishek.Dasgupta
+ *
+ */
 public interface SpatialUnitTempDao extends GenericDAO<SpatialUnitTemp, Long> {
 
 	List<SpatialUnitTemp> findOrderedSpatialUnit(String defaultProject,int startfrom, int[] workID);

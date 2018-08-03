@@ -523,7 +523,7 @@ text-decoration: none!important;
   margin-top: 24px;
 }
 .v-top-18 {
-  margin-top: 18px;
+  margin-top: 26px;
 }
 .v-top-20 {
   margin-top: 8px;
@@ -642,7 +642,7 @@ overflow-y: auto; /*for vertical scroll bar */
 	display: inline-block;
 *display:inline;
 *zoom:1;
-	padding: 4px 12px;
+	padding: 4px 6px;
 	margin-bottom: 0;
 	font-size: 13px;
 	line-height: 20px;
@@ -721,7 +721,7 @@ padding: 0 6px;}
 #addAttributeformID label{
 	display: block;
 	margin-bottom: 5px;
-	font-weight:bold;
+	
 }
 .filter-details input[type="text"],
 .landrecords22 input[type="text"],
@@ -751,6 +751,7 @@ padding: 0 6px;}
 	-moz-transition: border linear .2s, box-shadow linear .2s;
 	-o-transition: border linear .2s, box-shadow linear .2s;
 	transition: border linear .2s, box-shadow linear .2s;
+	width:100%;
 }
 #radioSpatial select{
   width: 226px;
@@ -758,7 +759,7 @@ padding: 0 6px;}
 #radioSpatial {
   padding: 10px 0;
 }
-.filter-details .btn { margin-top:19px;}
+.filter-details .btn { margin-top:26px;}
 .filter-details select {
   height: 30px;
   width:100%;
@@ -766,6 +767,9 @@ padding: 0 6px;}
 }
 
 
+#landrecords_pagerDiv input[type="text"] {
+    width: 80px;
+}
 
 .img-prev {
   position: relative;
@@ -821,7 +825,7 @@ input[type="radio"][disabled], input[type="checkbox"][disabled], input[type="rad
 	display: inline-block;
 *display:inline;
 *zoom:1;
-	padding: 3px 12px;
+	padding: 3px 6px;
 	margin-bottom: 0;
 	font-size: 13px;
 	line-height: 17px;
@@ -986,6 +990,11 @@ cursor: pointer;
 .bottom-clr-5 {
   margin-bottom: 5px;
 }
+@media screen and (max-width: 1278px) {
+   .filter-details .btn { margin-top:5px;}
+}
+
+
 @media screen and (max-height: 800px){
 
 
@@ -1002,5 +1011,5 @@ overflow-y: auto; /*for vertical scroll bar */
 	float:right;
 }
 }
-}
+
 

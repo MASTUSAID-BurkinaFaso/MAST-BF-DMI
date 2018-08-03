@@ -40,5 +40,47 @@ public class ProvinceHibernateDAO extends GenericHibernateDAO<Province, Integer>
 			return null;
 		}
 	}
+	@Override
+	public List<Province> findAllProvince() {
+		try {
+
+			Query query = getEntityManager().createQuery("Select p from Province p");
+			@SuppressWarnings("unchecked")
+			List<Province> provincelst = query.getResultList();		
+
+			if(provincelst.size() > 0){
+				return provincelst;
+			}		
+			else
+			{
+				return null;
+			}
+		} catch (Exception e) {
+
+			logger.error(e);
+			return null;
+		}
+	}
+	@Override
+	public Province findProvinceById(Integer provinceId) {
+		try {
+
+			Query query = getEntityManager().createQuery("Select p from Province p where p.provinceId = :provinceId");
+			@SuppressWarnings("unchecked")
+			List<Province> provincelst = query.setParameter("provinceId", provinceId).getResultList();		
+
+			if(provincelst.size() > 0){
+				return provincelst.get(0);
+			}		
+			else
+			{
+				return null;
+			}
+		} catch (Exception e) {
+
+			logger.error(e);
+			return null;
+		}
+	}
 	
 }

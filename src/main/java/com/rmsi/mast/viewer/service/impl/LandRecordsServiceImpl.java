@@ -85,6 +85,7 @@ import com.rmsi.mast.studio.mobile.dao.NonNaturalPersonDao;
 import com.rmsi.mast.studio.mobile.dao.SpatialUnitDao;
 import com.rmsi.mast.studio.mobile.dao.StatusDao;
 import com.rmsi.mast.studio.mobile.dao.SurveyProjectAttributeDao;
+import com.rmsi.mast.studio.util.ConstantUtil;
 import com.rmsi.mast.viewer.dao.ActionToolsDao;
 import com.rmsi.mast.viewer.dao.LandRecordsDao;
 import com.rmsi.mast.viewer.dao.MutationTypeDao;
@@ -98,7 +99,12 @@ import com.rmsi.mast.viewer.dao.SpatialUnitPersonWithInterestDao;
 import com.rmsi.mast.viewer.dao.SpatialUnitTempDao;
 import com.rmsi.mast.viewer.dao.TitleExistingDao;
 import com.rmsi.mast.viewer.service.LandRecordsService;
-
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
+/**
+ * 
+ * @author Abhishek.Dasgupta
+ *
+ */
 @Service
 public class LandRecordsServiceImpl implements LandRecordsService {
 
@@ -1192,11 +1198,14 @@ public class LandRecordsServiceImpl implements LandRecordsService {
 
 
 	@Override
-	public Integer actionApprove(Long id, long userid, Integer workflowId,String comments) {
+	public Integer actionApprove(Long id, long userid, Integer workflowId,String comments ,String project) {
 
 		boolean historyUpdate=true;
+		
+		int wf= 0;
 		try {
 
+			wf=workflowId;
 			SpatialUnitStatusHistory sunitHistory=new SpatialUnitStatusHistory();
 			sunitHistory.setUsin(id);
 			sunitHistory.setWorkflow_status_id(4); //for approve ID-4
@@ -1220,18 +1229,47 @@ public class LandRecordsServiceImpl implements LandRecordsService {
 				if(workflowId!=10 && workflowId!=15)
 					spatmp.setWorkflow_id(workflowDAO.findById(workflowId, false));
 				if(workflowId==9 || workflowId==14){
-				spatmp.setStatus(statusDao.findById(7, false)); //for final status
+					spatmp.setStatus(statusDao.findById(7, false)); //for final status
 				}
 				else{
 					spatmp.setStatus(statusDao.findById(8, false)); //for pending status
 				}
 				String countval="";
-				String village_name = spatmp.getVillage_id().getCommune().getCommuneNameFr();
-				village_name=village_name.substring(0, 4)+"-";
+				String village_name = spatmp.getVillage_id().getVillage_code();
+				village_name=village_name+"-";
+
+				
+				// check for print notice // kamal
+				
+				if(wf==3)
+				{
+					spatmp.setPublic_notice_startdate(new Date());
+				}
+					
+				/*village_name.substring(village_name.length()-2);
+				int village_no=0;
+
+				try{
+					village_no=Integer.parseInt(village_name.substring(village_name.length()-1));
+
+					village_no=Integer.parseInt(village_name.substring(village_name.length()-2));		
+				}
+			catch(Exception e ){
+				logger.error(e);
+
+			}
+
+				if(village_no!=0){
+					village_name=village_name.substring(0, 4)+village_no+"-";	
+				}
+
+				else{
+					village_name=village_name.substring(0, 4)+"-";	
+				}*/
 				//case for application no
 				if((workflowId==2 || workflowId==11) && (spatmp.getApplication_no()==null || spatmp.getApplication_no()=="")){
-					ParcelCount parcelCount = parcelCountDao.findById(1, false); //get application count
-
+					//ParcelCount parcelCount = parcelCountDao.findById(1, false); //get application count
+					ParcelCount parcelCount = parcelCountDao.findParcelCountByTypeAndProjectName(ConstantUtil.APPLICATION, project);
 					long count=parcelCount.getCount()+1;
 					parcelCount.setCount(count);
 
@@ -1245,7 +1283,7 @@ public class LandRecordsServiceImpl implements LandRecordsService {
 						countval="0"+String.valueOf(count);
 					else if(count>=10000 && count<=99999)
 						countval=String.valueOf(count);
-					spatmp.setApplication_no(village_name+"-"+countval);
+					spatmp.setApplication_no(village_name+countval);
 					spatmp.setApplicationdate(new Date());
 					parcelCountDao.makePersistent(parcelCount);
 				}
@@ -1253,7 +1291,8 @@ public class LandRecordsServiceImpl implements LandRecordsService {
 
 				// PV no case
 				else if(workflowId==6){
-					ParcelCount parcelCount = parcelCountDao.findById(2, false); //get pv count
+					//ParcelCount parcelCount = parcelCountDao.findById(2, false); //get pv count
+					ParcelCount parcelCount = parcelCountDao.findParcelCountByTypeAndProjectName(ConstantUtil.PV, project);
 
 					long count=parcelCount.getCount()+1;
 					parcelCount.setCount(count);
@@ -1274,7 +1313,8 @@ public class LandRecordsServiceImpl implements LandRecordsService {
 
 				// APFR no case
 				else if(workflowId==7 || workflowId==13 ){
-					ParcelCount parcelCount = parcelCountDao.findById(4, false); //get apfr count
+					//ParcelCount parcelCount = parcelCountDao.findById(4, false); //get apfr count
+					ParcelCount parcelCount = parcelCountDao.findParcelCountByTypeAndProjectName(ConstantUtil.APFR, project);
 					long count=parcelCount.getCount()+1;
 					parcelCount.setCount(count);
 					if(count<10)
@@ -1288,7 +1328,7 @@ public class LandRecordsServiceImpl implements LandRecordsService {
 					else if(count>=10000 && count<=99999)
 						countval=String.valueOf(count);
 					spatmp.setApfr_no(village_name+countval);
-					spatmp.setApfr_date(new Date());
+					//spatmp.setApfr_date(new Date());
 					parcelCountDao.makePersistent(parcelCount);
 				}
 
@@ -1334,19 +1374,19 @@ public class LandRecordsServiceImpl implements LandRecordsService {
 			try {
 				SpatialUnitTable spa=landRecordsDao.findById(id, false);
 				if(workflowId!=0 && workflowId!=9)
-					{
+				{
 					spa.setWorkflow_id(workflowDAO.findById(workflowId, false));
-					}
+				}
 				else{
 					workflowId=workflowId+1;
 				}
 				spa.setStatus(statusDao.findById(5, false)); //for reject
 				landRecordsDao.makePersistent(spa);
-				
+
 			} catch (Exception e) {
 				logger.error(e);
 			} 
-			
+
 			return workflowId;
 
 		}
@@ -1370,9 +1410,9 @@ public class LandRecordsServiceImpl implements LandRecordsService {
 
 
 	@Override
-	public List<?> getSearchResult(String appno, String pvno, String apfr,
+	public List<?> getSearchResult(String usin,String appno, String pvno, String apfr,
 			String name, int apptype, int[] workids,String projectname,Integer startpos,int status) {
-		return landRecordsDao.getSearchResult(appno,pvno,apfr,name,apptype,workids,projectname,startpos,status);
+		return landRecordsDao.getSearchResult(usin,appno,pvno,apfr,name,apptype,workids,projectname,startpos,status);
 	}
 
 
@@ -1385,9 +1425,9 @@ public class LandRecordsServiceImpl implements LandRecordsService {
 
 
 	@Override
-	public int getSearchResult(String appno, String pvno, String apfr,
+	public int getSearchResult(String usin,String appno, String pvno, String apfr,
 			String name, int apptype, int[] workids, String projectname,int status) {
-		return landRecordsDao.getSearchCount(appno,pvno,apfr,name,apptype,workids,projectname,status);
+		return landRecordsDao.getSearchCount(usin,appno,pvno,apfr,name,apptype,workids,projectname,status);
 	}
 
 
@@ -1600,21 +1640,21 @@ public class LandRecordsServiceImpl implements LandRecordsService {
 
 	@Override
 	public Date findLetterGenerationDatebyUsin(Long usin) {
-	return paymentInfoDAO.findLetterDate(usin);
+		return paymentInfoDAO.findLetterDate(usin);
 	}
 
 
 
 	@Override
 	public boolean updateLetterGenerationDate(Long usin, Date letterdate) {
-	return paymentInfoDAO.updateDate(usin,letterdate);
+		return paymentInfoDAO.updateDate(usin,letterdate);
 	}
 
 
 
 	@Override
 	public boolean savePayemrnt(PaymentInfo paymentInfo) {
-		
+
 		try {
 			paymentInfoDAO.makePersistent(paymentInfo);
 			return true;
@@ -1628,7 +1668,7 @@ public class LandRecordsServiceImpl implements LandRecordsService {
 
 	@Override
 	public long findSFRname(Long id, int workflowId, int workflowStatus) {
-	return sunitHistoryDAO.findSFRnameByUsin(id,workflowId,workflowStatus);
+		return sunitHistoryDAO.findSFRnameByUsin(id,workflowId,workflowStatus);
 	}
 
 
@@ -1645,4 +1685,25 @@ public class LandRecordsServiceImpl implements LandRecordsService {
 
 
 
+	@Override
+	public Date findApfrDatebyUsin(Long usin) {
+		try {
+			return landRecordsDao.findSpatialUnitById(usin).get(0).getApfr_date();
+		} catch (Exception e) {
+			logger.error(e);
+			return null;
+		}
+	}
+
+
+
+	@Override
+	public SpatialUnitTable setApfrDate(SpatialUnitTable spaObj) {
+		try {
+			return landRecordsDao.makePersistent(spaObj);
+		} catch (Exception e) {
+			logger.error(e);
+			return null;
+		}
+	}
 }

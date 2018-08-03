@@ -7,4 +7,7 @@ import com.rmsi.mast.studio.domain.Province;
 
 public interface ProvinceDAO extends GenericDAO<Province, Integer> {
 
-	List<Province> findByRegionId(Integer regionId);}
+	List<Province> findByRegionId(Integer regionId);
+	public List<Province> findAllProvince() ;
+	Province findProvinceById(Integer ProvinceId);
+}

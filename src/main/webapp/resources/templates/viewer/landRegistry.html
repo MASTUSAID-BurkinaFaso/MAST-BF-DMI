@@ -14,6 +14,16 @@
 							SEARCH
 							</div> -->
 							
+							
+								<div class="span2">
+									<label class="langchange" key="usin">Usin</label> <input type="text" name="search_usin"
+										id="search_usin" value="" class="input-medium">
+									
+									<input type="hidden" name="islandRegistry"
+										id="islandRegistry" value="1" class="input-medium">
+									
+								</div>
+								
 							<div class="span2">
 									<label class="langchange" key="Application_Number">Application No.</label> <input type="text" name="search_appno"
 										id="search_appno" value="" class="input-medium">
@@ -47,7 +57,7 @@
 									</select>
 
 								</div>
-							<div class="span2">
+							<div class="span3">
 
 									<button class="btn1 v-top-18 langchange" onclick="javascript:spatialRegistrySearch(0);" key="Search">Search</button>
 									<button class="btn v-top-24 langchange"
@@ -74,7 +84,7 @@
 						<thead>
 
 							<tr>
-													
+											<th class="langchange" key="usin">Usin</th>		
 								<th class="langchange" key="Application_Number">Application Number</th>
 											<th class="langchange" key="PV_Number">PV Number</th>
 											<th class="langchange" key="APFR_Number">APFR Number</th>
@@ -128,6 +138,9 @@
 	   
 	   <tr>
 	   
+            <td>
+                ${usin}
+            </td> 
             <td>
                 ${application_no}
             </td> 

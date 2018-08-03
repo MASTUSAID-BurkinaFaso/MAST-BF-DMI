@@ -127,6 +127,19 @@ public class UserRoleHibernateDAO extends GenericHibernateDAO<UserRole, Long>
 	
 		
 	}
+
+	@Override
+	public UserRole getUserRoleByUserID(int userid) {
+
+		@SuppressWarnings("unchecked")
+		List<UserRole> userRole =
+				getEntityManager().createQuery("Select u from UserRole u where u.user.id = :id").setParameter("id", userid).getResultList();
+	if(userRole.size() > 0)
+			return userRole.get(0);
+		else
+			return null;
+		
+	}
 	
 	/*
 	@SuppressWarnings("unchecked")

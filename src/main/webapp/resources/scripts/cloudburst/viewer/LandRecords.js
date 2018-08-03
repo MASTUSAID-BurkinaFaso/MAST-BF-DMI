@@ -134,7 +134,7 @@ function displayRefreshedLandRecords(_landRecord)
 					jQuery("#status_id").append(jQuery("<option></option>").attr("value", 0).text("Please Select")); 
 				}
 				else if(lang=="fr"){
-				jQuery("#status_id").append(jQuery("<option></option>").attr("value", 0).text("Merci de sélectionner"));
+				jQuery("#status_id").append(jQuery("<option></option>").attr("value", 0).text("Merci de sÃ©lectionner"));
 				}
 				
 				jQuery.each(statusList, function (i, statusobj) {
@@ -487,14 +487,14 @@ function editAttribute(id)
 				});
 			}
 			else if(lang=="fr"){
-				jQuery("#app_nature").append(jQuery("<option></option>").attr("value", 0).text("Merci de sélectionner"));
+				jQuery("#app_nature").append(jQuery("<option></option>").attr("value", 0).text("Merci de sÃ©lectionner"));
 				jQuery.each(noaList, function (i, noaobj) {
 					jQuery("#app_nature").append(jQuery("<option></option>").attr("value", noaobj.noaId).text(noaobj.natureOfApplicationFr)); 
 
 				});
 
 
-				jQuery("#mutation_type").append(jQuery("<option></option>").attr("value", 0).text("Merci de sélectionner"));
+				jQuery("#mutation_type").append(jQuery("<option></option>").attr("value", 0).text("Merci de sÃ©lectionner"));
 
 				jQuery.each(mutationTypeList, function (i, mtobj) {
 
@@ -503,7 +503,7 @@ function editAttribute(id)
 				});
 
 
-				jQuery("#title_name").append(jQuery("<option></option>").attr("value", 0).text("Merci de sélectionner"));
+				jQuery("#title_name").append(jQuery("<option></option>").attr("value", 0).text("Merci de sÃ©lectionner"));
 				jQuery.each(titleList, function (i, titleobj) {
 					jQuery("#title_name").append(jQuery("<option></option>").attr("value", titleobj.id).text(titleobj.title_name_fr)); 
 				});
@@ -1044,20 +1044,20 @@ function editNaturalData(id)
 
 			}
 			else if(lang=="fr"){
-				jQuery("#gender").append(jQuery("<option></option>").attr("value", 0).text("Merci de sélectionner"));
+				jQuery("#gender").append(jQuery("<option></option>").attr("value", 0).text("Merci de sÃ©lectionner"));
 				jQuery.each(genderList, function (i, genderobj) {
 					jQuery("#gender").append(jQuery("<option></option>").attr("value",genderobj.genderId ).text(genderobj.gender_sw)); 
 
 				});
 
-				jQuery("#marital_status").append(jQuery("<option></option>").attr("value", 0).text("Merci de sélectionner"));
+				jQuery("#marital_status").append(jQuery("<option></option>").attr("value", 0).text("Merci de sÃ©lectionner"));
 				jQuery.each(maritalList, function (i, maritalobj) {
 					jQuery("#marital_status").append(jQuery("<option></option>").attr("value",maritalobj.maritalStatusId ).text(maritalobj.maritalStatus_sw)); 
 
 				});
 
 
-				jQuery("#person_nop").append(jQuery("<option></option>").attr("value", 0).text("Merci de sélectionner"));
+				jQuery("#person_nop").append(jQuery("<option></option>").attr("value", 0).text("Merci de sÃ©lectionner"));
 				jQuery.each(natureOfPowerList, function (i, nopobj) {
 					jQuery("#person_nop").append(jQuery("<option></option>").attr("value",nopobj.nopId).text(nopobj.natureOfPowerFr)); 
 
@@ -1754,7 +1754,7 @@ function showOnMap(usin)
 
 }
 
-function zoomToLayerFeature(relLayerName,fieldName,fieldVal){// relLayerName=’spatial_unit’, fieldname=”usin”, fieldval= usin value
+function zoomToLayerFeature(relLayerName,fieldName,fieldVal){// relLayerName=â€™spatial_unitâ€™, fieldname=â€�usinâ€�, fieldval= usin value
 
 	if(map.getLayersByName("vector")[0]!=undefined)
 		map.removeLayer(vectors);
@@ -2290,7 +2290,7 @@ function addNewNaturalPerson()
 				});
 			}
 			else if(lang=="fr"){
-				jQuery("#gender").append(jQuery("<option></option>").attr("value", 0).text("Merci de sélectionner"));
+				jQuery("#gender").append(jQuery("<option></option>").attr("value", 0).text("Merci de sÃ©lectionner"));
 				jQuery.each(data, function (i, genderobj) {
 					jQuery("#gender").append(jQuery("<option></option>").attr("value",genderobj.genderId ).text(genderobj.gender_sw)); 
 
@@ -2370,7 +2370,7 @@ function addNewNaturalPerson()
 			}
 			else if(lang=="fr"){
 
-				jQuery("#person_nop").append(jQuery("<option></option>").attr("value", 0).text("Merci de sélectionner"));
+				jQuery("#person_nop").append(jQuery("<option></option>").attr("value", 0).text("Merci de sÃ©lectionner"));
 				jQuery.each(data, function (i, nopobj) {
 					jQuery("#person_nop").append(jQuery("<option></option>").attr("value",nopobj.nopId).text(nopobj.natureOfPowerFr)); 
 				});
@@ -2540,7 +2540,7 @@ function editnxtTokin(id)
 		});
 	}
 	else if(lang=="fr"){
-		jQuery("#gender_kin").append(jQuery("<option></option>").attr("value", 0).text("Merci de sélectionner"));
+		jQuery("#gender_kin").append(jQuery("<option></option>").attr("value", 0).text("Merci de sÃ©lectionner"));
 		jQuery.each(genderList, function (i, genderobj) {
 
 			jQuery("#gender_kin").append(jQuery("<option></option>").attr("value",genderobj.genderId).text(genderobj.gender_sw)); 
@@ -2723,7 +2723,7 @@ function addPWI()
 		});
 	}
 	else if(lang=="fr"){
-		jQuery("#gender_kin").append(jQuery("<option></option>").attr("value", 0).text("Merci de sélectionner"));
+		jQuery("#gender_kin").append(jQuery("<option></option>").attr("value", 0).text("Merci de sÃ©lectionner"));
 		jQuery.each(genderList, function (i, genderobj) {
 
 			jQuery("#gender_kin").append(jQuery("<option></option>").attr("value",genderobj.genderId).text(genderobj.gender_sw)); 
@@ -2866,7 +2866,7 @@ function exportData(){
 
 }
 
-function Actionfill(usin,workflowId ,appTypeId,section){
+function Actionfill(usin,workflowId ,appTypeId,section,project){
 
 	sharetype=appTypeId;
 	var appid='#'+usin;
@@ -2902,9 +2902,9 @@ function Actionfill(usin,workflowId ,appTypeId,section){
 	}*/
 		for(var i=0;i<actionList.length;i++){
 			if(lang=="en")
-			html+="<li> <a title='"+(actionList[i].name)+"' id="+workflowId+" name="+usin+" type="+section+" href='#' onclick='CustomAction(this)'>"+actionList[i].name+"</a></li>";
+			html+="<li> <a title='"+(actionList[i].name)+"' id="+workflowId+" name="+usin+" type="+section+" href='#' onclick='CustomAction(this,project)'>"+actionList[i].name+"</a></li>";
 			else if (lang=="fr")
-				html+="<li> <a title='"+(actionList[i].name)+"' id="+workflowId+" name="+usin+" type="+section+" href='#' onclick='CustomAction(this)'>"+actionList[i].name_fr+"</a></li>";
+				html+="<li> <a title='"+(actionList[i].name)+"' id="+workflowId+" name="+usin+" type="+section+" href='#' onclick='CustomAction(this,project)'>"+actionList[i].name_fr+"</a></li>";
 		}
 		$(""+appid+"").append('<div class="signin_menu"><div class="signin"><ul>'+html+'</ul></div></div>');
 
@@ -2925,19 +2925,67 @@ function Actionfill(usin,workflowId ,appTypeId,section){
 	}
 }
 
-function CustomAction(refrence){
+function CustomAction(refrence,project){
 
 	var actiontmp=new actionLandRecords();
 	if((refrence.title).trim() == "Approve")
 	{
+		//check public notice 45 days
+		if(refrence.id==4){
+			jQuery.ajax({ 
+				url: "landrecords/comparedate/"+refrence.name,
+				async:false,							
+				success: function (data) {	
+					
+					if(data.msg=="donotapproveparcel"){
+						if(lang=="en"){
+							jAlert("Public Notice period is pending will expire on:  " +data.date  ,"Alert");		
+						}else if(lang=="fr"){
+							
+							jAlert("La période d'avis public est en attente expirera le:  " +data.date  ,"Alert");	
+							}
+							
+
+				}
+			else if(data.msg=="approveparcel"){
+				dialogueAction(refrence.name,refrence.id,refrence.title,project);
+			}
+}
+			});
+		}
+		else{
+			dialogueAction(refrence.name,refrence.id,refrence.title,project);
+		}
 		
-		dialogueAction(refrence.name,refrence.id,refrence.title);
 	}
 
 	else if((refrence.title).trim() == "Reject")
-
 	{
-		dialogueAction(refrence.name,refrence.id,refrence.title);
+		//check public notice 45 days
+		if(refrence.id==4){
+			jQuery.ajax({ 
+				url: "landrecords/comparedate/reject/"+refrence.name,
+				async:false,							
+				success: function (data) {	
+
+					if(data.msg=="donotReject"){
+						
+						if(lang=="en"){
+							jAlert("Public Notice period is expire on :  " +data.date + " you can't Reject parcel now" ,"Alert");		
+						}else if(lang=="fr"){
+							
+								jAlert("La période d'avis public expire le :  " +data.date + " Vous ne pouvez pas refuser le parcelle maintenant" ,"Alert");
+							}
+					}
+					else if(data.msg=="Rejectparcel"){
+						dialogueAction(refrence.name,refrence.id,refrence.title,project);
+					}
+				}
+			});
+		}
+		else{
+			dialogueAction(refrence.name,refrence.id,refrence.title,project);
+		}
 
 	}
 
@@ -2977,9 +3025,12 @@ function CustomAction(refrence){
 	{
 		actiontmp.signatoryDialog(refrence.name);
 	}
-
+	else if((refrence.title).trim() == "Edit Parcel Number")  // code by kamal
+	{
+		actiontmp.editParcelNumber(refrence.name,refrence.id,refrence.type);
+	}
 }
-function approveParcel(actionName,workId,usin){
+function approveParcel(actionName,workId,usin,project){
 
 	var Status_confirmation=""; 
 	var do_you_want="";
@@ -2993,7 +3044,7 @@ function approveParcel(actionName,workId,usin){
 	}
 	else if(lang=='fr'){
 		 do_you_want="Etes-vous certain de vouloir ";
-		 selectd_parcel=" la parcelle sélectionnée ?";
+		 selectd_parcel=" la parcelle sÃ©lectionnÃ©e ?";
 		
 		if(actionName=='Approve')
 			action="valider";
@@ -3009,7 +3060,7 @@ function approveParcel(actionName,workId,usin){
 
 			if(actionName=="Approve")
 			{
-				var status=actiontmp.ApproveStatus(usin,workId);
+				var status=actiontmp.ApproveStatus(usin,workId,project);
 				if(status!=0){
 
 					workflowTmp=status;
@@ -3038,7 +3089,7 @@ function approveParcel(actionName,workId,usin){
 			}
 			else if(actionName=="Reject")
 			{
-				var status=actiontmp.RejectStatus(usin,workId);
+				var status=actiontmp.RejectStatus(usin,workId,project);
 				if(status!=0){
 					workflowTmp=status;
 					//document.getElementById("approveParcel-dialog-form").reset();
@@ -3071,15 +3122,15 @@ function approveParcel(actionName,workId,usin){
 }
 
 
-function dialogueAction(usin,workId,actionName){
+function dialogueAction(usin,workId,actionName,project){
 
 
 
 	var val_gen = "Generate the following form before approval :" +"<br/>" + "i) Application Form";
-	var prep_adj = "Generate the following forms before approval :" +"<br/>" + "i) Application Form" +"<br/>" + "ii) Public Notice"+"<br/>" + "iii) PV Contradictory Form"+"<br/>";
+	var prep_adj = "Generate the following forms before approval :" +"<br/>" + "i) Application Form" +"<br/>" + "ii) Public Notice"+"<br/> <br/>";
 	var apfr ="Generate the following forms before approval :" +"<br/>" + "i) Payment Request Letter"+"<br/>" + "ii) APFR Form";
 	var val_gen_fr= "Production des formulaires suivant avant approbation :" +"<br/>" + "i) Formulaire de demande";
-	var prep_adj_fr="Production des formulaires suivant avant approbation :" +"<br/>" + "i) Formulaire de demande" +"<br/>" + "ii) Avis de publicité"+"<br/>" + "iii) PV de constatation foncière"+"<br/>";
+	var prep_adj_fr="Production des formulaires suivant avant approbation :" +"<br/>" + "i) Formulaire de demande" +"<br/>" + "ii) Avis de publicitÃ©"+"<br/>" +"<br/>";
 	var apfr_fr ="Production des formulaires suivant avant approbation :" +"<br/>" + "i) Lettre de demande de paiement"+"<br/>" + "ii) APFR";
 	if((workId ==2 || workId ==5 || workId ==7  || workId ==13) && (actionName=="Approve"))
 	{
@@ -3116,7 +3167,7 @@ else if(lang=="fr"){
 				text: "Ok",
 				"id": "info_ok",
 				click: function () {
-					approveDialog(usin,workId,actionName);
+					approveDialog(usin,workId,actionName,project);
 					approveInfoDialog.dialog( "destroy" );
 					approveInfoDialog.dialog( "close" );
 
@@ -3143,11 +3194,11 @@ else if(lang=="fr"){
 		approveInfoDialog.dialog( "open" );
 	}
 	else{
-		approveDialog(usin,workId,actionName);
+		approveDialog(usin,workId,actionName,project);
 	}
 }
 
-function approveDialog(usin,workId,actionName){
+function approveDialog(usin,workId,actionName,project){
 	approveStatusDialog = $( "#approveParcel-dialog-form" ).dialog({
 		autoOpen: false,
 		height: 200,
@@ -3205,12 +3256,12 @@ function approveDialog(usin,workId,actionName){
 	}
 
 	$("#approveButton").click(function(){
-		approveRecords(usin,workId,actionName);
+		approveRecords(usin,workId,actionName,project);
 	});
 	approveStatusDialog.dialog( "open" );	
 
 }
-function approveRecords(usin,workId,actionName){
+function approveRecords(usin,workId,actionName,project){
 
 	var dpicomment=$('#commentsStatus').val();
 	if((dpicomment==undefined || dpicomment=='') && actionName=='Reject'){
@@ -3220,7 +3271,7 @@ function approveRecords(usin,workId,actionName){
 		jAlert(Comment_confirmation,Alert);
 	}
 	else{
-		approveParcel(actionName,workId,usin);	
+		approveParcel(actionName,workId,usin,project);	
 	}
 }
 function closeDialogbox(){
@@ -3430,7 +3481,7 @@ function getVillage(){
 		});
 	}
 	else if(lang=="fr"){
-		jQuery("#village_sel").append(jQuery("<option></option>").attr("value", 0).text("Merci de sélectionner")); 
+		jQuery("#village_sel").append(jQuery("<option></option>").attr("value", 0).text("Merci de sÃ©lectionner")); 
 		jQuery.each(villageList, function (i, villobj) {
 			jQuery("#village_sel").append(jQuery("<option></option>").attr("value", villobj.villageId).text(villobj.villageNameFr)); 
 

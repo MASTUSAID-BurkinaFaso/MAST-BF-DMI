@@ -15,9 +15,12 @@ import com.rmsi.mast.studio.domain.fetch.SpatialunitDeceasedPerson;
 import com.rmsi.mast.viewer.dao.SpatialUnitDeceasedPersonDao;
 
 
-
+/**
+ * 
+ * @author Abhishek.Dasgupta
+ *
+ */
 @Repository
-
 public class SpatialUnitDeceasedPersonHibernateDAO extends GenericHibernateDAO<SpatialunitDeceasedPerson, Long>
 implements SpatialUnitDeceasedPersonDao {
 	private static final Logger logger = Logger.getLogger(LandRecordsHibernateDAO.class);

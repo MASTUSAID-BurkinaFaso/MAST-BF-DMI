@@ -1,5 +1,4 @@
 package com.rmsi.mast.viewer.web.mvc;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -37,6 +36,9 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestBindingException;
@@ -48,6 +50,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.rmsi.mast.custom.dto.BoundaryMapDto;
 import com.rmsi.mast.custom.dto.CcroDto;
 import com.rmsi.mast.custom.dto.Form1Dto;
@@ -57,6 +60,7 @@ import com.rmsi.mast.custom.dto.Form5Dto;
 import com.rmsi.mast.custom.dto.Form7Dto;
 import com.rmsi.mast.custom.dto.Form8Dto;
 import com.rmsi.mast.custom.dto.LandRecordDto;
+import com.rmsi.mast.custom.dto.MessageDto;
 import com.rmsi.mast.custom.dto.PaymentDto;
 import com.rmsi.mast.studio.dao.PaymentInfoDAO;
 import com.rmsi.mast.studio.dao.SUnitHistoryDAO;
@@ -82,12 +86,14 @@ import com.rmsi.mast.studio.domain.PersonType;
 import com.rmsi.mast.studio.domain.Project;
 import com.rmsi.mast.studio.domain.ProjectArea;
 import com.rmsi.mast.studio.domain.ProjectHamlet;
+import com.rmsi.mast.studio.domain.ProjectSpatialData;
 import com.rmsi.mast.studio.domain.Role;
 import com.rmsi.mast.studio.domain.ShareType;
 import com.rmsi.mast.studio.domain.SlopeValues;
 import com.rmsi.mast.studio.domain.SocialTenureRelationship;
 import com.rmsi.mast.studio.domain.SoilQualityValues;
 import com.rmsi.mast.studio.domain.SourceDocument;
+import com.rmsi.mast.studio.domain.SpatialUnit;
 import com.rmsi.mast.studio.domain.Status;
 import com.rmsi.mast.studio.domain.TenureClass;
 import com.rmsi.mast.studio.domain.TitleExisting;
@@ -106,10 +112,19 @@ import com.rmsi.mast.studio.domain.fetch.Usertable;
 import com.rmsi.mast.studio.mobile.dao.SpatialUnitDao;
 import com.rmsi.mast.studio.mobile.service.SpatialUnitService;
 import com.rmsi.mast.studio.mobile.service.UserDataService;
+import com.rmsi.mast.studio.service.ProjectDataService;
 import com.rmsi.mast.studio.service.ProjectService;
+import com.rmsi.mast.studio.service.RoleService;
+import com.rmsi.mast.studio.service.SpatialUnitStatusHistoryService;
 import com.rmsi.mast.studio.service.UserService;
+import com.rmsi.mast.studio.util.JsonDateSerializer;
 import com.rmsi.mast.viewer.service.LandRecordsService;
 
+/**
+ * 
+ * @author Vaibhav.Agarwal
+ *
+ */
 @Controller
 public class LandRecordsController {
 
@@ -136,6 +151,19 @@ public class LandRecordsController {
 	@Autowired
 	private SUnitHistoryDAO sUnitHistoryDAO;
 
+	@Autowired
+	RoleService roleService;
+	
+	@Autowired
+	ProjectDataService projectDataService ;
+	
+	
+	@Autowired
+	SpatialUnitDao spatialUnitDao;
+	
+	@Autowired
+	private SpatialUnitStatusHistoryService spatialUnitStatusHistoryService;
+	
 	@RequestMapping(value = "/viewer/landrecords/", method = RequestMethod.GET)
 	@ResponseBody
 	public ProjectTemp list(Principal principal) {
@@ -3299,6 +3327,7 @@ public class LandRecordsController {
 					dto.setUsin(spatialUnitTemp.getUsin());
 					dto.setApfr_no(spatialUnitTemp.getApfr_no());
 					dto.setSection(0);
+					dto.setProject(project);
 					if(spatialUnitTemp.getSection()!=null)
 					dto.setSection(spatialUnitTemp.getSection());
 					landDto.add(dto);
@@ -3316,11 +3345,13 @@ public class LandRecordsController {
 	}
 
 
-	@RequestMapping(value = "/viewer/landrecords/actionapprove/{id}/{workflowId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/viewer/landrecords/actionapprove/{id}/{workflowId}/{project}", method = RequestMethod.POST)
 	@ResponseBody
-	public Integer actionApprove(@PathVariable Long id, Principal principal,@PathVariable Integer workflowId,
+	public Integer actionApprove(@PathVariable Long id, Principal principal,@PathVariable Integer workflowId,@PathVariable String project,
 			HttpServletRequest request, HttpServletResponse response) {
 
+		
+		
 		String comments="";
 		try {
 			comments = ServletRequestUtils.getRequiredStringParameter(request, "commentsStatus");
@@ -3331,14 +3362,14 @@ public class LandRecordsController {
 		String username = principal.getName();
 		User user = userService.findByUniqueName(username);
 		long userid = user.getId();
-		return landRecordsService.actionApprove(id, userid,workflowId,comments);
+		return landRecordsService.actionApprove(id, userid,workflowId,comments ,project);
 
 	}
 
 
-	@RequestMapping(value = "/viewer/landrecords/actionreject/{id}/{workflowId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/viewer/landrecords/actionreject/{id}/{workflowId}/{project}", method = RequestMethod.POST)
 	@ResponseBody
-	public Integer actionReject(@PathVariable Long id, Principal principal,@PathVariable Integer workflowId,
+	public Integer actionReject(@PathVariable Long id, Principal principal,@PathVariable Integer workflowId,@PathVariable String project,
 			HttpServletRequest request, HttpServletResponse response) {
 
 		String comments="";
@@ -3392,6 +3423,7 @@ public class LandRecordsController {
 		int landregistry=0;
 		int [] workids=null;
 		int search_appStatus=0;
+		String usin="";
 
 		try {
 			appno = ServletRequestUtils.getRequiredStringParameter(request, "search_appno");
@@ -3434,6 +3466,12 @@ public class LandRecordsController {
 			logger.error(e);
 		}
 		
+		try {
+			usin = ServletRequestUtils.getRequiredStringParameter(request, "search_usin");
+		} catch (ServletRequestBindingException e) {
+			logger.error(e);
+		}
+		
 
 		String username = principal.getName();
 		User user = userService.findByUniqueName(username);
@@ -3455,7 +3493,7 @@ public class LandRecordsController {
 
 		//long userid = user.getId();
 
-		List<?> spatialUnit = landRecordsService.getSearchResult(appno,pvno,apfr,name,apptype,workids,projectname,startfrom,search_appStatus);
+		List<?> spatialUnit = landRecordsService.getSearchResult(usin,appno,pvno,apfr,name,apptype,workids,projectname,startfrom,search_appStatus);
 
 		List<LandRecordDto> tmpList=new ArrayList<LandRecordDto>();
 		try {
@@ -3512,6 +3550,7 @@ public class LandRecordsController {
 		int landregistry=0;
 		int [] workids=null;
 		int search_appStatus=0;
+		String usin="";
 
 		try {
 			appno = ServletRequestUtils.getRequiredStringParameter(request, "search_appno");
@@ -3553,7 +3592,13 @@ public class LandRecordsController {
 		} catch (ServletRequestBindingException e) {
 			logger.error(e);
 		}
-
+		
+		try {
+			usin = ServletRequestUtils.getRequiredStringParameter(request, "search_usin");
+		} catch (ServletRequestBindingException e) {
+			logger.error(e);
+		}
+		
 		String username = principal.getName();
 		User user = userService.findByUniqueName(username);
 		String projectname=user.getDefaultproject();
@@ -3577,7 +3622,7 @@ public class LandRecordsController {
 
 		//long userid = user.getId();
 
-		int searchRecords = landRecordsService.getSearchResult(appno,pvno,apfr,name,apptype,workids,projectname,search_appStatus);
+		int searchRecords = landRecordsService.getSearchResult(usin,appno,pvno,apfr,name,apptype,workids,projectname,search_appStatus);
 
 
 		return searchRecords;
@@ -3632,6 +3677,7 @@ public class LandRecordsController {
 			tmpLst.setProfession(natureTmp.getOccupation());
 
 			tmpLst.setReferenceofId(natureTmp.getIdcard());
+			
 			if(tenureTmp.getShare_type()!=null)
 				tmpLst.setTypeoftenancy(tenureTmp.getShare_type().getShareType_sw());
 			tmpLst.setTenancyId(tenureTmp.getShare_type().getGid());
@@ -3815,46 +3861,56 @@ public class LandRecordsController {
 			}
 
 			form7.setAddress(natureTmp.getAddress());
-			form7.setApplication_year(spatialTmp.getApplicationdate().getYear()+1900);
-			form7.setApplication_date(spatialTmp.getApplicationdate());
+			form7.setApplication_year(Integer.parseInt(String.valueOf(spatialTmp.getApplicationdate().getYear()+1900).substring(2)));
+			if (spatialTmp.getPublic_notice_startdate() != null)
+
+			{
+				//DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+				Calendar c = Calendar.getInstance();
+				c.setTime(spatialTmp.getPublic_notice_startdate());
+				c.add(Calendar.DATE, 47);
+				form7.setApplication_date(c.getTime());
+			}
+			//form7.setApplication_date(spatialTmp.getApplicationdate());
 			form7.setApplication_dd(spatialTmp.getApplicationdate().getDate());
 			
 			//set application month
 			switch(spatialTmp.getApplicationdate().getMonth()){
-			case 1 :
+			case 0 :
 				form7.setApplication_month("Janvier");
 				break;
-			case 2 :
+			case 1 :
 				form7.setApplication_month("Février");
 				break;
-			case 3 :
+			case 2 :
 				form7.setApplication_month("Mars");
 				break;
-			case 4 :
+			case 3 :
 				form7.setApplication_month("Avril");
 				break;
-			case 5 :
+			case 4 :
 				form7.setApplication_month("Mai");
 				break;
-			case 6 :
+			case 5 :
 				form7.setApplication_month("Juin");
 				break;
-			case 7 :
+			case 6 :
 				form7.setApplication_month("Juillet");
 				break;
-			case 8 :
+			case 7 :
 				form7.setApplication_month("Août");
 				break;
-			case 9 :
+			case 8 :
 				form7.setApplication_month("Septembre");
 				break;
-			case 10 :
+			case 9 :
 				form7.setApplication_month("Octobre");
 				break;
-			case 11 :
+			case 10 :
 				form7.setApplication_month("Novembre");
 				break;
-			case 12 :
+			case 11 :
 				form7.setApplication_month("Décembre");
 				break;
 				default:
@@ -3891,9 +3947,15 @@ public class LandRecordsController {
 			}
 			/*form7.setArea_ares(spatialTmp.getArea()*100);
 			form7.setArea_centiares(spatialTmp.getArea()*10000);*/
+			form7.setApplication_type(tenureTmp.getShare_type().getShareType_sw());
+			
+			//set pv no.
+			form7.setPv_no(spatialTmp.getPv_no());
+			
 		} catch (Exception e) {
 			logger.error(e);
 		}
+		
 
 		return form7;
 
@@ -3925,9 +3987,9 @@ public class LandRecordsController {
 			form5.setApplication_date(spatialTmp.getApplicationdate());
 			form5.setApplication_no(spatialTmp.getApplication_no());
 			form5.setArea(spatialTmp.getArea().toString());
-			form5.setApfr_date(spatialTmp.getApplicationdate()); //change to apfr date
+			form5.setApfr_date(spatialTmp.getApfr_date()); //change to apfr date
 			form5.setBirthplace(natureTmp.getBirthplace());
-			form5.setDate_recognition_right(spatialTmp.getApplicationdate()); //change to recognition date
+			//form5.setDate_recognition_right(spatialTmp.getApplicationdate()); //change to recognition date
 			form5.setDob(natureTmp.getDob());
 
 			List<LandUseType> existingList = landRecordsService.getExistingUseName(spatialTmp.getExisting_use());
@@ -3960,6 +4022,21 @@ public class LandRecordsController {
 			form5.setVillage_no(spatialTmp.getVillageno());
 			form5.setOther_use(spatialTmp.getOtherUseType());
 			form5.setApfrno(spatialTmp.getApfr_no());
+			
+			
+			// Added for date pv+47
+			
+			if (spatialTmp.getPublic_notice_startdate() != null)
+
+			{
+				//DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+				Calendar c = Calendar.getInstance();
+				c.setTime(spatialTmp.getPublic_notice_startdate());
+				c.add(Calendar.DATE, 47);
+				form5.setDate_recognition_right(c.getTime());
+			}
+			
 
 		} catch (Exception e) {
 			logger.error(e);
@@ -3983,6 +4060,7 @@ public class LandRecordsController {
 			//SpatialUnitExtension spatialunit_extensionTmp = landRecordsService.findAllSpatialUnitByUsin(usin);
 			String mayorname=projectService.findProjectByName(spatialTmp.getProject()).getProjectAreas().get(0).getMayorname();
 			List<SpatialunitPersonwithinterest> poiLst = landRecordsService.findpersonInterestByUsin(usin);
+			SpatialUnitExtension spaext = landRecordsService.findAllSpatialUnitByUsin(usin);
 
 
 			if(spatialTmp.getVillage_id()!=null){
@@ -3999,7 +4077,7 @@ public class LandRecordsController {
 			form8.setArea(spatialTmp.getArea().toString());
 			form8.setApfr_date(spatialTmp.getApfr_date()); //change to apfr date
 			form8.setBirthplace(natureTmp.getBirthplace());
-			form8.setDate_recognition_right(spatialTmp.getApplicationdate()); //change to recognition date
+			form8.setDate_recognition_right(spaext.getRecognition_rights_date()); //change to recognition date
 			form8.setDob(natureTmp.getDob());
 
 			List<LandUseType> existingList = landRecordsService.getExistingUseName(spatialTmp.getExisting_use());
@@ -4024,7 +4102,7 @@ public class LandRecordsController {
 			form8.setFamilyname(natureTmp.getFirstName()+" "+natureTmp.getLastName());
 			form8.setFamily_address(natureTmp.getAddress());
 			form8.setId_card_date_place(natureTmp.getIdcard()); // change to id establish date place;
-
+			form8.setIdcardEstbDate(natureTmp.getIdcard_establishment_date());
 			if(natureTmp.getNop_id()!=null)
 				form8.setRefrenceof_mandate(natureTmp.getNop_id().getNatureOfPowerFr()); // change to refrence of mandate
 			form8.setPoiLst(poiLst);
@@ -4077,13 +4155,19 @@ public class LandRecordsController {
 			tmpDto.setApplicationdate(spatialTmp.getApplicationdate());
 			tmpDto.setName(natureTmp.getFirstName()+" "+natureTmp.getLastName());
 			tmpDto.setNeighbourLst(landRecordsService.findNeighbourstByUsin(id));
-			tmpDto.setVillagename(spatialTmp.getVillage_id().getVillageName());
+			if(spatialTmp.getVillage_id()!=null){
+				tmpDto.setVillagename(spatialTmp.getVillage_id().getVillageName());
+				tmpDto.setRegion(spatialTmp.getVillage_id().getCommune().getProvince().getRegion().getRegionNameFr());
+				tmpDto.setProvince(spatialTmp.getVillage_id().getCommune().getProvince().getProvinceNameFr());
+				tmpDto.setCommune(spatialTmp.getVillage_id().getCommune().getCommuneNameFr());
+			}
+			
 			if(spatialTmp.getWorkflow_id().getWorkflowId()==4)
 			{
 				// 4 is the workflow id i.e Approve
 				// 3 is the workflow status i.e Process Application
 				try {
-					long userId = landRecordsService.findSFRname(id,4,3);
+					long userId = landRecordsService.findSFRname(id,3,4);
 					tmpDto.setSfr_name(userService.findUserByUserId((int) userId).getName());
 				} catch (Exception e) {
 				logger.error(e);
@@ -4680,6 +4764,21 @@ public class LandRecordsController {
 			tmpDto.setVillage(spatialTmp.getVillage_id().getVillageNameFr());	
 		}
 		
+		
+		if (spatialTmp.getPublic_notice_startdate() != null)
+
+		{
+			//DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+			Calendar c = Calendar.getInstance();
+			c.setTime(spatialTmp.getPublic_notice_startdate());
+			c.add(Calendar.DATE, 47);
+			tmpDto.setPv_date(c.getTime());
+		}
+		//form7.setApplication_date(spatialTmp.getApplicationdate());
+		
+		
+		
 		tenureTmp=null;
 		spatialTmp=null;
 		natureTmp=null;
@@ -4699,6 +4798,35 @@ public class LandRecordsController {
 			else	
 				return new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 	}
+	
+	//check apfr date
+	@RequestMapping(value = "/viewer/landrecords/checkapfrdate/{usin}", method = RequestMethod.GET)
+	@ResponseBody
+	public boolean findApfrDate(@PathVariable Long usin)
+	{
+
+		
+			if(landRecordsService.findApfrDatebyUsin(usin)!=null)
+				return true;
+			else	
+				return false;
+	}
+	//set apfr date
+	@RequestMapping(value = "/viewer/landrecords/setapfrdate/{usin}", method = RequestMethod.GET)
+	@ResponseBody
+	public boolean setApfrDate(@PathVariable Long usin)
+	{
+		SpatialUnitTable  spaObj= landRecordsService.findSpatialUnitbyId(usin).get(0);
+		spaObj.setApfr_date(new Date());
+			try {
+				landRecordsService.setApfrDate(spaObj);
+				return true;
+			} catch (Exception e) {
+			logger.error(e);
+			return false;
+			}
+	}
+	
 	
 	@RequestMapping(value = "/viewer/landrecords/updatenoticedate/{usin}", method = RequestMethod.GET)
 	@ResponseBody
@@ -4721,4 +4849,233 @@ public class LandRecordsController {
 		}
 	}
 	
+	@RequestMapping(value = "/viewer/landrecords/currentdate", method = RequestMethod.GET)
+	@ResponseBody
+	public String fetchCurrentDate()
+	{
+		
+		return new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+	}
+	
+	@RequestMapping(value = "/viewer/landrecords/comparedate/{usin}", method = RequestMethod.GET)
+	@ResponseBody
+	public MessageDto comparePublicNoticeEnddate(@PathVariable Long usin, Principal principal) throws JSONException
+	{
+		SpatialUnitTable spatialObj = landRecordsService.findSpatialUnitbyId(usin).get(0);
+		String role="";
+		String username = principal.getName();
+		User user = userService.findByUniqueName(username);
+		Set<Role> roles = user.getRoles();
+		Iterator<Role> itr = roles.iterator();
+		MessageDto obj = new MessageDto();
+		DateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+		DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+		while (itr.hasNext()) {
+
+			role = itr.next().getName();
+		}	
+		if(role.equals("ROLE_ADMIN") || role.equals("ROLE_SFR")|| role.equals("ROLE_DPI") )
+		{
+		
+			Calendar c = Calendar.getInstance();
+			if(spatialObj.getPublic_notice_startdate()!=null)
+			{
+				c.setTime(spatialObj.getPublic_notice_startdate());
+				c.add(Calendar.DATE, 45);
+				System.out.println(c.getTime());
+			}
+					
+						
+			if(c.getTime().after(new Date())){
+				
+				 obj.setMsg("donotapproveparcel");
+				 String date=null;;
+					try {
+						date =format.format(formatter.parse(c.getTime().toString()));
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					obj.setDate(date.toString());
+				 return obj;
+			}
+			else if(c.getTime().before(new Date()) || c.getTime().equals(new Date())){
+				 obj.setMsg("approveparcel");
+				 return obj;
+			}
+			
+		}else
+		{
+			 obj.setMsg("donotapproveparcel");
+			 obj.setDate("");
+			 return obj;
+					
+			
+		}
+		
+		return null;
+	}
+	
+	@RequestMapping(value = "/viewer/landrecords/comparedate/reject/{usin}", method = RequestMethod.GET)
+	@ResponseBody
+	public MessageDto compareRejectDate(@PathVariable Long usin, Principal principal) throws JSONException
+	{
+		SpatialUnitTable spatialObj = landRecordsService.findSpatialUnitbyId(usin).get(0);
+		String role="";
+		String username = principal.getName();
+		User user = userService.findByUniqueName(username);
+		Set<Role> roles = user.getRoles();
+		Iterator<Role> itr = roles.iterator();
+		MessageDto obj = new MessageDto();
+		DateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+		DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+		while (itr.hasNext()) {
+
+			role = itr.next().getName();
+		}	
+		if( role.equals("ROLE_DPI") )
+		{
+		
+			Calendar c = Calendar.getInstance();
+			if(spatialObj.getPublic_notice_startdate()!=null)
+			{
+				c.setTime(spatialObj.getPublic_notice_startdate());
+				c.add(Calendar.DATE, 45);
+				System.out.println(c.getTime());
+			}
+					
+			if(c.getTime().after(new Date())){
+				
+				 obj.setMsg("Rejectparcel");
+				 String date=null;;
+					try {
+						date =format.format(formatter.parse(c.getTime().toString()));
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					obj.setDate(date);
+				 return obj;
+			}
+			else if(c.getTime().before(new Date()) || c.getTime().equals(new Date())){
+				 obj.setMsg("donotReject");
+     			 String date=null;;
+				try {
+					date =format.format(formatter.parse(c.getTime().toString()));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				 obj.setDate(date.toString());
+				 return obj;
+			}
+			
+		}else if(role.equals("ROLE_ADMIN") || role.equals("ROLE_SFR")){
+			
+			obj.setMsg("Rejectparcel");
+			    return obj;
+			 
+		}else
+		{
+			 obj.setMsg("donotReject");
+			 obj.setDate("");
+			 return obj;
+					
+			
+		}
+		
+		return null;
+	}
+	
+	@RequestMapping(value = "/viewer/projectdata/getformimage/{name}", method = RequestMethod.GET)
+	@ResponseBody
+    public String getFormImage(@PathVariable String name){
+		
+		ProjectSpatialData result=getImageData(name);
+		String fileExtension="";
+		if(result.getFileName()!=null) {
+			try {
+				String[] array = result.getFileExtension().split("/");
+				fileExtension=array[1];
+			} catch (Exception e) {
+			logger.error(e);
+			}
+		}
+		
+		return result.getFileLocation()+"/"+result.getId()+"."+fileExtension;
+	}
+	
+	 public ProjectSpatialData getImageData(@PathVariable String name){
+			
+			List <ProjectSpatialData> lst= projectDataService.displaySelectedProject(name);
+			ProjectSpatialData result= new ProjectSpatialData();
+			for (ProjectSpatialData projectSpatialData : lst) {
+				
+				if(projectSpatialData.getFileExtension().contains("img")){
+					result=projectSpatialData;
+					
+				}
+				
+			}
+			
+			
+			return result;
+		}
+	
+	 @RequestMapping(value = "/viewer/landrecords/usinId/{usin}", method = RequestMethod.GET)
+	 @ResponseBody
+		public SpatialUnit getSpatialUnit(@PathVariable String usin)
+	 {
+		 return spatialUnitService.getSpatialUnitByUsin(Integer.parseInt(usin));
+	 }
+	 
+	 @RequestMapping(value = "/viewer/landrecords/updateparcelnumber", method = RequestMethod.POST)
+	 @ResponseBody
+		public boolean checkParcelNumberInSection(HttpServletRequest request, HttpServletResponse response,Principal principal)
+	 {
+		 boolean flag=false;
+		 String parcelNum="";
+		 String usin="";
+		 try{		
+			 parcelNum = ServletRequestUtils.getRequiredStringParameter(request, "number_seq_edit");
+			 usin = ServletRequestUtils.getRequiredStringParameter(request, "usin_editId");
+			 SpatialUnit objSpatialUnit=spatialUnitService.getSpatialUnitByUsin(Integer.parseInt(usin));
+			 
+			 flag= spatialUnitService.checkParcelNumberInSection(Integer.parseInt(parcelNum), objSpatialUnit.getSection());
+			 if(!flag)
+			 {
+				 objSpatialUnit.setParcel_no_in_section(Integer.parseInt(parcelNum));
+				 spatialUnitService.addSpatialUnit(objSpatialUnit);
+					String comments="";
+					try {
+						String username = principal.getName();
+						User user = userService.findByUniqueName(username);
+						long userid = user.getId();
+						    comments = ServletRequestUtils.getRequiredStringParameter(request, "commentsStatus_parcelEdit");
+						    SpatialUnitStatusHistory sunitHistory=new SpatialUnitStatusHistory();
+						    sunitHistory.setUsin(objSpatialUnit.getUsin());
+							sunitHistory.setUserid(userid);
+							sunitHistory.setComments(comments);
+							sunitHistory.setStatus_change_time(new Date());
+							sunitHistory.setWorkflow_status_id(8);// pending 
+							sunitHistory.setWorkflow_id(4); // send for opinion
+							spatialUnitStatusHistoryService.addStatusHistory(sunitHistory);
+						 
+							
+					} catch (ServletRequestBindingException e) {
+						logger.error(e);
+					}
+
+				  
+				 return true;
+			 }else
+			 {
+				 return false;
+			 }
+			 
+		 }catch(Exception e)
+		 {
+			 logger.error(e);
+		 }
+		 return false;
+	 }
+	 
+	 
 }

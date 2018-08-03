@@ -8,12 +8,15 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.rmsi.mast.studio.domain.LandUseType;
 import com.rmsi.mast.studio.util.JsonDateSerializer2;
 
+
+
+/**
+ * 
+ * @author Vaibhav.Agarwal
+ *
+ */
 public class Form3Dto  implements Serializable{
-	
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	private String region;

@@ -6,6 +6,12 @@ import java.util.Date;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.rmsi.mast.studio.util.JsonDateSerializer2;
 
+/**
+ * 
+ * @author Vaibhav.Agarwal
+ *
+ */
+
 public class PaymentDto  implements Serializable{
 	
 	
@@ -23,6 +29,8 @@ public class PaymentDto  implements Serializable{
 	private String lastname;
 	
 	private String pv_no;
+	private Date pv_date;
+	
 	public String getProvince() {
 		return province;
 	}
@@ -92,6 +100,13 @@ public class PaymentDto  implements Serializable{
 	}
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
+	}
+	@JsonSerialize(using = JsonDateSerializer2.class)
+	public Date getPv_date() {
+		return pv_date;
+	}
+	public void setPv_date(Date pv_date) {
+		this.pv_date = pv_date;
 	}
 	
 	

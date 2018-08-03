@@ -4,12 +4,16 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 
+
+
+/**
+ * 
+ * @author Vaibhav.Agarwal
+ *
+ */
+
 public class CcroDto  implements Serializable{
 	
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private HashMap<String,String> personName_url;

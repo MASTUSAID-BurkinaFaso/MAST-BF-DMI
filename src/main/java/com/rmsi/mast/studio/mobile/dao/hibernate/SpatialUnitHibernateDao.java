@@ -171,7 +171,24 @@ public class SpatialUnitHibernateDao extends
 
 	}
 
+	@Override
+	public boolean checkParcelNumberInSection(int parcel_no,int section) {
+			try {
+				String query = "SELECT COUNT(a) from SpatialUnit a where a.section=:section and a.parcel_no_in_section=:parcel_no";
 
+				long count = (long) getEntityManager().createQuery(query)
+				.setParameter("section", section)
+				.setParameter("parcel_no", parcel_no)
+				.getSingleResult();
 
+				if (count > 0) {
+					return true;
+				}
+			} catch (Exception ex) {
+				logger.error(ex);
+			}
+			return false;
+		
+}
 	
 }

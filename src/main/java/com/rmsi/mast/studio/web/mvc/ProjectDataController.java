@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.faces.application.ProjectStage;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
@@ -30,13 +31,18 @@ import com.rmsi.mast.studio.service.ProjectAttributeService;
 import com.rmsi.mast.studio.service.ProjectDataService;
 import com.rmsi.mast.studio.service.UserService;
 
+/**
+ * 
+ * @author Vaibhav.Agarwal
+ *
+ */
 
 @Controller
 public class ProjectDataController 
 {
 	
 	private static final Logger logger = Logger.getLogger(ProjectDataController.class);
-	
+
 	@Autowired
 	ProjectDataService projectDataService ;
 	
@@ -50,6 +56,12 @@ public class ProjectDataController
     public String uploadSpatialData(MultipartHttpServletRequest request, HttpServletResponse response)
     {	
 		//List<ProjectSpatialData> uploadDocuments = new ArrayList<ProjectSpatialData>();
+		
+		List <String> validExtension = new ArrayList<String>();
+		validExtension.add("mbtiles");
+		validExtension.add("png");
+		validExtension.add("jpeg");
+		validExtension.add("jpg");
 		try {
 
 			Iterator<String> file = request.getFileNames();
@@ -75,7 +87,7 @@ public class ProjectDataController
 				}
 				String uploadFileName = null;
 				
-				String outDirPath=request.getSession().getServletContext().getRealPath(File.separator)+"resources/documents/"+projName+"/mbtiles";
+				String outDirPath=request.getSession().getServletContext().getRealPath(File.separator).replace("mast", "")+"resources/documents/"+projName+"/"+fileExtension.toLowerCase();
 				
 				File outDir=new File(outDirPath);
 				boolean exists = outDir.exists();
@@ -92,17 +104,30 @@ public class ProjectDataController
 					objDocument.setName(projName);
 				}
 				
+				objDocument.setFileExtension("img/"+fileExtension);
+				if(fileExtension.equalsIgnoreCase("mbtiles"))
 				objDocument.setFileExtension(fileExtension);
 				objDocument.setSize(size/1024);
-				uploadFileName=("resources/documents/"+projName+"/mbtiles");
+				uploadFileName=("resources/documents/"+projName+"/"+fileExtension.toLowerCase());
 				objDocument.setFileLocation(uploadFileName);
 				objDocument.setAlias(alias);
 			
-			if(!fileExtension.equalsIgnoreCase("mbtiles"))
+				
+				
+			if(!validExtension.contains(fileExtension.toLowerCase()))
 			{
 				
-				return "mbtiles";
+				return "Invalid";
 			}
+			else if(null!=getImageData(projName).getFileExtension() && getImageData(projName).getFileExtension().contains("img")){
+				
+				return "Image_Exists";
+			}
+			
+			/*else if(projectDataService.displaySelectedProject(projName).){
+				
+				
+			}*/
 			else{
 				objDocument =  projectDataService.saveUploadedDocuments(objDocument);
 			}
@@ -136,7 +161,7 @@ public class ProjectDataController
 					logger.error(e);
 				}
 				
-			 System.out.println("true");
+			 /*System.out.println("true");*/
 
 		} 
 			
@@ -213,6 +238,45 @@ public class ProjectDataController
 		return projectDataService.displaySelectedProject(name);
 		
 	}
+	
+	@RequestMapping(value = "/mobileconfig/projectdata/getformimage/{name}", method = RequestMethod.GET)
+	@ResponseBody
+    public String getFormImage(@PathVariable String name){
+		
+		ProjectSpatialData result=getImageData(name);
+		String fileExtension="";
+		if(result.getFileName()!=null) {
+			try {
+				String[] array = result.getFileExtension().split("/");
+				fileExtension=array[1];
+			} catch (Exception e) {
+			logger.error(e);
+			}
+		}
+		
+		return result.getFileLocation()+"/"+result.getId()+"."+fileExtension;
+	}
+	
+	 public ProjectSpatialData getImageData(@PathVariable String name){
+			
+			List <ProjectSpatialData> lst= projectDataService.displaySelectedProject(name);
+			ProjectSpatialData result= new ProjectSpatialData();
+			if(null!=lst){
+			for (ProjectSpatialData projectSpatialData : lst) {
+				
+				if(projectSpatialData.getFileExtension().contains("img")){
+					result=projectSpatialData;
+					
+				}
+				
+			}
+			}else{
+				result.setFileExtension(null);
+			}
+			
+			
+			return result;
+		}
 	
 }
 

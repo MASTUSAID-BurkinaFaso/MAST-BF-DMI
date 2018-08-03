@@ -9,12 +9,14 @@ import com.rmsi.mast.studio.domain.LandUseType;
 import com.rmsi.mast.studio.domain.fetch.SpatialunitPersonwithinterest;
 import com.rmsi.mast.studio.util.JsonDateSerializer2;
 
+/**
+ * 
+ * @author Vaibhav.Agarwal
+ *
+ */
+
 public class Form8Dto  implements Serializable{
-	
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	
@@ -92,6 +94,7 @@ public class Form8Dto  implements Serializable{
 	private String apfrno;
 	
 	private Date mandateDate;
+	private Date idcardEstbDate;
 
 	public String getRegion() {
 		return region;
@@ -384,6 +387,14 @@ public class Form8Dto  implements Serializable{
 
 	public void setMandateDate(Date mandateDate) {
 		this.mandateDate = mandateDate;
+	}
+	@JsonSerialize(using = JsonDateSerializer2.class)
+	public Date getIdcardEstbDate() {
+		return idcardEstbDate;
+	}
+
+	public void setIdcardEstbDate(Date idcardEstbDate) {
+		this.idcardEstbDate = idcardEstbDate;
 	}
 	
 

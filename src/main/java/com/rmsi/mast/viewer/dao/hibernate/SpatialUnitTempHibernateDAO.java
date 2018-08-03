@@ -14,7 +14,11 @@ import org.springframework.stereotype.Repository;
 import com.rmsi.mast.studio.dao.hibernate.GenericHibernateDAO;
 import com.rmsi.mast.studio.domain.fetch.SpatialUnitTemp;
 import com.rmsi.mast.viewer.dao.SpatialUnitTempDao;
-
+/**
+ * 
+ * @author Abhishek.Dasgupta
+ *
+ */
 
 @Repository
 public class SpatialUnitTempHibernateDAO extends GenericHibernateDAO<SpatialUnitTemp, Long>

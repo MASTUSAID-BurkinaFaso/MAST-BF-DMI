@@ -11,7 +11,11 @@ import com.rmsi.mast.studio.dao.hibernate.GenericHibernateDAO;
 import com.rmsi.mast.studio.domain.fetch.SpatialUnitExtension;
 import com.rmsi.mast.viewer.dao.SpatialUnitExtensionDao;
 
-
+/**
+ * 
+ * @author Abhishek.Dasgupta
+ *
+ */
 
 @Repository
 public class SpatialUnitExtensionHibernateDAO extends GenericHibernateDAO<SpatialUnitExtension, Long>

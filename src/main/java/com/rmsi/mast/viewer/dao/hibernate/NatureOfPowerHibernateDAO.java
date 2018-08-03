@@ -11,7 +11,11 @@ import com.rmsi.mast.studio.domain.NatureOfPower;
 import com.rmsi.mast.viewer.dao.NatureOfPowerDao;
 
 
-
+/**
+ * 
+ * @author Abhishek.Dasgupta
+ *
+ */
 @Repository
 public class NatureOfPowerHibernateDAO extends GenericHibernateDAO<NatureOfPower, Integer>
 implements NatureOfPowerDao {

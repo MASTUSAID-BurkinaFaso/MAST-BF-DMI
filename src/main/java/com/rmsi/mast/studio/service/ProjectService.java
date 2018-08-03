@@ -22,7 +22,11 @@ import com.rmsi.mast.studio.domain.UserProject;
 import com.rmsi.mast.studio.domain.UserRole;
 import com.rmsi.mast.studio.domain.fetch.ProjectTemp;
 
-
+/**
+ * 
+ * @author Abhishek.Dasgupta
+ *
+ */
 
 public interface ProjectService {
 

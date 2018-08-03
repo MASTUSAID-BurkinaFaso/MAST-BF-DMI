@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package com.rmsi.mast.viewer.dao;
 
 import java.util.List;
@@ -9,7 +7,7 @@ import com.rmsi.mast.studio.dao.GenericDAO;
 import com.rmsi.mast.studio.domain.fetch.SpatialUnitTable;
 
 /**
- * @author Shruti.Thakur
+ * @author Vaibhav.Agarwal
  *
  */
 public interface LandRecordsDao extends GenericDAO<SpatialUnitTable, Long> {
@@ -49,10 +47,10 @@ public interface LandRecordsDao extends GenericDAO<SpatialUnitTable, Long> {
 
 	boolean actionUpdateWorkflow(Long id, Integer workflowId,Integer statusId);
 
-	List<?> getSearchResult(String appno, String pvno, String apfr,
+	List<?> getSearchResult(String usin,String appno, String pvno, String apfr,
 			String name, int apptype, int[] workids,String projname,Integer startpos,int status);
 
-	int getSearchCount(String appno, String pvno, String apfr, String name,
+	int getSearchCount(String usin,String appno, String pvno, String apfr, String name,
 			int apptype, int[] workids, String projectname,int status);
 
 	List<Object> findparcelcountbytenure(String project);

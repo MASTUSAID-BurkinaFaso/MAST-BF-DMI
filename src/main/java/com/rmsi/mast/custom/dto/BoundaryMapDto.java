@@ -6,7 +6,14 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.rmsi.mast.studio.util.JsonDateSerializer;
+import com.rmsi.mast.studio.util.JsonDateSerializer2;
 
+
+/**
+ * 
+ * @author Vaibhav.Agarwal
+ *
+ */
 public class BoundaryMapDto  implements Serializable{
 	
 	
@@ -18,6 +25,9 @@ public class BoundaryMapDto  implements Serializable{
 	private Date applicationdate;
 	private List<String> neighbourLst;
 	private String sfr_name;
+	private String region;
+	private String province;
+	private String commune;
 	
 	public String getName() {
 		return name;
@@ -37,7 +47,7 @@ public class BoundaryMapDto  implements Serializable{
 	public void setApplication_no(String application_no) {
 		this.application_no = application_no;
 	}
-	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonSerialize(using = JsonDateSerializer2.class)
 	public Date getApplicationdate() {
 		return applicationdate;
 	}
@@ -55,6 +65,24 @@ public class BoundaryMapDto  implements Serializable{
 	}
 	public void setSfr_name(String sfr_name) {
 		this.sfr_name = sfr_name;
+	}
+	public String getRegion() {
+		return region;
+	}
+	public void setRegion(String region) {
+		this.region = region;
+	}
+	public String getProvince() {
+		return province;
+	}
+	public void setProvince(String province) {
+		this.province = province;
+	}
+	public String getCommune() {
+		return commune;
+	}
+	public void setCommune(String commune) {
+		this.commune = commune;
 	}
 	
 	

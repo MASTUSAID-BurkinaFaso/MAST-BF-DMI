@@ -29,7 +29,7 @@ workflowStatus.prototype.AllworkFlow = function () {
 
 workflowStatus.prototype.spatialbyWorkFlow=function (rec_from){
 
-	
+
 
 
 	if(workflowTmp!=0){
@@ -136,13 +136,13 @@ function actionLandRecords(){
 
 }
 
-actionLandRecords.prototype.ApproveStatus=function(usin,workflowId){
+actionLandRecords.prototype.ApproveStatus=function(usin,workflowId,project){
 
 	var approve=false;
 
 	jQuery.ajax({ 
 		type:'POST',
-		url: "landrecords/actionapprove/"+usin+"/"+workflowId,
+		url: "landrecords/actionapprove/"+usin+"/"+workflowId+"/"+project,
 		data: jQuery("#approveStatusformID").serialize(),
 		async:false,							
 		success: function (data) {
@@ -159,12 +159,12 @@ actionLandRecords.prototype.ApproveStatus=function(usin,workflowId){
 
 
 
-actionLandRecords.prototype.RejectStatus=function(usin,workflowId){
+actionLandRecords.prototype.RejectStatus=function(usin,workflowId,project){
 
 	var reject=false;
 	jQuery.ajax({ 
 		type:'POST',
-		url: "landrecords/actionreject/"+usin+"/"+workflowId,
+		url: "landrecords/actionreject/"+usin+"/"+workflowId+"/"+project,
 		data: jQuery("#approveStatusformID").serialize(),
 		async:false,							
 		success: function (data) {
@@ -199,9 +199,9 @@ actionLandRecords.prototype.printDialog=function(usin,sharetype){
 		resizable: false,
 		modal: true,
 		buttons: [{
-			 text: "Ok",
-		        "id": "generate_map_ok",
-		        click: function () {
+			text: "Ok",
+			"id": "generate_map_ok",
+			click: function () {
 				var option1 = checkoptions;
 
 				if(option1!='0')
@@ -234,9 +234,9 @@ actionLandRecords.prototype.printDialog=function(usin,sharetype){
 
 			},
 		},{
-			 text: "Cancel",
-		        "id": "generate_map_cancel",
-		        click: function () {
+			text: "Cancel",
+			"id": "generate_map_cancel",
+			click: function () {
 				Dialog.dialog( "destroy" );
 
 			}
@@ -248,8 +248,8 @@ actionLandRecords.prototype.printDialog=function(usin,sharetype){
 
 		}
 	});
-	 $("#generate_map_ok").html('<span class="ui-button-text">'+ Ok +'</span>');
-	 $("#generate_map_cancel").html('<span class="ui-button-text">'+ Cancel +'</span>');
+	$("#generate_map_ok").html('<span class="ui-button-text">'+ Ok +'</span>');
+	$("#generate_map_cancel").html('<span class="ui-button-text">'+ Cancel +'</span>');
 	Dialog.dialog("open");
 	$('input[type=radio][name=map]').change(function() {
 		$('input:radio[name="map"][value='+this.value+']').prop('checked', true);
@@ -359,11 +359,12 @@ actionLandRecords.prototype.searchRegistryCount=function(){
 };
 
 actionLandRecords.prototype.generateParcelNumber=function(usin,workflowId,section){
+
+	//$('#section_no').text(section);
+	//$('#lot_no').text("000");
+	//$('#number_seq').text(usin);
 	
-	$('#section_no').text(section);
-	$('#lot_no').text("000");
-	$('#number_seq').text(usin);
-/*
+	/*
 	jQuery.ajax({
 		url: "landrecords/findcount/",
 		async:false,
@@ -372,20 +373,18 @@ actionLandRecords.prototype.generateParcelNumber=function(usin,workflowId,sectio
 		}
 
 	});
-
+*/
 	jQuery.ajax({
-		url: "landrecords/findexisting/"+usin,
+		url: "landrecords/usinId/"+usin,
 		async:false,
 		success: function (data) {	
-			$('#section_no').val(data.section_no);
-			$('#lot_no').val(data.lotno);
-			$('#usin_parcel').text(usin);
-			if(data.usin!=0)
-			$('#usin_parcel').text(data.usin);
-			 
+			$('#section_no').text(data.section);
+			$('#lot_no').text("000");
+			$('#number_seq').text(data.parcel_no_in_section);
+			
 		}
 
-	});*/
+	});
 
 	generateParcelDialog = $( "#generate-parcelno-form" ).dialog({
 		autoOpen: false,
@@ -394,9 +393,9 @@ actionLandRecords.prototype.generateParcelNumber=function(usin,workflowId,sectio
 		resizable: false,
 		modal: true,
 		buttons:[{
-			 text: "Ok",
-		        "id": "gp_ok",
-		        click: function () {
+			text: "Ok",
+			"id": "gp_ok",
+			click: function () {
 				generateParcelDialog.dialog( "destroy" );
 
 			}
@@ -408,9 +407,143 @@ actionLandRecords.prototype.generateParcelNumber=function(usin,workflowId,sectio
 
 		}
 	});
-	 $("#gp_ok").html('<span class="ui-button-text">'+ Ok +'</span>');
+	$("#gp_ok").html('<span class="ui-button-text">'+ Ok +'</span>');
 	generateParcelDialog.dialog("open");
 };
+
+//edit parcel number kamal
+
+actionLandRecords.prototype.editParcelNumber=function(usin,workflowId,section){
+
+	
+	
+	jQuery.ajax({
+		url: "landrecords/usinId/"+usin,
+		async:false,
+		success: function (data) {	
+			$('#section_no_edit').text(data.section);
+			$('#lot_no_edit').text("000");
+			$('#number_seq_edit').val(data.parcel_no_in_section);
+			$("#usin_editId").val(usin);
+		}
+
+	});
+	
+	
+	
+	editParcelDialog = $( "#edit-parcelno-form" ).dialog({
+		autoOpen: false,
+		height: 300,
+		width: 320,
+		resizable: false,
+		modal: true,
+		buttons:[
+		         
+		         {
+			text: "Save",
+			"id": "egp_ok",
+			click: function () {
+				
+
+				var parcel = $('#number_seq_edit').val();
+			    if (parcel !== "" && !$.isNumeric(parcel)) {
+				
+			    	if(lang=="en"){
+			    		jAlert("please Enter Numeric Value for parcel Number", "Alert");
+				    	return false;
+					}
+					else if(lang=="fr"){
+						jAlert("Entrez la valeur numérique pour le numéro de parcelle", "Alert");
+						return false;
+					}
+			    	
+			    	
+			    }
+			    
+			    var comment = $('#commentsStatus_parcelEdit').val();
+			    
+			    if (comment == "") {
+					
+			    	if(lang=="en"){
+			    		jAlert("please Enter Comment", "Alert");
+				    	return false;
+					}
+					else if(lang=="fr"){
+						jAlert("Entrez un commentaire", "Alert");
+						return false;
+					}
+			    	
+			    	
+			    }
+			    
+			    
+				jQuery.ajax({
+					   type: "POST",              
+					   url: "landrecords/updateparcelnumber",
+				       data: jQuery("#parcelnoEditeformID").serialize(),
+					   success: function (data) {	
+						
+						if(data==true)
+							{
+							
+							if(lang=="en"){
+								jAlert("Parcel Number updated", "Alert");
+								editParcelDialog.dialog( "destroy" );
+						    	
+							}
+							else if(lang=="fr"){
+								jAlert("Numéro de parcelle mis à jour", "Alert");
+								editParcelDialog.dialog( "destroy" );
+							
+							}
+							
+							
+							}else
+								{
+								
+								if(lang=="en"){
+									jAlert("Parcel Number Already exist for this Section", "Alert");
+									return false;
+								}
+								else if(lang=="fr"){
+									jAlert("Le numéro de la parcelle", "Alert");
+									return false;
+								}
+								
+								}
+					}
+
+				});
+				
+				
+				
+
+			}
+		},
+		{
+        	text: "cancel",
+    		"id": "egp_cancel",
+    		 click: function () {
+    			 editParcelDialog.dialog( "destroy" );
+	         }	
+         }
+		
+		],
+
+		close: function() {
+
+			editParcelDialog.dialog( "destroy" );
+
+		}
+	});
+	$("#egp_ok").html('<span class="ui-button-text">'+ Save +'</span>');
+	$("#egp_cancel").html('<span class="ui-button-text">'+ Cancel +'</span>');
+	
+	
+	
+	editParcelDialog.dialog("open");
+};
+
 
 function generateForms(){
 
@@ -523,7 +656,7 @@ generateForms.prototype.Form8=function(usin){
 
 
 generateForms.prototype.paymentDetails= function (usin){
-	
+
 	var formLst=[];
 	jQuery.ajax({
 		url: "landrecords/spatialunit/paymentdetail/"+usin,
@@ -539,7 +672,7 @@ generateForms.prototype.paymentDetails= function (usin){
 };
 
 generateForms.prototype.checkDate= function (usin){
-	
+
 	var date=null;
 	jQuery.ajax({
 		url: "landrecords/checknoticedate/"+usin,
@@ -554,6 +687,53 @@ generateForms.prototype.checkDate= function (usin){
 	return date;
 };
 
+generateForms.prototype.checkApfrDate= function (usin){
+
+	var isApfrdate=null;
+	jQuery.ajax({
+		url: "landrecords/checkapfrdate/"+usin,
+		async:false,
+		success: function (data) {	
+
+			isApfrdate=data;
+		}
+
+
+	});
+	return isApfrdate;
+};
+
+generateForms.prototype.setApfrDate= function (usin){
+
+	var result=null;
+	jQuery.ajax({
+		url: "landrecords/setapfrdate/"+usin,
+		async:false,
+		success: function (data) {	
+
+			result=data;
+		}
+
+
+	});
+	return result;
+};
+
+generateForms.prototype.getCurrentDate= function (){
+
+	var currentDate=null;
+	jQuery.ajax({
+		url: "landrecords/currentdate/",
+		async:false,
+		success: function (data) {	
+
+			currentDate=data;
+		}
+
+
+	});
+	return currentDate;
+};
 
 generateForms.prototype.FeatureInfo=function(usin){
 
@@ -586,11 +766,11 @@ generateForms.prototype.FeatureInfo=function(usin){
 
 actionLandRecords.prototype.generateForms=function(usin ,workflowId ,sharetype){
 
-		$('#radio2').show();
-		$('#radio5').hide();
-		$('#radio6').show();
+	$('#radio2').show();
+	$('#radio5').hide();
+	$('#radio6').show();
 
-
+	$('#applicationformID')[0].reset();
 	formDialog = $( "#applicationform-dialog-form" ).dialog({
 		autoOpen: false,
 		height: 370,
@@ -598,9 +778,9 @@ actionLandRecords.prototype.generateForms=function(usin ,workflowId ,sharetype){
 		resizable: false,
 		modal: true,
 		buttons: [{
-			 text: "Ok",
-		        "id": "appform_ok",
-		        click: function () {
+			text: "Ok",
+			"id": "appform_ok",
+			click: function () {
 				var option = checkForm;
 
 
@@ -625,10 +805,23 @@ actionLandRecords.prototype.generateForms=function(usin ,workflowId ,sharetype){
 						$('#applicationformID')[0].reset();
 					}
 					else if(option=="4")
-					{
-						generateform7(usin);
-						formDialog.dialog( "destroy" );
-						$('#applicationformID')[0].reset();
+					{ 
+						var fromTmp=new generateForms();
+						var form7attributeObject=fromTmp.Form7(usin);
+						if(form7attributeObject.application_date==null){
+							if(lang=="en"){
+								jAlert('Please print public notice to generate PV Form',Alert);
+							}
+							else if(lang=="fr"){
+								jAlert("Veuillez imprimer l'avis de publicité afin de générer un formulaire PV",Alert);
+							}
+						}
+						else{
+							generateform7(usin);
+							formDialog.dialog( "destroy" );
+							$('#applicationformID')[0].reset();	
+						}
+
 					}
 					else if(option=="5")
 					{
@@ -657,9 +850,9 @@ actionLandRecords.prototype.generateForms=function(usin ,workflowId ,sharetype){
 			},
 		},
 		{
-			 text: "Cancel",
-		        "id": "appform_cancel",
-		        click: function () {
+			text: "Cancel",
+			"id": "appform_cancel",
+			click: function () {
 				formDialog.dialog( "destroy" );
 				$('#applicationformID')[0].reset();
 
@@ -685,7 +878,24 @@ actionLandRecords.prototype.generateForms=function(usin ,workflowId ,sharetype){
 	checkForm="0";
 	//$('input:radio[name="print"][value="1"]').prop('checked', true);	
 
-
+	$('input[type=radio][name="print"][value="1"]').css('display', 'none');
+	$('input[type=radio][name="print"][value="2"]').css('display', 'none');
+	$('input[type=radio][name="print"][value="3"]').css('display', 'none');
+	$('input[type=radio][name="print"][value="4"]').css('display', 'none');
+	$('input[type=radio][name="print"][value="5"]').css('display', 'none');
+	$('input[type=radio][name="print"][value="6"]').css('display', 'none');
+	$('input[type=radio][name="print"][value="7"]').css('display', 'none');
+	$('input[type=radio][name="print"][value="8"]').css('display', 'none');
+	$('input[type=radio][name="print"][value="9"]').css('display', 'none');
+	$('#radio1').css('display', 'none');
+	$('#radio2').css('display', 'none');
+	$('#radio3').css('display', 'none');
+	$('#radio4').css('display', 'none');
+	$('#radio5').css('display', 'none');
+	$('#radio6').css('display', 'none');
+	$('#radio7').css('display', 'none');
+	$('#radio8').css('display', 'none');
+	$('#radio9').css('display', 'none');
 	console.log(workflowId);
 	switch(workflowId) {
 	case "1":
@@ -721,7 +931,7 @@ actionLandRecords.prototype.generateForms=function(usin ,workflowId ,sharetype){
 		$('input[type=radio][name="print"][value="6"]').css('display', 'none');
 		$('input[type=radio][name="print"][value="7"]').css('display', 'none');
 		$('#radio1').css('display', 'inline');
-		
+
 		$('#radio3').css('display', 'none');
 		$('#radio4').css('display', 'none');
 		$('#radio5').css('display', 'none');
@@ -729,7 +939,7 @@ actionLandRecords.prototype.generateForms=function(usin ,workflowId ,sharetype){
 		$('#radio7').css('display', 'none');
 
 		break;
-		
+
 	case "3":
 		$('input[type=radio][name="print"][value="1"]').css('display', 'inline');
 		if(sharetype==8){
@@ -740,14 +950,14 @@ actionLandRecords.prototype.generateForms=function(usin ,workflowId ,sharetype){
 			$('input[type=radio][name="print"][value="2"]').css('display', 'none');
 			$('#radio2').css('display', 'none');
 		}
-		$('input[type=radio][name="print"][value="3"]').css('display', 'none');
+		$('input[type=radio][name="print"][value="3"]').css('display', 'inline');
 		$('input[type=radio][name="print"][value="4"]').css('display', 'none');
 		$('input[type=radio][name="print"][value="5"]').css('display', 'none');
 		$('input[type=radio][name="print"][value="6"]').css('display', 'none');
 		$('input[type=radio][name="print"][value="7"]').css('display', 'none');
 		$('#radio1').css('display', 'inline');
 		//$('#radio2').css('display', 'inline');
-		$('#radio3').css('display', 'none');
+		$('#radio3').css('display', 'inline');
 		$('#radio4').css('display', 'none');
 		$('#radio5').css('display', 'none');
 		$('#radio6').css('display', 'none');
@@ -765,14 +975,14 @@ actionLandRecords.prototype.generateForms=function(usin ,workflowId ,sharetype){
 			$('#radio2').css('display', 'none');
 		}
 		$('input[type=radio][name="print"][value="3"]').css('display', 'inline');
-		$('input[type=radio][name="print"][value="4"]').css('display', 'inline');
+		$('input[type=radio][name="print"][value="4"]').css('display', 'none');
 		$('input[type=radio][name="print"][value="5"]').css('display', 'none');
 		$('input[type=radio][name="print"][value="6"]').css('display', 'none');
 		$('input[type=radio][name="print"][value="7"]').css('display', 'none');
 		$('#radio1').css('display', 'inline');
 		//$('#radio2').css('display', 'inline');
 		$('#radio3').css('display', 'inline');
-		$('#radio4').css('display', 'inline');
+		$('#radio4').css('display', 'none');
 		$('#radio5').css('display', 'none');
 		$('#radio6').css('display', 'none');
 		$('#radio7').css('display', 'none');
@@ -780,20 +990,20 @@ actionLandRecords.prototype.generateForms=function(usin ,workflowId ,sharetype){
 	case "6":
 		$('input[type=radio][name="print"][value="1"]').css('display', 'inline');
 		if(sharetype==7){
-		$('input[type=radio][name="print"][value="2"]').css('display', 'none');
-		$('#radio2').css('display', 'none');
+			$('input[type=radio][name="print"][value="2"]').css('display', 'none');
+			$('#radio2').css('display', 'none');
 		}
 		if(sharetype==8){
 			$('input[type=radio][name="print"][value="2"]').css('display', 'inline');
 			$('#radio2').css('display', 'inline');
-			}
+		}
 		$('input[type=radio][name="print"][value="3"]').css('display', 'inline');
 		$('input[type=radio][name="print"][value="4"]').css('display', 'inline');
-		$('input[type=radio][name="print"][value="5"]').css('display', '');
+		$('input[type=radio][name="print"][value="5"]').css('display', 'none');
 		$('input[type=radio][name="print"][value="6"]').css('display', 'none');
 		$('input[type=radio][name="print"][value="7"]').css('display', 'none');
 		$('#radio1').css('display', 'inline');
-		
+
 		$('#radio3').css('display', 'inline');
 		$('#radio4').css('display', 'inline');
 		$('#radio5').css('display', 'none');
@@ -812,21 +1022,21 @@ actionLandRecords.prototype.generateForms=function(usin ,workflowId ,sharetype){
 			$('input[type=radio][name="print"][value="6"]').css('display', 'none');
 			$('#radio6').css('display', 'none');
 		}
-		
+
 		else if(sharetype==8){
 			$('input[type=radio][name="print"][value="5"]').css('display', 'none');
 			$('#radio5').css('display', 'none');
 			$('input[type=radio][name="print"][value="6"]').css('display', 'inline');
 			$('#radio6').css('display', 'inline');
 		}
-		
+
 		$('input[type=radio][name="print"][value="7"]').css('display', 'inline');
 		$('#radio1').css('display', 'none');
 		$('#radio2').css('display', 'none');
 		$('#radio3').css('display', 'none');
 		$('#radio4').css('display', 'none');
-		
-		
+
+
 		$('#radio7').css('display', 'inline');
 
 		break;
@@ -856,13 +1066,6 @@ actionLandRecords.prototype.generateForms=function(usin ,workflowId ,sharetype){
 		break;
 
 	case "9":
-		$('input[type=radio][name="print"][value="1"]').css('display', 'inline');
-		
-		$('input[type=radio][name="print"][value="3"]').css('display', 'inline');
-		$('input[type=radio][name="print"][value="4"]').css('display', 'inline');
-		
-		
-		$('input[type=radio][name="print"][value="7"]').css('display', 'inline');
 		
 		if(sharetype==7){
 			$('input[type=radio][name="print"][value="2"]').css('display', 'none');
@@ -871,6 +1074,18 @@ actionLandRecords.prototype.generateForms=function(usin ,workflowId ,sharetype){
 			$('#radio5').css('display', 'inline');
 			$('#radio6').css('display', 'none');
 			$('#radio2').css('display', 'none');
+
+			
+			$('input[type=radio][name="print"][value="1"]').css('display', 'inline');
+			$('input[type=radio][name="print"][value="3"]').css('display', 'inline');
+			$('input[type=radio][name="print"][value="4"]').css('display', 'inline');
+			$('input[type=radio][name="print"][value="7"]').css('display', 'inline');
+
+			
+			$('#radio1').css('display', 'inline');
+			$('#radio3').css('display', 'inline');
+			$('#radio4').css('display', 'inline');
+			$('#radio7').css('display', 'inline');
 			
 		}
 		else if(sharetype==8){
@@ -880,12 +1095,18 @@ actionLandRecords.prototype.generateForms=function(usin ,workflowId ,sharetype){
 			$('#radio5').css('display', 'none');
 			$('#radio6').css('display', 'inline');
 			$('#radio2').css('display', 'inline');
+
+
+			$('input[type=radio][name="print"][value="1"]').css('display', 'inline');
+			$('input[type=radio][name="print"][value="3"]').css('display', 'inline');
+			$('input[type=radio][name="print"][value="4"]').css('display', 'inline');
+			$('input[type=radio][name="print"][value="7"]').css('display', 'inline');
+
 			
-		
-		$('#radio1').css('display', 'inline');
-		$('#radio3').css('display', 'inline');
-		$('#radio4').css('display', 'inline');
-		$('#radio7').css('display', 'inline');
+			$('#radio1').css('display', 'inline');
+			$('#radio3').css('display', 'inline');
+			$('#radio4').css('display', 'inline');
+			$('#radio7').css('display', 'inline');
 		}
 		break;
 
@@ -974,10 +1195,10 @@ actionLandRecords.prototype.generateForms=function(usin ,workflowId ,sharetype){
 		$('#radio7').css('display', 'inline');
 		break;
 	default:
-		
+
 	}
-	 $("#appform_ok").html('<span class="ui-button-text">'+ Ok +'</span>');
-	 $("#appform_cancel").html('<span class="ui-button-text">'+ Cancel +'</span>');
+	$("#appform_ok").html('<span class="ui-button-text">'+ Ok +'</span>');
+	$("#appform_cancel").html('<span class="ui-button-text">'+ Cancel +'</span>');
 	formDialog.dialog("open");
 };
 
@@ -1004,24 +1225,24 @@ comments.prototype.commentsDisplay=function(usin){
 };
 
 function validateParcelNumber(usin){
-	
+
 	$("#parcelnoformID").validate({
 
 		rules: {
 			section_no: {
-		            required: true,
-		            range: [ 1, 25 ]
-		        },
-		
+				required: true,
+				range: [ 1, 25 ]
+			},
+
 			lot_no:"required"
-		
-			
+
+
 		},
 		messages: {
 			//section_no: "Enter numeric value and range of section number is 1-25",
 			lot_no:"Please enter lot number"
-			
-				}
+
+		}
 	});
 
 	if ($("#parcelnoformID").valid())
@@ -1116,9 +1337,9 @@ existinguse.prototype.getExistingUseList=function(){
 
 
 actionLandRecords.prototype.paymentDialog=function(usin){
-	
+
 	var actiontmp=new actionLandRecords();
-	
+
 	paymentUpdateDialog = $( "#paymentInfo-dialog-form" ).dialog({
 		autoOpen: false,
 		height: 500,
@@ -1126,19 +1347,19 @@ actionLandRecords.prototype.paymentDialog=function(usin){
 		resizable: false,
 		modal: true,
 		buttons: [{
-			 text: "Ok",
-		        "id": "payment_ok",
-		        click: function () {
+			text: "Ok",
+			"id": "payment_ok",
+			click: function () {
 				//actiontmp.paymentUpdate(usin);
-		        	actiontmp.validateFields(usin);
+				actiontmp.validateFields(usin);
 				//paymentUpdateDialog.dialog( "destroy" );
 
 			},
 		},
 		{
-			 text: "Cancel",
-		        "id": "payment_cancel",
-		        click: function () {
+			text: "Cancel",
+			"id": "payment_cancel",
+			click: function () {
 				paymentUpdateDialog.dialog( "destroy" );
 
 			}
@@ -1150,8 +1371,8 @@ actionLandRecords.prototype.paymentDialog=function(usin){
 
 		}
 	});
-	 $("#payment_ok").html('<span class="ui-button-text">'+ Ok +'</span>');
-	 $("#payment_cancel").html('<span class="ui-button-text">'+ Cancel +'</span>');
+	$("#payment_ok").html('<span class="ui-button-text">'+ Ok +'</span>');
+	$("#payment_cancel").html('<span class="ui-button-text">'+ Cancel +'</span>');
 	paymentUpdateDialog.dialog("open");
 };
 
@@ -1164,7 +1385,7 @@ actionLandRecords.prototype.validateFields=function(usin){
 			receiptId: "required",
 			paymentAmount:"required",
 			paymentDate:"required"
-			
+
 
 
 		},
@@ -1172,7 +1393,7 @@ actionLandRecords.prototype.validateFields=function(usin){
 			receiptId: FIELD_REQ,
 			paymentAmount:FIELD_REQ,
 			paymentDate:FIELD_REQ
-		
+
 		}
 
 	});
@@ -1189,10 +1410,10 @@ actionLandRecords.prototype.validateFields=function(usin){
 		jAlert(Fill_Mandatory,Alert);
 	}
 
-	
+
 };
 actionLandRecords.prototype.paymentUpdate=function(usin){
-	
+
 	jQuery.ajax({
 		type:"POST",        
 		url: "landrecords/updatepayment/"+usin,
@@ -1218,13 +1439,13 @@ actionLandRecords.prototype.paymentUpdate=function(usin){
 			jAlert(FAILED);
 		}
 	});
-	
-	
+
+
 };
 
 
 actionLandRecords.prototype.signatoryDialog=function(usin){
-	
+
 	var actiontmp=new actionLandRecords();
 	$.ajax({
 
@@ -1233,11 +1454,11 @@ actionLandRecords.prototype.signatoryDialog=function(usin){
 		async:false,
 		success: function(data){
 			if(data.length!=undefined)
-			jQuery('#signatoryDate').val(data);
+				jQuery('#signatoryDate').val(data);
 
 		}
 	});
-	
+
 	signatureDateUpdateDialog = $( "#signatory-dialog-form" ).dialog({
 		autoOpen: false,
 		height: 370,
@@ -1245,20 +1466,20 @@ actionLandRecords.prototype.signatoryDialog=function(usin){
 		resizable: false,
 		modal: true,
 		buttons: [{
-			 text: "Update",
-		        "id": "signatory_update",
-		        click: function () {
+			text: "Update",
+			"id": "signatory_update",
+			click: function () {
 				//actiontmp.updateSignatoryDate(usin);
-		        	actiontmp.validateDate(usin);
-		        	
+				actiontmp.validateDate(usin);
+
 				//signatureDateUpdateDialog.dialog( "destroy" );
 
 			},
 		},
 		{
-			 text: "Cancel",
-		        "id": "signatory_cancel",
-		        click: function () {
+			text: "Cancel",
+			"id": "signatory_cancel",
+			click: function () {
 				signatureDateUpdateDialog.dialog( "destroy" );
 
 			}
@@ -1270,8 +1491,8 @@ actionLandRecords.prototype.signatoryDialog=function(usin){
 
 		}
 	});
-	 $("#signatory_update").html('<span class="ui-button-text">'+ Update +'</span>');
-	 $("#signatory_cancel").html('<span class="ui-button-text">'+ Cancel +'</span>');
+	$("#signatory_update").html('<span class="ui-button-text">'+ Update +'</span>');
+	$("#signatory_cancel").html('<span class="ui-button-text">'+ Cancel +'</span>');
 	signatureDateUpdateDialog.dialog("open");
 };
 
@@ -1282,11 +1503,11 @@ actionLandRecords.prototype.validateDate=function(usin){
 		rules: {
 
 			signatoryDate: "required"
-	
+
 		},
 		messages: {
 			signatoryDate: FIELD_REQ
-	
+
 		}
 
 	});
@@ -1303,10 +1524,10 @@ actionLandRecords.prototype.validateDate=function(usin){
 		jAlert(Fill_Mandatory,Alert);
 	}
 
-	
+
 };
 actionLandRecords.prototype.updateSignatoryDate=function(usin){
-	
+
 	jQuery.ajax({
 		type:"POST",        
 		url: "landrecords/updatedate/"+usin,
@@ -1332,7 +1553,7 @@ actionLandRecords.prototype.updateSignatoryDate=function(usin){
 			jAlert(FAILED);
 		}
 	});
-	
-	
+
+
 };
 
